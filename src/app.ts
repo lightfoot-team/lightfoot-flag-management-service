@@ -1,5 +1,5 @@
 import express from 'express';
-import itemRoutes from './routes/routes';
+import routes from './routes/routes';
 import { errorHandler } from './middlewares/errorHandler';
 
 const app = express();
@@ -7,7 +7,7 @@ const app = express();
 app.use(express.json());
 
 // Routes
-app.use('/api/items', itemRoutes);
+app.use('/api/flags', routes);
 
 // Use errorHandler middleware for all routes 
 app.use(errorHandler);
