@@ -7,5 +7,6 @@ CREATE TABLE flags (
   variants jsonb NOT NULL,
   created_at timestamp NOT NULL,
   updated_at timestamp,
-  default_variant text NOT NULL
+  default_variant text NOT NULL,
+  is_enabled boolean NOT NULL DEFAULT FALSE,
 )

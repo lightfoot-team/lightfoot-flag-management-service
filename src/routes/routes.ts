@@ -1,9 +1,10 @@
 import {Router} from 'express';
-import { createSomething} from '../controllers/controller';
+import { createFlag} from '../controllers/controller';
 
 const router = Router();
 
-router.post('/', createSomething);
+router.post('/', createFlag);
+
 
 
 export default router;

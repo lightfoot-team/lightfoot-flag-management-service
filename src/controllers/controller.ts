@@ -2,7 +2,7 @@ import {Request, Response, NextFunction} from 'express';
 
 
 // Create 
-export const createSomething = (req: Request, res: Response, next: NextFunction) => {
+export const createFlag = (req: Request, res: Response, next: NextFunction) => {
   try {
     const {name} = req.body;
     // ...
