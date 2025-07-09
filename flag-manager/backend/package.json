@@ -1,0 +1,41 @@
+{
+  "name": "ts-express",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/server.ts",
+    "lint": "eslint 'src/**/*.ts'",
+    "resetdb": "npm run dropdb && npm run setupdb",
+    "setupdb": "npm run createdb && npm run loadschema",
+    "createdb": "createdb flag_manager",
+    "dropdb": "dropdb flag_manager",
+    "loadschema": "psql -d flag_manager < src/models/flag_schema.sql"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^24.0.1",
+    "dotenv": "^16.5.0",
+    "eslint": "^9.29.0",
+    "express": "^5.1.0",
+    "install": "^0.13.0",
+    "jest": "^30.0.0",
+    "nodemon": "^3.1.10",
+    "npm": "^11.4.2",
+    "prettier": "^3.5.3",
+    "ts-jest": "^29.4.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "pg": "^8.16.3"
+  }
+}
