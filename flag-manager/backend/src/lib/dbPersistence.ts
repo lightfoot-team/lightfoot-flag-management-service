@@ -4,7 +4,7 @@ const { Client } = require('pg');
 
 const FLAGS = process.env.TABLE_NAME;
 
-async function executeQuery(statement: string, ...parameters) {
+async function executeQuery(statement: string, ...parameters: any[]) {
   const client = new Client({ 
     user: process.env.DB_USER,
     host: process.env.DB_HOST,
@@ -25,7 +25,7 @@ async function executeQuery(statement: string, ...parameters) {
 }
 
 
-export default class DBPersistence {
+class DBPersistence {
 
   async getAllFlags() {
     const QUERY = `SELECT * FROM ${FLAGS}`
@@ -66,3 +66,5 @@ export default class DBPersistence {
     return result;
   }
 }
+
+export default DBPersistence;

@@ -1,4 +1,4 @@
-type FlagType = 'boolean' | 'string' | 'number' | 'object';
+export type FlagType = 'boolean' | 'string' | 'number' | 'object';
 
 type FlagValue = string | number | boolean | object
 
