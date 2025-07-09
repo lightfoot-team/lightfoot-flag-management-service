@@ -1,6 +1,7 @@
 const Flags = () => {
   return (
     <>
+      <h1>Flags</h1>
     </>
   )
 }
