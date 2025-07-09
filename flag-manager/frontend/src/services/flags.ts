@@ -30,3 +30,9 @@ export const addFlag = async (flagFormDetails: FlagFormDetails) => {
   console.log('result:', result)
   return result;
 }
+
+export const deleteFlag = async (flagKey: string) => {
+  const result = await axios.delete(`${baseURL}/delete/${flagKey}`);
+  console.log('result:', result);
+  return result;
+}
