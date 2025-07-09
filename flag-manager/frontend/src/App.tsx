@@ -9,7 +9,7 @@ function App() {
     <div className="application">
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route index element={<></>} />
+        <Route index element={<h1>Welcome to the Feature Flag App!</h1>} />
         <Route path="flags" element={<Flags />} />
         <Route path="flags/add" element={<NewFlagForm />} />
       </Route>
