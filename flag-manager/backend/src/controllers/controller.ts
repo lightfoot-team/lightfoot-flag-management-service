@@ -44,6 +44,7 @@ export const updateFlag = (req: Request, res: Response, next: NextFunction) => {
 
 export const deleteFlag = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    console.log(req.params.flagName);
     await db.deleteFlag(req.params.flagName);
     res.status(204).send();
   } catch (err) {
