@@ -3,7 +3,6 @@ require('dotenv').config();
 const { Client } = require('pg');
 
 const FLAGS = process.env.TABLE_NAME;
-
 async function executeQuery(statement: string, ...parameters: any[]) {
   const client = new Client({ 
     user: process.env.DB_USER,
@@ -14,10 +13,10 @@ async function executeQuery(statement: string, ...parameters: any[]) {
     });
   try {
     await client.connect();
+    
     const result = await client.query(statement, parameters);
     return result;
   } catch (error) {
-    console.error('PG query error', error);
     throw error;
   } finally {
     await client.end();
@@ -39,6 +38,9 @@ class DBPersistence {
   }
 
   async addFlag(flag: NewFlag) {
+    const {flagKey, flagType, variants, createdAt, defaultVariant} = flag;
+    // console.log('fk', flagKey, flagType, variants, createdAt, defaultVariant)
+    console.log(flag)
     const QUERY = `INSERT INTO ${FLAGS} (flag_key, flag_type, variants, created_at, default_variant)
                   VALUES ($1, $2, $3, $4, $5)`;
     const result = await executeQuery(QUERY, flag.flagKey, flag.flagType, flag.variants, flag.createdAt, flag.defaultVariant);
