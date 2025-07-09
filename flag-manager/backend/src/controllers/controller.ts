@@ -24,7 +24,7 @@ export const createFlag = async (req: Request, res: Response, next: NextFunction
     await db.addFlag(testFlag);
     console.log(testFlag);
     const allFlags = await db.getAllFlags();
-    console.log(allFlags);
+    console.log(allFlags.rows);
     res.json(testFlag);
   } catch (err) {
     console.log("Oh no!");
