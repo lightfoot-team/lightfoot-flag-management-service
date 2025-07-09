@@ -11,3 +11,12 @@ export const createFlag = (req: Request, res: Response, next: NextFunction) => {
     next(err);
   }
 }
+
+export const readAllFlags = (req: Request, res: Response, next: NextFunction) => {
+}
+
+export const updateFlag = (req: Request, res: Response, next: NextFunction) => {
+}
+
+export const deleteFlag = (req: Request, res: Response, next: NextFunction) => {
+}
