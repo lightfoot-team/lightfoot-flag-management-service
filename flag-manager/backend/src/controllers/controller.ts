@@ -7,10 +7,9 @@ const db = new DBPersistence();
 
 // Create 
 export const createFlag = async (req: Request, res: Response, next: NextFunction) => {
-  console.log("We made it to create flag!");
   const createdAt = "today"
   const testFlag = {
-    flagKey: "Test Key",
+    flagKey: "Test-Key",
     flagType: "string" as FlagType,
     variants: {"blue": "blue", "red":"red"},
     createdAt: createdAt,
@@ -20,24 +19,33 @@ export const createFlag = async (req: Request, res: Response, next: NextFunction
   }
 
   try {
-    console.log("Arrived in TRY block");
     await db.addFlag(testFlag);
-    console.log(testFlag);
+    // await db.addFlag(req.body);
     const allFlags = await db.getAllFlags();
     console.log(allFlags.rows);
-    res.json(testFlag);
+    res.status(201).json();
   } catch (err) {
-    console.log("Oh no!");
-    console.log(err);
     next(err);
   }
 }
 
-export const readAllFlags = (req: Request, res: Response, next: NextFunction) => {
+export const readAllFlags = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const allFlags = await db.getAllFlags();
+    res.status(200).json(allFlags.rows);
+  } catch (err) {
+    next(err);
+  }
 }
 
 export const updateFlag = (req: Request, res: Response, next: NextFunction) => {
 }
 
-export const deleteFlag = (req: Request, res: Response, next: NextFunction) => {
+export const deleteFlag = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    await db.deleteFlag(req.params.flagName);
+    res.status(204).send();
+  } catch (err) {
+    next(err);
+  }
 }

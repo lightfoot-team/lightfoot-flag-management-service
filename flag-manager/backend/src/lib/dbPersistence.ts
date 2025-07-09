@@ -32,9 +32,10 @@ class DBPersistence {
     return result;
   }
 
-  async deleteFlag(id: number) {
-    const QUERY = `DELETE * FROM ${FLAGS} WHERE ID = $1`
-    const result = await executeQuery(QUERY, id);
+  async deleteFlag(flagKey: string) {
+    const QUERY = `DELETE FROM ${FLAGS} WHERE flag_key = $1`
+    const result = await executeQuery(QUERY, flagKey);
+    return result;
   }
 
   async addFlag(flag: NewFlag) {
