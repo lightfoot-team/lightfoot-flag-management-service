@@ -10,7 +10,7 @@ async function executeQuery(statement: string, ...parameters: any[]) {
     host: process.env.DB_HOST,
     database: process.env.DB_NAME,
     password: process.env.DB_PASSWORD,
-    port: process.env.PORT
+    port: process.env.DB_PORT
     });
   try {
     await client.connect();
