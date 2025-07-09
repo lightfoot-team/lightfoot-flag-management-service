@@ -1,6 +1,5 @@
 import {Request, Response, NextFunction} from 'express';
 
-
 // Create 
 export const createFlag = (req: Request, res: Response, next: NextFunction) => {
   try {
