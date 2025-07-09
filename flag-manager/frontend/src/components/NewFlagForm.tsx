@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
 import { type FlagFormDetails } from "../types/flagTypes";
 import { addFlag } from "../services/flags";
+
+
 const NewFlagForm = () => {
   const {
     register,
@@ -11,6 +13,7 @@ const NewFlagForm = () => {
       enabled: 'false', // default selection for radio
     },
   });
+
   const onSubmit = async (data: FlagFormDetails) => {
     await addFlag(data);
   }

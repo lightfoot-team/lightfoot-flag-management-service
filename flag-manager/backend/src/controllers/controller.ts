@@ -22,7 +22,7 @@ export const createFlag = async (req: Request, res: Response, next: NextFunction
     // await db.addFlag(testFlag);
     await db.addFlag(req.body);
     const allFlags = await db.getAllFlags();
-    console.log(allFlags.rows);
+    
     res.status(201).json();
   } catch (err) {
     next(err);
@@ -32,7 +32,7 @@ export const createFlag = async (req: Request, res: Response, next: NextFunction
 export const readAllFlags = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const allFlags = await db.getAllFlags();
-    res.status(200).json(allFlags.rows);
+    res.status(200).json(allFlags);
   } catch (err) {
     next(err);
   }
