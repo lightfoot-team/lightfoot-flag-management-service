@@ -2,8 +2,8 @@
 function App() {
 
   return (
-    <>
-    </>
+    <div className="flags-list">
+    </div>
   )
 }
 
