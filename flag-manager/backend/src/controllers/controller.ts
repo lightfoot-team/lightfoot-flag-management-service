@@ -38,7 +38,16 @@ export const readAllFlags = async (req: Request, res: Response, next: NextFuncti
   }
 }
 
-export const updateFlag = (req: Request, res: Response, next: NextFunction) => {
+export const toggleFlag = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    await db.toggleFlagEnabled(req.params.flagName);
+    res.status(200).send();
+  } catch (err) {
+    next(err);
+  }
+}
+
+export const editFlag = (req: Request, res: Response, next: NextFunction) => {
 
 }
 

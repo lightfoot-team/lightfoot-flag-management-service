@@ -66,7 +66,7 @@ const NewFlagForm = () => {
 
       </fieldset>
 
-      <fieldset>
+      {/* <fieldset>
         <legend>Enabled</legend>
         <div>
           <input
@@ -86,7 +86,7 @@ const NewFlagForm = () => {
           />
           <label htmlFor="enabled-false">False</label>
         </div>
-      </fieldset>
+      </fieldset> */}
 
       <div>
         <input type="submit" value="Submit" />

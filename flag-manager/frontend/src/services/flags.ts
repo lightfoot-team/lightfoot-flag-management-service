@@ -25,14 +25,19 @@ export const getAllFlags = async() => {
  */
 export const addFlag = async (flagFormDetails: FlagFormDetails) => {
   const createdAt = new Date(Date.now()).toUTCString();
-  const flagDetails: FlagDetails = {...flagFormDetails, createdAt}
+  const flagDetails: FlagDetails = {...flagFormDetails, createdAt, enabled: false}
   const result = await axios.post(`${baseURL}/add`, flagDetails, axiosConfig);
   console.log('result:', result)
   return result;
 }
 
 export const deleteFlag = async (flagKey: string) => {
-  const result = await axios.delete(`${baseURL}/delete/${flagKey}`);
+  const result = await axios.delete(`${baseURL}/${flagKey}`);
   console.log('result:', result);
+  return result;
+}
+
+export const toggleFlag = async (flagKey: string) => {
+  const result = await axios.patch(`${baseURL}/toggle/${flagKey}`);
   return result;
 }

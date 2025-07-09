@@ -52,12 +52,12 @@ async function executeQuery(statement: string, ...parameters: any[]) {
 class DBPersistence {
 
   async getAllFlags() {
-    const QUERY = `SELECT flag_key, flag_type, variants, created_at, updated_at, default_variant FROM ${FLAGS}`
+    const QUERY = `SELECT flag_key, flag_type, variants, created_at, updated_at, default_variant, is_enabled FROM ${FLAGS}`
     const result = await executeQuery(QUERY);
     
     
     return result.rows.map((row: Flag) => {
-     console.log(setFlagKeysToCamelCase(row))
+      console.log(setFlagKeysToCamelCase(row))
       return setFlagKeysToCamelCase(row)
     });
   }
@@ -78,13 +78,13 @@ class DBPersistence {
     return result;
   }
 
-  async toggleFlagEnabled(id: number) {
+  async toggleFlagEnabled(flagKey: string) {
     const QUERY =
       `
-      UPDATE TABLE ${FLAGS} SET is_enabled = !is_enabled
-      WHERE id = $1
+      UPDATE ${FLAGS} SET is_enabled = NOT is_enabled
+      WHERE flag_key = $1
     `;
-    const result = await executeQuery(QUERY, id);
+    const result = await executeQuery(QUERY, flagKey);
     return result;
 
   }
