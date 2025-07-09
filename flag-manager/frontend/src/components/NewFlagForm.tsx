@@ -1,36 +1,39 @@
 import { useForm } from "react-hook-form";
-
+import { type FlagFormDetails } from "../types/flagTypes";
+import { addFlag } from "../services/flags";
 const NewFlagForm = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<FlagFormDetails>({
     defaultValues: {
-      Enabled: "false", // default selection for radio
+      enabled: 'false', // default selection for radio
     },
   });
-  const onSubmit = data => console.log(data);
+  const onSubmit = async (data: FlagFormDetails) => {
+    await addFlag(data);
+  }
   console.log(errors);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <fieldset>
         <legend>Flag Configuration</legend>
-        
+
         <div>
           <label htmlFor="flag-name">Flag Name</label>
-          <input 
+          <input
             id="flag-name"
-            type="text" 
-            placeholder="Flag Name" 
-            {...register("Flag Name", {required: true, max: 150, min: 1})} 
+            type="text"
+            placeholder="Flag Name"
+            {...register("flagKey", { required: true, maxLength: 150, minLength: 1 })}
           />
         </div>
 
         <div>
           <label htmlFor="flag-type">Flag Type</label>
-          <select id="flag-type" {...register("Flag Type", { required: true })}>
+          <select id="flag-type" {...register("flagType", { required: true })}>
             <option value="string">string</option>
             <option value="boolean">boolean</option>
             <option value="number">number</option>
@@ -40,21 +43,21 @@ const NewFlagForm = () => {
 
         <div>
           <label htmlFor="variants">Variants</label>
-          <input 
+          <input
             id="variants"
-            type="text" 
-            placeholder="Variants" 
-            {...register("Variants", {required: true})} 
+            type="text"
+            placeholder="Variants"
+            {...register("variants", { required: true })}
           />
         </div>
 
         <div>
           <label htmlFor="default-variant">Default</label>
-          <input 
+          <input
             id="default-variant"
-            type="text" 
-            placeholder="Default Variant" 
-            {...register("Default Variant", {required: true})} 
+            type="text"
+            placeholder="Default Variant"
+            {...register("defaultVariant", { required: true })}
           />
         </div>
 
@@ -63,20 +66,20 @@ const NewFlagForm = () => {
       <fieldset>
         <legend>Enabled</legend>
         <div>
-          <input 
-            type="radio" 
+          <input
+            type="radio"
             id="enabled-true"
-            value="true" 
-            {...register("Enabled")}
+            value="true"
+            {...register("enabled")}
           />
           <label htmlFor="enabled-true">True</label>
         </div>
         <div>
-          <input 
-            type="radio" 
+          <input
+            type="radio"
             id="enabled-false"
-            value="false" 
-            {...register("Enabled")} 
+            value="false"
+            {...register("enabled")}
           />
           <label htmlFor="enabled-false">False</label>
         </div>

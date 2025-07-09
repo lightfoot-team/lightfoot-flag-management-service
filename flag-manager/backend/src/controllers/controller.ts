@@ -8,19 +8,19 @@ const db = new DBPersistence();
 // Create 
 export const createFlag = async (req: Request, res: Response, next: NextFunction) => {
   const createdAt = "today"
-  const testFlag = {
-    flagKey: "Test-Key",
-    flagType: "string" as FlagType,
-    variants: {"blue": "blue", "red":"red"},
-    createdAt: createdAt,
-    updatedAt: null,
-    defaultVariant: "blue",
-    isEnabled: false
-  }
+  // const testFlag = {
+  //   flagKey: "Test-Key",
+  //   flagType: "string" as FlagType,
+  //   variants: {"blue": "blue", "red":"red"},
+  //   createdAt: createdAt,
+  //   updatedAt: null,
+  //   defaultVariant: "blue",
+  //   isEnabled: false
+  // }
 
   try {
-    await db.addFlag(testFlag);
-    // await db.addFlag(req.body);
+    // await db.addFlag(testFlag);
+    await db.addFlag(req.body);
     const allFlags = await db.getAllFlags();
     console.log(allFlags.rows);
     res.status(201).json();
@@ -39,6 +39,7 @@ export const readAllFlags = async (req: Request, res: Response, next: NextFuncti
 }
 
 export const updateFlag = (req: Request, res: Response, next: NextFunction) => {
+
 }
 
 export const deleteFlag = async (req: Request, res: Response, next: NextFunction) => {
