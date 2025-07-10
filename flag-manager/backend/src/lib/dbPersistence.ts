@@ -57,9 +57,15 @@ class DBPersistence {
     
     
     return result.rows.map((row: Flag) => {
-      console.log(setFlagKeysToCamelCase(row))
       return setFlagKeysToCamelCase(row)
     });
+  }
+
+  async getFlagByKey(flagKey: string) {
+    const QUERY = `SELECT flag_key, flag_type, variants, created_at, updated_at, default_variant, is_enabled FROM ${FLAGS}
+                    WHERE flag_key = $1`;
+    const result = await executeQuery(QUERY, flagKey);
+    return result.rows.length > 0 ? setFlagKeysToCamelCase(result.rows[0]) : null;
   }
 
   async deleteFlag(flagKey: string) {
