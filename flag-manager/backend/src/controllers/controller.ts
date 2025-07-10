@@ -72,6 +72,7 @@ export const deleteFlag = async (req: Request, res: Response, next: NextFunction
 
 export const writeTelemetry = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    console.log('hitting the writeTelemetry method!!!!!!!!!');
     const telemetry = req.body.telemetry;
     await db.writeTelemetry(telemetry);
     res.status(201).send();
@@ -82,7 +83,9 @@ export const writeTelemetry = async (req: Request, res: Response, next: NextFunc
 
 export const readTelemetry = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    console.log('hitting the readTelemetry method!!!!!!!!!');
     const allTelemetry = await db.getAllTelemetry();
+
     res.status(200).json(allTelemetry);
   } catch (err) {
     next(err)

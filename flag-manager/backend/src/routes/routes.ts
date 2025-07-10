@@ -15,14 +15,17 @@ router.post('/add', createFlag);
 
 router.get('/all', readAllFlags);
 
+router.get('/telemetry', readTelemetry);
+
 router.get('/:flagName', readFlag);
 
 router.delete('/:flagName', deleteFlag);
 
 router.patch('/toggle/:flagName', toggleFlag);
 
+
 router.post('/telemetry', writeTelemetry);
 
-router.get('/telemetry', readTelemetry);
+
 
 export default router;
