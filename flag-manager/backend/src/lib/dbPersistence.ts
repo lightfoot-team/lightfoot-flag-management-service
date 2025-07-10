@@ -104,6 +104,24 @@ class DBPersistence {
     const result = await executeQuery(QUERY, variant, id);
     return result;
   }
+
+  async writeTelemetry(telemetry: Record<string, any>) {
+    const QUERY =
+    `
+    INSERT INTO telemetry (details)
+    VALUES ($1)
+    `
+    const result = await executeQuery(QUERY, telemetry);
+  }
+
+  async getAllTelemetry() {
+    const QUERY =
+    `
+    SELECT * FROM telemetry
+    `
+    const result = await executeQuery(QUERY);
+    return result.rows;
+  }
 }
 
 export default DBPersistence;

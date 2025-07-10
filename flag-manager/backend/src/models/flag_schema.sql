@@ -7,4 +7,9 @@ CREATE TABLE flags (
   updated_at timestamp,
   default_variant text NOT NULL,
   is_enabled boolean NOT NULL DEFAULT FALSE
-)
+);
+
+CREATE TABLE telemetry (
+  id serial PRIMARY KEY,
+  details jsonb
+);

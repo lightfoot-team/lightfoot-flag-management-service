@@ -1,5 +1,13 @@
 import { Router } from 'express';
-import { createFlag, readAllFlags, readFlag, deleteFlag, toggleFlag } from '../controllers/controller';
+import { 
+  createFlag, 
+  readAllFlags, 
+  readFlag, 
+  deleteFlag, 
+  toggleFlag,
+  writeTelemetry,
+  readTelemetry
+} from '../controllers/controller';
 
 const router = Router();
 
@@ -13,5 +21,8 @@ router.delete('/:flagName', deleteFlag);
 
 router.patch('/toggle/:flagName', toggleFlag);
 
+router.post('/telemetry', writeTelemetry);
+
+router.get('/telemetry', readTelemetry);
 
 export default router;

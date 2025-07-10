@@ -69,3 +69,22 @@ export const deleteFlag = async (req: Request, res: Response, next: NextFunction
     next(err);
   }
 }
+
+export const writeTelemetry = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const telemetry = req.body.telemetry;
+    await db.writeTelemetry(telemetry);
+    res.status(201).send();
+  } catch (err) {
+    next(err);
+  }
+}
+
+export const readTelemetry = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const allTelemetry = await db.getAllTelemetry();
+    res.status(200).json(allTelemetry);
+  } catch (err) {
+    next(err)
+  }
+}
