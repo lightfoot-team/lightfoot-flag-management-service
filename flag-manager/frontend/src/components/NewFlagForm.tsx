@@ -1,5 +1,9 @@
 import { useForm } from "react-hook-form";
-import { type FlagFormDetails } from "../types/flagTypes";
+import { 
+  type FlagFormDetails,
+  type ParsedFlagFormDetails,
+  type Variant,
+ } from "../types/flagTypes";
 import { addFlag } from "../services/flags";
 
 
@@ -9,13 +13,22 @@ const NewFlagForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FlagFormDetails>({
-    defaultValues: {
-      enabled: 'false', // default selection for radio
-    },
   });
 
   const onSubmit = async (data: FlagFormDetails) => {
-    await addFlag(data);
+    const variantKey = data.variantKey;
+    const variantValue = data.variantValue;
+    const variants: Variant = {}
+    variants[variantKey] = variantValue;
+
+    const parsedData: ParsedFlagFormDetails = {
+      flagKey: data.flagKey,
+      flagType: data.flagType,
+      variants,
+      defaultVariant: data.defaultVariant
+    }
+
+    await addFlag(parsedData);
   }
   console.log(errors);
 
@@ -45,12 +58,22 @@ const NewFlagForm = () => {
         </div>
 
         <div>
-          <label htmlFor="variants">Variants</label>
+          <label htmlFor="variant-key">Variant Key</label>
           <input
-            id="variants"
+            id="variant-key"
             type="text"
-            placeholder="Variants"
-            {...register("variants", { required: true })}
+            placeholder="Variant Key"
+            {...register("variantKey", { required: true })}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="variant-value">Variant Value</label>
+          <input
+            id="variant-value"
+            type="text"
+            placeholder="Variant Value"
+            {...register("variantValue", { required: true })}
           />
         </div>
 

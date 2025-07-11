@@ -1,5 +1,8 @@
 import axios from 'axios';
-import { type FlagFormDetails, type FlagDetails } from '../types/flagTypes';
+import { type FlagFormDetails, 
+  type FlagDetails,
+  type ParsedFlagFormDetails,
+} from '../types/flagTypes';
 const axiosConfig = {
   headers: {
       'Content-Type': 'application/json',
@@ -23,9 +26,9 @@ export const getAllFlags = async() => {
  * @param flagFormDetails the flag details submitted by the user
  * @returns API response object containing the newly added flag
  */
-export const addFlag = async (flagFormDetails: FlagFormDetails) => {
+export const addFlag = async (flagFormDetails: ParsedFlagFormDetails) => {
   const createdAt = new Date(Date.now()).toUTCString();
-  const flagDetails: FlagDetails = {...flagFormDetails, createdAt, enabled: false}
+  const flagDetails: FlagDetails = {...flagFormDetails, createdAt, isEnabled: false}
   const result = await axios.post(`${baseURL}/add`, flagDetails, axiosConfig);
   console.log('result:', result)
   return result;
