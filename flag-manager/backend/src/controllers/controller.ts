@@ -23,7 +23,7 @@ export const createFlag = async (req: Request, res: Response, next: NextFunction
     await db.addFlag(req.body);
     const allFlags = await db.getAllFlags();
     
-    res.status(201).json();
+    res.status(201).send();
   } catch (err) {
     next(err);
   }
