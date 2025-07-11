@@ -4,7 +4,7 @@ const db = new DBPersistence();
 import { type Flag } from '../types/flagTypes';
 
 /**
- * 
+ * Evaluates the value of a flag given its key and context
  * @param req 
  * @param res 
  * @param next 
@@ -20,7 +20,8 @@ export const evaluateFlagWithContext = async (req: Request, res: Response, next:
     /** TODO: replace with real flag evaluation using rules from manager */
     const flagEvaluation = (flag: Flag) => {
       const result = {
-        variant: flag.defaultVariant
+        variant: flag.defaultVariant, // TODO: Could be optional, confirm later
+        value: flag.variants[flag.defaultVariant]
       }
       return result
     }
