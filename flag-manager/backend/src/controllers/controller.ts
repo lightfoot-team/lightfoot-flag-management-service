@@ -33,6 +33,7 @@ export const readAllFlags = async (req: Request, res: Response, next: NextFuncti
   try {
     const allFlags = await db.getAllFlags();
     res.status(200).json(allFlags);
+    // res.json(allFlags);
   } catch (err) {
     next(err);
   }
