@@ -57,7 +57,13 @@ export const readFlag = async (req: Request, res: Response, next: NextFunction) 
 
 export const toggleFlag = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    await db.toggleFlagEnabled(req.params.flagName);
+    const flagName = req.params.flagName;
+    if (typeof flagName !== 'string' || flagName.length === 0) {
+      const err: AppError = new Error('Flag key must be a non-empty string');
+      err.status = 400;
+      throw err;
+    }
+    await db.toggleFlagEnabled(flagName);
     res.status(200).send();
   } catch (err) {
     next(err);
@@ -70,8 +76,13 @@ export const editFlag = (req: Request, res: Response, next: NextFunction) => {
 
 export const deleteFlag = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    console.log(req.params.flagName);
-    await db.deleteFlag(req.params.flagName);
+    const flagName = req.params.flagName;
+    if (typeof flagName !== 'string' || flagName.length === 0) {
+      const err: AppError = new Error('Flag key must be a non-empty string');
+      err.status = 400;
+      throw err;
+    }
+    await db.deleteFlag(flagName);
     res.status(204).send();
   } catch (err) {
     next(err);

@@ -19,7 +19,7 @@ const mockFlag = {
 };
 
 test("This should call addFlag and respond with 201 status", async () => {
-  const superMockAddFlag = jest.spyOn(DBPersistence.prototype, 'addFlag');
+  const mockAddFlag = jest.spyOn(DBPersistence.prototype, 'addFlag');
 
   let req = { body: mockFlag } as Request;
   let res = {
@@ -30,8 +30,8 @@ test("This should call addFlag and respond with 201 status", async () => {
   let next = jest.fn() as NextFunction;
 
   await createFlag(req as Request, res as Response, next);
-  expect(superMockAddFlag).toHaveBeenCalled();  // createFlag calls the mock method
-  expect(superMockAddFlag).toHaveBeenCalledWith(mockFlag); // createFlag calls the mock method with the appropriate argument
+  expect(mockAddFlag).toHaveBeenCalled();  // createFlag calls the mock method
+  expect(mockAddFlag).toHaveBeenCalledWith(mockFlag); // createFlag calls the mock method with the appropriate argument
   expect(res.status).toHaveBeenCalledWith(201); // Expected status code returned from createFlag
 });
 let res: Partial<Response>;
@@ -48,12 +48,12 @@ beforeEach(() => {
 describe('readAllFlags', () => {
   it('should call getAllFlags and respond with array of all flags (flags as objects)', async () => {
     let resultArr = [mockFlag];
-    const superMockGetAllFlags = jest.spyOn(DBPersistence.prototype, 'getAllFlags').mockImplementation(async () => resultArr);
+    const mockGetAllFlags = jest.spyOn(DBPersistence.prototype, 'getAllFlags').mockImplementation(async () => resultArr);
 
     let req = { body: mockFlag } as Request;
 
     await readAllFlags(req as Request, res as Response, next);
-    expect(superMockGetAllFlags).toHaveBeenCalled();
+    expect(mockGetAllFlags).toHaveBeenCalled();
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith(resultArr);
   });
@@ -61,19 +61,18 @@ describe('readAllFlags', () => {
 
 describe('readFlag', () => {
   it('should call getFlagByKey with flagName and respond with the expected flag object', async () => {
-    const superReadFlag = jest.spyOn(DBPersistence.prototype, 'getFlagByKey').mockImplementation(async () => mockFlag);
+    const mockReadFlag = jest.spyOn(DBPersistence.prototype, 'getFlagByKey').mockImplementation(async () => mockFlag);
 
     let req = { params: { flagName: mockFlag.flagKey } } as Partial<Request>;
- 
 
     await readFlag(req as Request, res as Response, next);
     expect(res.status).toHaveBeenCalledWith(200);
-    expect(superReadFlag).toHaveBeenCalled();
+    expect(mockReadFlag).toHaveBeenCalled();
     expect(res.json).toHaveBeenCalledWith(mockFlag);
   });
-  
+
   it('should throw an error if the flagName is empty or not a string', async () => {
-    const superReadFlag = jest.spyOn(DBPersistence.prototype, 'getFlagByKey').mockImplementation(async () => mockFlag);
+    jest.spyOn(DBPersistence.prototype, 'getFlagByKey').mockImplementation(async () => mockFlag);
     let req = { params: { flagName: '' } } as Partial<Request>;
     await readFlag(req as Request, res as Response, next);
 
@@ -84,28 +83,47 @@ describe('readFlag', () => {
   })
 });
 
-// test for toggleFlag
 describe('toggleFlag', () => {
   it('should call toggleFlagEnabled with flagName and respond with 200 status', async () => {
-    const superToggleFlag = jest.spyOn(DBPersistence.prototype, 'toggleFlagEnabled');
+    const mockToggleFlag = jest.spyOn(DBPersistence.prototype, 'toggleFlagEnabled');
 
     let req = { params: { flagName: mockFlag.flagKey } } as Partial<Request>;
 
     await toggleFlag(req as Request, res as Response, next);
     expect(res.status).toHaveBeenCalledWith(200);
-    expect(superToggleFlag).toHaveBeenCalled();
+    expect(mockToggleFlag).toHaveBeenCalled();
   });
+  it('should throw an error if the flagName is empty or not a string', async () => {
+    jest.spyOn(DBPersistence.prototype, 'toggleFlagEnabled').mockImplementation(async () => mockFlag);
+    let req = { params: { flagName: '' } } as Partial<Request>;
+    await toggleFlag(req as Request, res as Response, next);
+
+    expect(next).toHaveBeenCalledWith(expect.objectContaining({
+      message: 'Flag key must be a non-empty string',
+      status: 400
+    }));
+  })
 });
 
 // test for deleteFlag
 describe('deleteFlag', () => {
   it('should call deleteFlag with flagName and respond with 204 status', async () => {
-    const superDeleteFlag = jest.spyOn(DBPersistence.prototype, 'deleteFlag');
+    const mockDeleteFlag = jest.spyOn(DBPersistence.prototype, 'deleteFlag');
 
     let req = { params: { flagName: mockFlag.flagKey } } as Partial<Request>;
 
     await deleteFlag(req as Request, res as Response, next);
     expect(res.status).toHaveBeenCalledWith(204);
-    expect(superDeleteFlag).toHaveBeenCalled();
+    expect(mockDeleteFlag).toHaveBeenCalled();
   });
+  it('should throw an error if the flagName is empty or not a string', async () => {
+    jest.spyOn(DBPersistence.prototype, 'deleteFlag').mockImplementation(async () => mockFlag);
+    let req = { params: { flagName: '' } } as Partial<Request>;
+    await deleteFlag(req as Request, res as Response, next);
+
+    expect(next).toHaveBeenCalledWith(expect.objectContaining({
+      message: 'Flag key must be a non-empty string',
+      status: 400
+    }));
+  })
 });
