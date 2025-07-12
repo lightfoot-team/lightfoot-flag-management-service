@@ -35,6 +35,9 @@ import { REPLCommand } from 'repl';
 test("This should call addFlag and respond with 201 status", async () => {
   mockDbInstance.addFlag.mockResolvedValue(undefined);
   mockDbInstance.getAllFlags.mockResolvedValue([mockFlag]);
+  // =======
+  const superMockAddFlag = jest.spyOn(DBPersistence.prototype, 'addFlag');
+  //======
 
   let req = {body: mockFlag} as Request;
     let res = {
@@ -46,7 +49,9 @@ test("This should call addFlag and respond with 201 status", async () => {
 
   await createFlag(req as Request, res as Response, next);
   // expect(mockDbInstance.addFlag).toHaveBeenCalledWith(mockFlag);
-  expect(res.status).toHaveBeenCalledWith(201);
+  expect(superMockAddFlag).toHaveBeenCalled();  // createFlag calls the mock method
+  expect(superMockAddFlag).toHaveBeenCalledWith(mockFlag); // createFlag calls the mock method with the appropriate argument
+  expect(res.status).toHaveBeenCalledWith(201); // Expected status code returned from createFlag
 });
 
 // // test for createFlag
