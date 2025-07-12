@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import DBPersistence from '../lib/dbPersistence';
 import { create } from 'domain';
 import type { FlagType } from '../types/flagTypes';
+import type { AppError } from '../types/errorTypes';
 
 const db = new DBPersistence();
 
@@ -22,7 +23,7 @@ export const createFlag = async (req: Request, res: Response, next: NextFunction
     // await db.addFlag(testFlag);
     const result = await db.addFlag(req.body);
     const allFlags = await db.getAllFlags();
-    
+
     res.status(201).send();
   } catch (err) {
     next(err);
@@ -41,7 +42,13 @@ export const readAllFlags = async (req: Request, res: Response, next: NextFuncti
 
 export const readFlag = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const flag = await db.getFlagByKey(req.params.flagName);
+    const flagName = req.params.flagName;
+    if (typeof flagName !== 'string' || flagName.length === 0) {
+      const err: AppError = new Error('Flag key must be a non-empty string');
+      err.status = 400;
+      throw err;
+    }
+    const flag = await db.getFlagByKey(flagName);
     res.status(200).json(flag);
   } catch (err) {
     next(err);
