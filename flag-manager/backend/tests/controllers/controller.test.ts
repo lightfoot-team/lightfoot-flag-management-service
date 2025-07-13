@@ -18,24 +18,9 @@ const mockFlag = {
   isEnabled: false,
 };
 
-test("This should call addFlag and respond with 201 status", async () => {
-  const mockAddFlag = jest.spyOn(DBPersistence.prototype, 'addFlag');
-
-  let req = { body: mockFlag } as Request;
-  let res = {
-    status: jest.fn().mockReturnThis(),
-    json: jest.fn(),
-    send: jest.fn(),
-  } as Partial<Response>;
-  let next = jest.fn() as NextFunction;
-
-  await createFlag(req as Request, res as Response, next);
-  expect(mockAddFlag).toHaveBeenCalled();  // createFlag calls the mock method
-  expect(mockAddFlag).toHaveBeenCalledWith(mockFlag); // createFlag calls the mock method with the appropriate argument
-  expect(res.status).toHaveBeenCalledWith(201); // Expected status code returned from createFlag
-});
 let res: Partial<Response>;
 let next: NextFunction;
+
 beforeEach(() => {
   res = {
     status: jest.fn().mockReturnThis(),
@@ -44,6 +29,19 @@ beforeEach(() => {
   } as Partial<Response>;
   next = jest.fn() as NextFunction;
 })
+
+test("This should call addFlag and respond with 201 status", async () => {
+  const mockAddFlag = jest.spyOn(DBPersistence.prototype, 'addFlag');
+
+  let req = { body: mockFlag } as Request;
+
+  await createFlag(req as Request, res as Response, next);
+  expect(mockAddFlag).toHaveBeenCalled();  // createFlag calls the mock method
+  expect(mockAddFlag).toHaveBeenCalledWith(mockFlag); // createFlag calls the mock method with the appropriate argument
+  expect(res.status).toHaveBeenCalledWith(201); // Expected status code returned from createFlag
+});
+
+
 
 describe('readAllFlags', () => {
   it('should call getAllFlags and respond with array of all flags (flags as objects)', async () => {
