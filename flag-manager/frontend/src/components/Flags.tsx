@@ -38,23 +38,6 @@ const Flags = () => {
       {flags.map((flag) => {
         return (
           <Flag flagDetails={flag} onDeleteFlag={handleDeleteFlag} onToggleFlag={handleToggleFlag} key={flag.flagKey} />
-          // <div key={index}>
-          //   <div>Key: {flag.flagKey}</div>
-          //   <div>Type: {flag.flagType}</div>
-          //   <div>Variants: {JSON.stringify(flag.variants)}</div>
-          //   <div>Flag status: {flag.isEnabled ? "ON" : "OFF"}</div>
-          //   <div>{`Created at:
-          //     ${new Date(flag.createdAt).toLocaleTimeString()}
-          //     ${new Date(flag.createdAt).toLocaleDateString()}
-          //     `}
-          //   </div>
-
-          //   {flag.updatedAt && <div>updated at: {flag.updatedAt}</div>}
-          //   <div>default variant: {flag.defaultVariant}</div>
-          //   <br></br>
-          //   <button onClick={() => handleDeleteFlag(flag.flagKey)}>Delete Feature</button>
-          //   <button onClick={() => handleToggleFlag(flag.flagKey)}>Toggle Feature ON/OFF</button>
-          // </div>
         )
       })}
     </>
