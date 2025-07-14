@@ -12,7 +12,7 @@ const NewFlagForm = () => {
   const navigate = useNavigate();
   
   const [formState, setFormState] = useState({
-    flagName: '',
+    flagKey: '',
     flagType: 'boolean',
     variants: [{ key: '', value: '' }],
     default: ''
@@ -29,7 +29,7 @@ const NewFlagForm = () => {
     });
 
     const parsedData: ParsedFlagFormDetails = {
-      flagKey: formState.flagName,
+      flagKey: formState.flagKey,
       flagType: formState.flagType,
       variants: variantsObject,
       defaultVariant: formState.default
@@ -38,7 +38,7 @@ const NewFlagForm = () => {
     await addFlag(parsedData);
 
     setFormState({
-      flagName: '',
+      flagKey: '',
       flagType: 'boolean',
       variants: [{ key: '', value: '' }],
       default: ''
@@ -50,16 +50,16 @@ const NewFlagForm = () => {
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <label htmlFor="flag-name">Flag Name</label>
+        <label htmlFor="flag-key">Flag Key</label>
         <input
-          id="flag-name"
+          id="flag-key"
           type="text"
-          placeholder="Flag Name"
-          value={formState.flagName}
+          placeholder="Flag Key"
+          value={formState.flagKey}
           onChange={(e) =>
             setFormState({
               ...formState,
-              flagName: e.target.value
+              flagKey: e.target.value
             })
           }
           required
