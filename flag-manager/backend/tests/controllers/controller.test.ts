@@ -48,7 +48,7 @@ describe('readAllFlags', () => {
     let resultArr = [mockFlag];
     const mockGetAllFlags = jest.spyOn(DBPersistence.prototype, 'getAllFlags').mockImplementation(async () => resultArr);
 
-    let req = { body: mockFlag } as Request;
+    let req = {}
 
     await readAllFlags(req as Request, res as Response, next);
     expect(mockGetAllFlags).toHaveBeenCalled();
