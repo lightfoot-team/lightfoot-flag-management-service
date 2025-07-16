@@ -77,11 +77,10 @@ class DBPersistence {
   async addFlag(flag: NewFlag) {
     const { flagKey, flagType, variants, createdAt, defaultVariant } = flag;
 
-    console.log(flag)
     const QUERY = `INSERT INTO ${FLAGS} (flag_key, flag_type, variants, created_at, default_variant)
                   VALUES ($1, $2, $3, $4, $5)`;
     const result = await executeQuery(QUERY, flag.flagKey, flag.flagType, flag.variants, flag.createdAt, flag.defaultVariant);
-    return result;
+    return result.rowCount;
   }
 
   async toggleFlagEnabled(flagKey: string) {

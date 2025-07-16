@@ -13,6 +13,11 @@ export const FlagSchema = z.object({
 
 export const FlagsSchema = z.array(FlagSchema);
 
+type FlagValue = string | number | boolean | object
+
+export interface Variant {
+  [key: string]: FlagValue;
+}
 
 export type Product = z.infer<typeof FlagSchema>;
 
@@ -20,11 +25,19 @@ export interface FlagFormDetails {
   // enabled: string;
   flagKey: string;
   flagType: string;
-  variants: string;
+  variantKey: string;
+  variantValue: string;
   defaultVariant: string;
 }
 
-export type FlagDetails = FlagFormDetails & {
+export interface ParsedFlagFormDetails {
+  flagKey: string;
+  flagType: string;
+  variants: object;
+  defaultVariant: string;
+}
+
+export type FlagDetails = ParsedFlagFormDetails & {
   createdAt: string
   updatedAt?: string
   isEnabled: boolean;

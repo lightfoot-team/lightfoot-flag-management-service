@@ -1,16 +1,18 @@
 import { useState, useEffect } from "react";
 import { type FlagDetails } from "../types/flagTypes";
 import { getAllFlags, deleteFlag, toggleFlag } from "../services/flags";
+import Flag from "./Flag";
+
 const Flags = () => {
-  const [flags, setFlags] = useState<Array<FlagDetails>>([])
+  const [flags, setFlags] = useState<Array<FlagDetails>>([]);
+
   useEffect(() => {
     const fetchFlags = async () => {
       const response = await getAllFlags();
-      console.log(response.data)
       setFlags(response.data)
     }
     fetchFlags()
-  }, [])
+  }, []);
 
   const handleDeleteFlag = (flagKey: string) => {
     deleteFlag(flagKey);
@@ -33,25 +35,9 @@ const Flags = () => {
   return (
     <>
       <h1>Flags</h1>
-      {flags.map((flag, index) => {
+      {flags.map((flag) => {
         return (
-          <div key={index}>
-            <div>Key: {flag.flagKey}</div>
-            <div>Type: {flag.flagType}</div>
-            <div>Variants: {JSON.stringify(flag.variants)}</div>
-            <div>Flag status: {flag.isEnabled ? "ON" : "OFF"}</div>
-            <div>{`Created at:
-              ${new Date(flag.createdAt).toLocaleTimeString()}
-              ${new Date(flag.createdAt).toLocaleDateString()}
-              `}
-            </div>
-
-            {flag.updatedAt && <div>updated at: {flag.updatedAt}</div>}
-            <div>default variant: {flag.defaultVariant}</div>
-            <br></br>
-            <button onClick={() => handleDeleteFlag(flag.flagKey)}>Delete Feature</button>
-            <button onClick={() => handleToggleFlag(flag.flagKey)}>Toggle Feature ON/OFF</button>
-          </div>
+          <Flag flagDetails={flag} onDeleteFlag={handleDeleteFlag} onToggleFlag={handleToggleFlag} key={flag.flagKey} />
         )
       })}
     </>
