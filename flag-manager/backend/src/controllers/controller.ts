@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
 import DBPersistence from '../lib/dbPersistence';
-import { create } from 'domain';
 import type { FlagType } from '../types/flagTypes';
 import type { AppError } from '../types/errorTypes';
 
@@ -8,7 +7,7 @@ const db = new DBPersistence();
 
 // Create 
 export const createFlag = async (req: Request, res: Response, next: NextFunction) => {
-  const createdAt = "today"
+  // const createdAt = "today"
 
   try {
     // await db.addFlag(testFlag);
@@ -60,6 +59,7 @@ export const toggleFlag = async (req: Request, res: Response, next: NextFunction
   }
 }
 
+//TODO: implement
 export const editFlag = (req: Request, res: Response, next: NextFunction) => {
 
 }
