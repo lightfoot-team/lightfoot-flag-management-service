@@ -51,21 +51,19 @@ async function executeQuery(statement: string, ...parameters: any[]) {
 
 class DBPersistence {
 
-  // async getAllFlags() {
-  //   const QUERY = `SELECT flag_key, flag_type, variants, created_at, updated_at, default_variant, is_enabled FROM ${FLAGS}`
-  //   const result = await executeQuery(QUERY);
-    
-    
-  //   return result.rows.map((row: Flag) => {
-  //     return setFlagKeysToCamelCase(row)
-  //   });
-  // }
-
   async getFlagByKey(flagKey: string) {
     const QUERY = `SELECT flag_key, flag_type, variants, created_at, updated_at, default_variant, is_enabled FROM ${FLAGS}
                     WHERE flag_key = $1`;
     const result = await executeQuery(QUERY, flagKey);
     return result.rows.length > 0 ? setFlagKeysToCamelCase(result.rows[0]) : null;
+  }
+
+  async getMatchingRules(flagKey: string) {
+    //TODO: query rules table for all rules that match the given flag key and context kind
+    const TEMP_QUERY = `SELECT * FROM ${FLAGS}`
+    const result = await executeQuery(TEMP_QUERY);
+    return result.rows;
+    
   }
 }
 

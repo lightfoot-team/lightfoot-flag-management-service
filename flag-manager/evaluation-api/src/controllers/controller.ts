@@ -26,10 +26,10 @@ const matchesRule = (contextValue: unknown, operator: Operator, ruleValue: unkno
  * @param flag the flag to evaluate
  * @returns the matching variant, falling back to default variant if no rule applies
  */
-const evaluateFlagVariant = async (evaluationContext: EvaluationContext, flag: Flag) => {
+export const evaluateFlagVariant = async (evaluationContext: EvaluationContext, flag: Flag) => {
 
-  const evaluationRules: Array<EvaluationRule> = [] // TODO: add async db call to look up evaluation rules the contain flag.flagKey
-
+  const evaluationRules: Array<EvaluationRule> = await db.getMatchingRules(flag.flagKey) // TODO: add async db call to look up evaluation rules that contain flag.flagKey
+  
   for (let i = 0; i < evaluationRules.length; i++) {
     const rule = evaluationRules[i];
     const attributeName = rule.attribute;

@@ -29,7 +29,7 @@ export type Operator =
 'lessThanEquals' | 'greaterThanEquals' | 'before' | 'after';
 
 export interface EvaluationRule {
-  context: EvaluationContext
+  contextKind: string
   attribute: string //TODO: should exist on context type
   operator: Operator
   values: Array<unknown> //TODO: arr should have values of same type as attribute type
