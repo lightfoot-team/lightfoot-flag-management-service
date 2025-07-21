@@ -31,6 +31,7 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "@openfeature/server-sdk": "^1.18.0",
     "axios": "^1.10.0",
     "pg": "^8.16.3"
   }

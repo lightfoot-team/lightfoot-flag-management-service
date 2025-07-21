@@ -6,7 +6,6 @@ interface Variant {
   [key: string]: FlagValue;
 }
 
-
 export interface Flag {
   id: number;
   flagKey: string;
@@ -18,8 +17,4 @@ export interface Flag {
   isEnabled: boolean;
 
 }
-
-// export interface Flag extends NewFlag {
-//   id: number;
-// }
 
