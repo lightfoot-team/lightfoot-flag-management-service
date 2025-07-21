@@ -55,7 +55,6 @@ class DBPersistence {
     const QUERY = `SELECT flag_key, flag_type, variants, created_at, updated_at, default_variant, is_enabled FROM ${FLAGS}`
     const result = await executeQuery(QUERY);
     
-    
     return result.rows.map((row: Flag) => {
       return setFlagKeysToCamelCase(row)
     });

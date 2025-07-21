@@ -9,15 +9,6 @@ const db = new DBPersistence();
 // Create 
 export const createFlag = async (req: Request, res: Response, next: NextFunction) => {
   const createdAt = "today"
-  // const testFlag = {
-  //   flagKey: "Test-Key",
-  //   flagType: "string" as FlagType,
-  //   variants: {"blue": "blue", "red":"red"},
-  //   createdAt: createdAt,
-  //   updatedAt: null,
-  //   defaultVariant: "blue",
-  //   isEnabled: false
-  // }
 
   try {
     // await db.addFlag(testFlag);
@@ -34,7 +25,6 @@ export const readAllFlags = async (req: Request, res: Response, next: NextFuncti
   try {
     const allFlags = await db.getAllFlags();
     res.status(200).json(allFlags);
-    // res.json(allFlags);
   } catch (err) {
     next(err);
   }
