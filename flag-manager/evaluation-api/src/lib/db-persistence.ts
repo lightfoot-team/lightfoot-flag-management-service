@@ -60,8 +60,12 @@ class DBPersistence {
 
   async getMatchingRules(flagKey: string) {
     //TODO: query rules table for all rules that match the given flag key and context kind
-    const TEMP_QUERY = `SELECT * FROM ${FLAGS}`
-    const result = await executeQuery(TEMP_QUERY);
+    const QUERY = 
+    `SELECT * FROM rules JOIN rules_values
+     ON rules.id = rules_values.rule_id
+     WHERE rules.flag_key = $1
+    `
+    const result = await executeQuery(QUERY, flagKey);
     return result.rows;
     
   }

@@ -42,6 +42,14 @@ export const evaluateFlagVariant = async (evaluationContext: EvaluationContext, 
   }
   return flag.variants[flag.defaultVariant];
 }
+
+//TODO: find cleaner way to handle this
+const disabledFlagValues = {
+  'boolean': false,
+  'string': '',
+  'number': 0, // TODO: see if there is a better alternative to 0 for number fallback (user setting?)
+  'object': null,
+}
 /**
  * Evaluates the value of a flag given its key and context
  * @param req 
@@ -54,17 +62,20 @@ export const getFlagEvaluation = async (req: Request, res: Response, next: NextF
     const flagKey = req.body.flagKey;
 
     const flag = await db.getFlagByKey(flagKey) as Flag;
+    if (flag === null) {
+      res.status(404).json({}) // TODO: send evaluation reason (see OpenFeature docs), may need to refactor expected response in provider
+    } else {
     let flagEvaluation;
     
     if (!flag.isEnabled) {
-      flagEvaluation = false;
+      flagEvaluation = disabledFlagValues[flag.flagType];
     } else {
       flagEvaluation = await evaluateFlagVariant(context, flag as Flag) //TODO; replace 'as' with zod parse
     }
     
     console.log('response:', { data: flagEvaluation })
     res.status(200).json(flagEvaluation)
-
+  }
   } catch (err) {
     next(err)
   }
