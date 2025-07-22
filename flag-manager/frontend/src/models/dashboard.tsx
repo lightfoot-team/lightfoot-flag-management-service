@@ -1,4 +1,6 @@
-
+export const uids: Array<string> = [
+  'gdxccn'
+];
 const spec = {
     "annotations": {
     "list": [

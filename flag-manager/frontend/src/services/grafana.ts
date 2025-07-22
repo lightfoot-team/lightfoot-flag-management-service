@@ -186,3 +186,7 @@ export const createDashboard = async() => {
   const response = await axios.post(baseURL, body, axiosConfig);
   return response;
 }
+export const getDashboard = async(uid: string) => {
+  const response = await axios.get(`${baseURL}/${uid}`, axiosConfig);
+  return response
+}

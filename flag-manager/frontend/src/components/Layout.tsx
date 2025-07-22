@@ -2,12 +2,22 @@ import NavigationBar from "./NavigationBar";
 import { Outlet } from "react-router-dom";
 import Panel from "./Panel";
 import { useEffect } from "react";
-import { createDashboard } from "../services/grafana";
+import { createDashboard, getDashboard } from "../services/grafana";
+import { uids } from "../models/dashboard";
 const Layout = () => {
+  console.log(uids)
   useEffect(() => {
     const dashboard = async () => {
-      const response = await createDashboard();
-      console.log(response);
+      if (uids.length > 0) {
+        const uid = uids[0];
+    
+        const response = await getDashboard(uid);
+        return response;
+      } else {
+        const response = await createDashboard();
+        console.log(response);
+        uids.push('gdxccn')
+      }
     }
     dashboard()
   }, [])
