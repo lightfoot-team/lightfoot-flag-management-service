@@ -28,7 +28,7 @@ const matchesRule = (contextValue: unknown, operator: Operator, ruleValue: unkno
  */
 export const evaluateFlagVariant = async (evaluationContext: EvaluationContext, flag: Flag) => {
 
-  const evaluationRules: Array<EvaluationRule> = await db.getMatchingRules(flag.flagKey) // TODO: add async db call to look up evaluation rules that contain flag.flagKey
+  const evaluationRules: Array<EvaluationRule> = [] //await db.getMatchingRules(flag.flagKey) // TODO: add async db call to look up evaluation rules that contain flag.flagKey
   
   for (let i = 0; i < evaluationRules.length; i++) {
     const rule = evaluationRules[i];
@@ -36,11 +36,11 @@ export const evaluateFlagVariant = async (evaluationContext: EvaluationContext, 
     const contextValue = evaluationContext[attributeName];
     for (let j = 0; j < rule.values.length; j++) {
       if (matchesRule(contextValue, rule.operator, rule.values[j])) {
-        return rule.variant
+        return flag.variants[rule.variant]
       }
     }
   }
-  return flag.defaultVariant;
+  return flag.variants[flag.defaultVariant];
 }
 /**
  * Evaluates the value of a flag given its key and context
@@ -56,9 +56,9 @@ export const getFlagEvaluation = async (req: Request, res: Response, next: NextF
     const flag = await db.getFlagByKey(flagKey);
 
     const flagEvaluation = await evaluateFlagVariant(context, flag as Flag) //TODO; replace 'as' with zod parse
-
+    
     console.log('response:', { data: flagEvaluation })
-    res.status(200).json({ data: flagEvaluation })
+    res.status(200).json(flagEvaluation)
 
   } catch (err) {
     next(err)
