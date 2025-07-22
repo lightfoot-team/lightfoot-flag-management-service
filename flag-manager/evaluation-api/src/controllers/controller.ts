@@ -53,9 +53,14 @@ export const getFlagEvaluation = async (req: Request, res: Response, next: NextF
     const context = req.body.context;
     const flagKey = req.body.flagKey;
 
-    const flag = await db.getFlagByKey(flagKey);
-
-    const flagEvaluation = await evaluateFlagVariant(context, flag as Flag) //TODO; replace 'as' with zod parse
+    const flag = await db.getFlagByKey(flagKey) as Flag;
+    let flagEvaluation;
+    
+    if (!flag.isEnabled) {
+      flagEvaluation = false;
+    } else {
+      flagEvaluation = await evaluateFlagVariant(context, flag as Flag) //TODO; replace 'as' with zod parse
+    }
     
     console.log('response:', { data: flagEvaluation })
     res.status(200).json(flagEvaluation)
