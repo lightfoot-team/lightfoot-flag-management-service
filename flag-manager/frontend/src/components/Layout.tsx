@@ -11,7 +11,7 @@ const Layout = () => {
   console.log('Name:', redDashboardBody.metadata.name)
   useEffect(() => {
     const dashboard = async () => {
-      if (uids.length > 0) {
+      if (uids.includes(redDashboardBody.metadata.name)) {
         const uid = redDashboardBody.metadata.name;
 
         const response = await getDashboard(uid);
