@@ -10,4 +10,8 @@ module.exports = {
     node: true,
     es6: true,
   },
+  rules: {
+    'no-console': 'warn',
+    'no-warning-comments': ['warn', { terms: ['todo', 'fixme'], location: 'anywhere' }],
+  },
 };
