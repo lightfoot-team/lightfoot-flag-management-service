@@ -16,9 +16,8 @@ const BooleanFlagVariantInput = ({ formState, setFormState }) => {
                 }}
                 required
               />
-
-              <select 
-                value={pair.value || "true"}  
+              <select
+                value={pair.value || "true"}
                 onChange={(e) => {
                   const newVariants = [...formState.variants];
                   newVariants[index].value = e.target.value;
