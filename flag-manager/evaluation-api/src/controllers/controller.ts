@@ -27,15 +27,16 @@ const matchesRule = (contextValue: unknown, operator: Operator, ruleValue: unkno
  * @returns the matching variant, falling back to default variant if no rule applies
  */
 export const evaluateFlagVariant = async (evaluationContext: EvaluationContext, flag: Flag) => {
+  const evaluationRules = await db.getMatchingRules(flag.flagKey) // TODO: add call to look up all matching values for each rule
 
-  const evaluationRules: Array<EvaluationRule> = [] //await db.getMatchingRules(flag.flagKey) // TODO: add async db call to look up evaluation rules that contain flag.flagKey
-  
   for (let i = 0; i < evaluationRules.length; i++) {
     const rule = evaluationRules[i];
+    const values = await db.getRuleValues(rule.rule_name);
     const attributeName = rule.attribute;
     const contextValue = evaluationContext[attributeName];
-    for (let j = 0; j < rule.values.length; j++) {
-      if (matchesRule(contextValue, rule.operator, rule.values[j])) {
+    for (let j = 0; j < values.length; j++) {
+      const value = values[j].val
+      if (matchesRule(contextValue, rule.operator, value)) { 
         return flag.variants[rule.variant]
       }
     }

@@ -1,4 +1,5 @@
 import { type NewFlag, type Flag } from "../types/flagTypes";
+import { type EvaluationRule } from "../types/evaluationTypes";
 require('dotenv').config();
 const { Client } = require('pg');
 
@@ -13,7 +14,7 @@ function setFlagKeysToCamelCase(object: Record<string, any>) {
   const newKeys = keys.map(key => {
     // If underscore found => delete it, and capitalize the next char 
 
-    let chars = key.split('_').filter(word=> word.length > 0).map((word, index) => {
+    let chars = key.split('_').filter(word => word.length > 0).map((word, index) => {
       if (index > 0) {
         const newWord = word.charAt(0).toUpperCase().concat(word.slice(1).toLowerCase())
         return newWord
@@ -23,7 +24,7 @@ function setFlagKeysToCamelCase(object: Record<string, any>) {
     const newKey = chars.join('');
     newObject[newKey] = object[key]
   });
-  
+
   return newObject
 }
 
@@ -54,7 +55,7 @@ class DBPersistence {
   async getAllFlags() {
     const QUERY = `SELECT flag_key, flag_type, variants, created_at, updated_at, default_variant, is_enabled FROM ${FLAGS}`
     const result = await executeQuery(QUERY);
-    
+
     return result.rows.map((row: Flag) => {
       return setFlagKeysToCamelCase(row)
     });
@@ -101,6 +102,26 @@ class DBPersistence {
     `;
     const result = await executeQuery(QUERY, variant, id);
     return result;
+  }
+
+  async addRule(rule: EvaluationRule) {
+    const { name, contextKind, attribute, operator, flagKey, variant } = rule;
+
+    const QUERY = `INSERT INTO rules (rule_name, context_kind, attribute, operator, flag_key, variant)
+                  VALUES ($1, $2, $3, $4, $5, $6)`;
+    const result = await executeQuery(QUERY, name, contextKind, attribute, operator, flagKey, variant);
+    return result.rowCount;
+  }
+
+
+  async addRuleValues(name: string, values: Array<string>) {
+    const SELECT_RULE_QUERY = `SELECT * FROM rules WHERE rules.rule_name = $1`;
+    const result = await executeQuery(SELECT_RULE_QUERY, name);
+    const ruleId = result.rows[0].id;
+    const ADD_VALUES_QUERY = `INSERT INTO rule_values (val, rule_id) VALUES ($1, $2)`
+    for (let val of values) {
+      await executeQuery(ADD_VALUES_QUERY, val, ruleId);
+    }
   }
 }
 

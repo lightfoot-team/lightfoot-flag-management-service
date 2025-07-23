@@ -12,6 +12,7 @@ CREATE TABLE flags (
 -- TODO: add constraints for rules and values and allow other types
 CREATE TABLE rules (
   id serial PRIMARY KEY,
+  rule_name text UNIQUE NOT NULL,
   context_kind text,
   attribute text,
   operator text,

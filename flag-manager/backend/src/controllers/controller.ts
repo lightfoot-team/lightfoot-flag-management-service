@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import DBPersistence from '../lib/dbPersistence';
 import type { FlagType } from '../types/flagTypes';
 import type { AppError } from '../types/errorTypes';
+import { EvaluationRule } from '../types/evaluationTypes';
 
 const db = new DBPersistence();
 
@@ -74,6 +75,19 @@ export const deleteFlag = async (req: Request, res: Response, next: NextFunction
     }
     await db.deleteFlag(flagName);
     res.status(204).send();
+  } catch (err) {
+    next(err);
+  }
+}
+
+export const createRule = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const rule: EvaluationRule = req.body.rule;
+    console.log('Rule:', rule);
+    const {name, values} = rule;
+    const addRuleResult = await db.addRule(rule);
+    const addRuleValuesResult = await db.addRuleValues(name, values);
+    res.status(201).send();
   } catch (err) {
     next(err);
   }

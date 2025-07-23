@@ -1,3 +1,4 @@
+//TODO: make sure this matches evaluation-api version or deduplicate 
 
 export interface EvaluationContext {
   targetingKey: string, // unique identifier for subject (ie UUID or hash of username)
@@ -24,10 +25,10 @@ export interface MultiContext {
 
 // equals, notEquals, endsWith, startsWith,
 // matches(regex), contains, >/>=, </<=, before/after(dates)
-export type Operator = 
-'equals'  | 'notEquals' | 'endsWith' | 'startsWith' |
-'matches' | 'contains'  | 'lessThan' | 'greaterThan'|
-'lessThanEquals' | 'greaterThanEquals' | 'before' | 'after';
+export type Operator =
+  'equals' | 'notEquals' | 'endsWith' | 'startsWith' |
+  'matches' | 'contains' | 'lessThan' | 'greaterThan' |
+  'lessThanEquals' | 'greaterThanEquals' | 'before' | 'after';
 
 export interface EvaluationRule {
   name: string
@@ -35,17 +36,28 @@ export interface EvaluationRule {
   attribute: string //TODO: should exist on context type
   operator: Operator
   values: Array<string> //TODO: arr should have values of same type as attribute type
-  flagKey: string 
+  flagKey: string
   variant: string //TODO: should exist on flag type
 }
 
 
 /*
 Rule: 
-  contextKind: user
-  attribute: username
-  operator: equals
-  values: [admin]
-  flagKey: featured-park
-  variant: on 
+
+
+curl -X POST http://localhost:3000/api/flags/rule \
+  -H "Content-Type: application/json" \
+  -d '{
+    "rule": {
+      "name": "admin can see featured park",
+      "contextKind": "user",
+      "attribute": "username",
+      "operator": "equals",
+      "values": ["admin"],
+      "flagKey": "featured-park",
+      "variant": "on"
+    }
+  }'
+
 */
+
