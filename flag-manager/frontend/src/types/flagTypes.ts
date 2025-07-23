@@ -43,3 +43,10 @@ export type FlagDetails = ParsedFlagFormDetails & {
   isEnabled: boolean;
 }
 
+export interface TransformedFlagFormDetails {
+  flagKey: string;
+  flagType: string;
+  variantKey: string;
+  variantValue: boolean;
+  defaultVariant: string;
+}
