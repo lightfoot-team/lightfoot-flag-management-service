@@ -8,20 +8,20 @@ import { uids } from "../models/dashboard";
 import { redDashboardBody } from "../models/dashboard";
 
 const Layout = () => {
-  console.log(uids)
+  console.log('Name:', redDashboardBody.metadata.name)
   useEffect(() => {
     const dashboard = async () => {
-      // if (uids.length > 0) {
-      //   const uid = uids[0];
-    
-      //   const response = await getDashboard(uid);
-      //   return response;
-      // } else {
-        const response = await createDashboard(redDashboardBody);
-        console.log(response);
-        // uids.push('gdxccn')
-      }
-    // }
+      if (uids.length > 0) {
+        const uid = redDashboardBody.metadata.name;
+
+        const response = await getDashboard(uid);
+        return response;
+      } else {
+      const response = await createDashboard(redDashboardBody);
+      console.log(response);
+      uids.push('redDashboardBody.metadata.name')
+    }
+    }
     dashboard()
   }, [])
 
@@ -36,14 +36,15 @@ const Layout = () => {
         width="450" height="200"
       >
       </iframe>
+      */}
       <Panel
-        dashboardId={'64daa860-5d81-4078-979a-107e984fdf57'}
-        panelId={1}
+        dashboardId={redDashboardBody.metadata.name}
+        panelId={2}
         variables={[]}
       >
 
-      </Panel> */}
-      <Dashboard dashboardId={redDashboardBody.metaData.name} variables={[]}>
+      </Panel>
+      <Dashboard dashboardId={redDashboardBody.metadata.name} variables={[]}>
 
       </Dashboard>
       <NavigationBar />

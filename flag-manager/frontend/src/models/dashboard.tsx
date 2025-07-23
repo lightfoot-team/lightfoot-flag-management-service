@@ -4,7 +4,7 @@ export const uids: Array<string> = [
   'gdxccn'
 ];
 const spec = {
-    "annotations": {
+  "annotations": {
     "list": [
       {
         "datasource": {
@@ -22,158 +22,157 @@ const spec = {
           "type": "dashboard"
         }
       }]
-    },
-    "editable": true,
-    "fiscalYearStartMonth": 0,
-    "graphTooltip": 0, // 0 = none (default), 1 = shared crosshair, 2= shared ch + tooltip
-    "links": [
-      {
-        "asDropdown": false,
-        "icon": "external link", // icon for the link(?)
-        "includeVars": false,
-        "keepTime": false,
-        "tags": [],
-        "targetBlank": false, // open in new tab?
-        "title": "Example Link",
-        "tooltip": "", //text for the tooltip
-        "type": "dashboards", //dashboard or link
-        "url": "" // URL for external links
-      }
-    ],
-    "panels": [
-      {
-        "datasource": {
-          "type": "datasource",
-          "uid": "grafana"
-        },
-        "description": "With a description", // text description of the panel
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "palette-classic"
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0, // 0 = none (default), 1 = shared crosshair, 2= shared ch + tooltip
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "external link", // icon for the link(?)
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": false, // open in new tab?
+      "title": "Example Link",
+      "tooltip": "", //text for the tooltip
+      "type": "dashboards", //dashboard or link
+      "url": "" // URL for external links
+    }
+  ],
+  "panels": [
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "description": "With a description", // text description of the panel
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
             },
-            "custom": {
-              "axisBorderShow": false,
-              "axisCenteredZero": false,
-              "axisColorMode": "text",
-              "axisLabel": "",
-              "axisPlacement": "auto",
-              "barAlignment": 0,
-              "barWidthFactor": 0.6,
-              "drawStyle": "line",
-              "fillOpacity": 0,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "insertNulls": false,
-              "lineInterpolation": "linear",
-              "lineWidth": 1,
-              "pointSize": 5,
-              "scaleDistribution": {
-                "type": "linear"
-              },
-              "showPoints": "auto",
-              "spanNulls": false,
-              "stacking": {
-                "group": "A",
-                "mode": "none"
-              },
-              "thresholdsStyle": {
-                "mode": "off"
-              }
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
             },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green"
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
             }
           },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 8,
-          "w": 12,
-          "x": 0,
-          "y": 0
-        },
-        "id": 1,
-        "options": {
-          "legend": {
-            "calcs": [],
-            "displayMode": "list",
-            "placement": "bottom",
-            "showLegend": true
-          },
-          "tooltip": {
-            "hideZeros": false,
-            "mode": "single",
-            "sort": "none"
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
           }
         },
-        "pluginVersion": "12.0.0",
-        "targets": [
-          {
-            "datasource": {
-              "type": "datasource",
-              "uid": "grafana"
-            },
-            "refId": "A"
-          }
-        ],
-        "title": "Example panel",
-        "type": "timeseries"
-      }
-    ],
-    "preload": false, // true if all panels should load when dashboard loads
-    "schemaVersion": 41, //version of the JSON dashboard schema (?)
-    "tags": ["example"], // Tags for the dashbaord (show in Grafana UI menu)
-    "templating": { // Defines template variables for dynamic dashboards (ie allow showing diff time ranges)
-      "list": [ // Array of variable definitions
-        {
-          "current": {
-            "text": "", // Display text of currently selected value
-            "value": "" // Actual value of current selection
-          },
-          "definition": "", // Often used to store original query/expression that defined variable options 
-          "description": "example description", // Shown in UI to explain purpose of var
-          "label": "ExampleLabel", // Text shown on dropdown
-          "name": "ExampleVariable", // Internal name of var for querying ie $ExampleVariable
-          "options": [], // Possible options in format {text: '', value: ''. selected: boolean}
-          "query": "", // query used to fetch list of options for the variable
-          "refresh": 1, // When options are refreshed. 1 = on dashboard load. 
-          "regex": "cluster",
-          "type": "query" // Options are generated by query. can also be "constant" or "interval"
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
         }
-      ]
-    },
-    "time": { //time range for data shown on the dashboard
-      "from": "now-6h",
-      "to": "now"
-    },
-    "timepicker": {}, // object for timepicker settings (empty for defaults)
-    "timezone": "browser",
-    "title": "Example Dashboard",
-    "version": 0 // Auto-incrementing version of the dashboard
-  }
-
-console.log(spec)
-
-const metaData = {
-    "name": "gdlightfoot",
-    "annotations": {
-      "namespace": "default",
+      },
+      "pluginVersion": "12.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Example panel",
+      "type": "timeseries"
     }
+  ],
+  "preload": false, // true if all panels should load when dashboard loads
+  "schemaVersion": 41, //version of the JSON dashboard schema (?)
+  "tags": ["example"], // Tags for the dashbaord (show in Grafana UI menu)
+  "templating": { // Defines template variables for dynamic dashboards (ie allow showing diff time ranges)
+    "list": [ // Array of variable definitions
+      {
+        "current": {
+          "text": "", // Display text of currently selected value
+          "value": "" // Actual value of current selection
+        },
+        "definition": "", // Often used to store original query/expression that defined variable options 
+        "description": "example description", // Shown in UI to explain purpose of var
+        "label": "ExampleLabel", // Text shown on dropdown
+        "name": "ExampleVariable", // Internal name of var for querying ie $ExampleVariable
+        "options": [], // Possible options in format {text: '', value: ''. selected: boolean}
+        "query": "", // query used to fetch list of options for the variable
+        "refresh": 1, // When options are refreshed. 1 = on dashboard load. 
+        "regex": "cluster",
+        "type": "query" // Options are generated by query. can also be "constant" or "interval"
+      }
+    ]
+  },
+  "time": { //time range for data shown on the dashboard
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {}, // object for timepicker settings (empty for defaults)
+  "timezone": "browser",
+  "title": "Example Dashboard",
+  "version": 0 // Auto-incrementing version of the dashboard
+}
+
+
+const metadata = {
+  "name": "gdlightfoot",
+  "annotations": {
+    "namespace": "default",
+  }
 }
 
 const redDashboardSpec = {
@@ -227,7 +226,7 @@ const redDashboardSpec = {
       "url": "" // what would this link to?
     }
   ],
-  "panels": [ ratePanel, errorPanel, durationPanel],
+  "panels": [ratePanel, errorPanel, durationPanel],
   "preload": false,
   "schemaVersion": 41,
   "tags": [
@@ -275,12 +274,12 @@ const redDashboardSpec = {
   },
   "timepicker": {},
   "timezone": "browser",
-  "title": "Example Dashboard",
+  "title": "RED Dashboard",
   // "uid": "",
   "version": 36
 }
 
 export const redDashboardBody = {
-  "metaData": metaData,
+  "metadata": metadata,
   "spec": redDashboardSpec
 }
