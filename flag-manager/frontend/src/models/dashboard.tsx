@@ -223,7 +223,7 @@ const redDashboardSpec = {
       "title": "Example Link",
       "tooltip": "",
       "type": "dashboards",
-      "url": "" // what would this link to?
+      "url": ""
     }
   ],
   "panels": [ratePanel, errorPanel, durationPanel],
@@ -250,11 +250,14 @@ const redDashboardSpec = {
         "type": "query"
       },
       {
+        "allValue": "",
         "current": {
-          "text": "",
-          "value": ""
+          "text": [],
+          "value": []
         },
         "definition": "",
+        "includeAll": false,
+        "multi": true,
         "name": "feature_flag_key",
         "options": [],
         "query": {
@@ -265,6 +268,23 @@ const redDashboardSpec = {
         "refresh": 1,
         "regex": "",
         "type": "query"
+      },
+      {
+        "current": {
+          "text": "featured-park",
+          "value": "featured-park"
+        },
+        "label": "feature_flag_key_2",
+        "name": "feature_flag_key_2",
+        "options": [
+          {
+            "selected": true,
+            "text": "featured-park",
+            "value": "featured-park"
+          }
+        ],
+        "query": "featured-park",
+        "type": "textbox"
       }
     ]
   },
@@ -274,9 +294,9 @@ const redDashboardSpec = {
   },
   "timepicker": {},
   "timezone": "browser",
-  "title": "RED Dashboard",
-  // "uid": "",
-  "version": 36
+  "title": "Example Dashboard",
+  // "uid": "gdxccn",
+  "version": 45
 }
 
 export const redDashboardBody = {

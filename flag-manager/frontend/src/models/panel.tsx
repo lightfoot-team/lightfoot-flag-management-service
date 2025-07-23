@@ -83,10 +83,36 @@ export const durationPanel = {
       ],
       "limit": 20,
       "metricsQueryType": "range",
-      "query": "{ event.feature_flag.key = \"${feature_flag_key}\" } | select(duration)",
+      "query": "{event.feature_flag.key = \"$feature_flag_key_2\"} | avg_over_time(duration)",
       "queryType": "traceql",
       "refId": "A",
       "tableType": "traces"
+    },
+    {
+      "datasource": {
+        "uid": "tempo",
+        "type": "tempo"
+      },
+      "refId": "B",
+      "hide": false,
+      "queryType": "traceql",
+      "limit": 20,
+      "tableType": "traces",
+      "metricsQueryType": "range",
+      "query": "{ } | avg_over_time(duration)"
+    },
+    {
+      "datasource": {
+        "uid": "tempo",
+        "type": "tempo"
+      },
+      "refId": "C",
+      "hide": false,
+      "queryType": "traceql",
+      "limit": 20,
+      "tableType": "traces",
+      "metricsQueryType": "range",
+      "query": "{ } | max_over_time(duration)"
     }
   ],
   "datasource": {
@@ -178,10 +204,23 @@ export const ratePanel = {
     {
       "limit": 20,
       "metricsQueryType": "range",
-      "query": "{ event.feature_flag.key = \"${feature_flag_key}\" } | rate()",
+      "query": "{ event.feature_flag.key = \"${feature_flag_key_2}\" } | rate()",
       "queryType": "traceql",
       "refId": "A",
       "tableType": "traces"
+    },
+    {
+      "datasource": {
+        "uid": "tempo",
+        "type": "tempo"
+      },
+      "refId": "B",
+      "hide": false,
+      "queryType": "traceql",
+      "limit": 20,
+      "tableType": "traces",
+      "metricsQueryType": "range",
+      "query": "{ } | rate()"
     }
   ],
   "datasource": {
@@ -277,6 +316,19 @@ export const errorPanel = {
       "queryType": "traceql",
       "refId": "A",
       "tableType": "traces"
+    },
+    {
+      "datasource": {
+        "uid": "tempo",
+        "type": "tempo"
+      },
+      "refId": "B",
+      "hide": false,
+      "queryType": "traceql",
+      "limit": 20,
+      "tableType": "traces",
+      "metricsQueryType": "range",
+      "query": "{ span.http.status_code >= 400 || status = error} | rate()"
     }
   ],
   "datasource": {
