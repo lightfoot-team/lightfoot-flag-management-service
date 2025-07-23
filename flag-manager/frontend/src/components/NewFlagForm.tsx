@@ -7,6 +7,8 @@ import {
   type Variant,
  } from "../types/flagTypes";
 import { addFlag } from "../services/flags";
+import BooleanFlagVariantInput from './BooleanVariantInput';
+import NonBooleanFlagVariantInput from './NonBooleanVariantInput';
 
 const NewFlagForm = () => {
   const navigate = useNavigate();
@@ -26,8 +28,10 @@ const NewFlagForm = () => {
       if (pair.key.trim() !== '') {
         variantsObject[pair.key] = pair.value;
       }
+      if (formState.flagType === "boolean") {
+        pair.value = pair.value === "true" ? true : false;
+      }
     });
-
     const parsedData: ParsedFlagFormDetails = {
       flagKey: formState.flagKey,
       flagType: formState.flagType,
@@ -88,7 +92,14 @@ const NewFlagForm = () => {
 
       <div>
         <label>Variants</label>
-        {formState.variants.map((pair, index) => (
+        {formState.flagType === "boolean" && (
+          <BooleanFlagVariantInput formState={formState} setFormState={setFormState} />
+        )}
+        {formState.flagType !== "boolean" && (
+          <NonBooleanFlagVariantInput formState={formState} setFormState={setFormState} />
+        )}
+        
+        {/* {formState.variants.map((pair, index) => (
           <div key={index}>
             <input
               type="text"
@@ -101,17 +112,31 @@ const NewFlagForm = () => {
               }}
               required
             />
-            <input
-              type="text"
-              placeholder="Value"
-              value={pair.value}
-              onChange={(e) => {
+            {formState.flagType === "boolean" && (
+              <select value={pair.value || "true"} onChange={(e) => {
                 const newVariants = [...formState.variants];
                 newVariants[index].value = e.target.value;
-                setFormState({ ...formState, variants: newVariants });
+                setFormState({...formState, variants: newVariants});
               }}
-              required
-            />
+              >
+                <option value="true">True</option>
+                <option value="false">False</option>
+              </select>
+            )}
+
+            {formState.flagType !== "boolean" && (
+              <input
+                type="text"
+                placeholder="Value"
+                value={pair.value}
+                onChange={(e) => {
+                  const newVariants = [...formState.variants];
+                  newVariants[index].value = e.target.value;
+                  setFormState({ ...formState, variants: newVariants });
+                }}
+                required
+              />
+            )}
             {formState.variants.length > 1 && (
               <button
                 type="button"
@@ -124,7 +149,7 @@ const NewFlagForm = () => {
               </button>
             )}
           </div>
-        ))}
+        ))} */}
         <button
           type="button"
           onClick={() =>
