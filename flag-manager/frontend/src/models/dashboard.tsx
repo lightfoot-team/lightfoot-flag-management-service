@@ -1,3 +1,5 @@
+import { ratePanel, errorPanel, durationPanel } from "./panel";
+
 export const uids: Array<string> = [
   'gdxccn'
 ];
@@ -166,3 +168,119 @@ const spec = {
   }
 
 console.log(spec)
+
+const metaData = {
+    "name": "gdlightfoot",
+    "annotations": {
+      "namespace": "default",
+    }
+}
+
+const redDashboardSpec = {
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      },
+      {
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
+        "enable": true,
+        "hide": false,
+        "iconColor": "red",
+        "name": "Example annotation",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        }
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  // "id": 1,
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Example Link",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": "" // what would this link to?
+    }
+  ],
+  "panels": [ ratePanel, errorPanel, durationPanel],
+  "preload": false,
+  "schemaVersion": 41,
+  "tags": [
+    "example"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "text": "",
+          "value": ""
+        },
+        "definition": "",
+        "description": "example description",
+        "label": "ExampleLabel",
+        "name": "ExampleVariable",
+        "options": [],
+        "query": "",
+        "refresh": 1,
+        "regex": "cluster",
+        "type": "query"
+      },
+      {
+        "current": {
+          "text": "",
+          "value": ""
+        },
+        "definition": "",
+        "name": "feature_flag_key",
+        "options": [],
+        "query": {
+          "label": "feature_flag.key",
+          "refId": "TempoDatasourceVariableQueryEditor-VariableQuery",
+          "type": 1
+        },
+        "refresh": 1,
+        "regex": "",
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-30m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Example Dashboard",
+  // "uid": "",
+  "version": 36
+}
+
+export const redDashboardBody = {
+  "metaData": metaData,
+  "spec": redDashboardSpec
+}
