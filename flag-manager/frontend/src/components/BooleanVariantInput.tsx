@@ -3,12 +3,6 @@ const BooleanFlagVariantInput = ({ formState, setFormState }) => {
     <>
       {
         formState.variants.map((pair, index) => {
-          if (pair.value === '') {
-            const newVariants = [...formState.variants];
-            newVariants[index].value = 'true';
-            setFormState({ ...formState, variants: newVariants });
-          }
-
           return (
             <div key={index}>
               <input

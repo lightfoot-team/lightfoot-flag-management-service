@@ -3,6 +3,7 @@ import { type FlagFormDetails,
   type FlagDetails,
   type ParsedFlagFormDetails,
   type TransformedFlagFormDetails,
+  type Variant,
 } from '../types/flagTypes';
 const axiosConfig = {
   headers: {
@@ -33,15 +34,15 @@ export const addFlag = async (flagFormDetails: ParsedFlagFormDetails) => {
   //  Grab the variants object
   //  Iterate over the keys 
   //  Convert each keys' value to its boolean type
+  
   // const transformedFlag: TransformedFlagFormDetails = {};
   const variantsObject = flagFormDetails.variants;
-  // "true" value is already an empty string by the time it reaches this point
   console.log(variantsObject);  
-  // if (flagFormDetails.flagType === "boolean") {
-  //   Object.keys(variantsObject).forEach(key => {
-  //     variantsObject[key] = variantsObject[key] === 'true';
-  //   })
-  // }
+  if (flagFormDetails.flagType === "boolean") {
+    Object.keys(variantsObject).forEach(key => {
+      variantsObject[key] = variantsObject[key] === 'true';
+    })
+  }
 
   const flagDetails: FlagDetails = {...flagFormDetails, createdAt, isEnabled: false}
   const result = await axios.post(`${baseURL}/add`, flagDetails, axiosConfig);

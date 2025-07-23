@@ -28,6 +28,12 @@ const NewFlagForm = () => {
       if (pair.key.trim() !== '') {
         variantsObject[pair.key] = pair.value;
       }
+
+      if (formState.flagType === 'boolean') {
+        if (pair.value === '') {
+          variantsObject[pair.key] = 'true';
+        }
+      }
     });
     const parsedData: ParsedFlagFormDetails = {
       flagKey: formState.flagKey,
