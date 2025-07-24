@@ -1,11 +1,18 @@
 import { type FlagDetails } from "../types/flagTypes";
-
+import { type UserEvaluationContext } from "../types/evaluationTypes";
+import NewRuleForm from "./NewRuleForm";
 interface FlagProps {
   flagDetails: FlagDetails;
   onDeleteFlag: (flagKey: string) => void;
   onToggleFlag: (flagKey: string) => void;
 }
 
+const testUserEvaluationContext: UserEvaluationContext = {
+  kind: 'user',
+  name: '',
+  email: '',
+  location: ''
+}
 const Flag:React.FC<FlagProps> = ({ flagDetails, onDeleteFlag, onToggleFlag }) => {
 
   return (
@@ -26,6 +33,7 @@ const Flag:React.FC<FlagProps> = ({ flagDetails, onDeleteFlag, onToggleFlag }) =
         <button onClick={() => onDeleteFlag(flagDetails.flagKey)}>Delete Feature</button>
         <button onClick={() => onToggleFlag(flagDetails.flagKey)}>Toggle Feature ON/OFF</button>
       </div>
+        <NewRuleForm flag={flagDetails} contextKinds={[testUserEvaluationContext]}></NewRuleForm>
     </div>
   );
 }
