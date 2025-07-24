@@ -10,7 +10,7 @@ import { addFlag } from "../services/flags";
 import BooleanFlagVariantInput from './BooleanVariantInput';
 import NonBooleanFlagVariantInput from './NonBooleanVariantInput';
 
-const NewFlagForm = () => {
+const FormHook = () => {
   const navigate = useNavigate();
   
   const [formState, setFormState] = useState({
@@ -125,4 +125,4 @@ const NewFlagForm = () => {
   );
 };
 
-export default NewFlagForm;
+export default FormHook;

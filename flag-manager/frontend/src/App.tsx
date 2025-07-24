@@ -3,7 +3,7 @@ import Layout from "./components/Layout"
 import NewFlagForm from "./components/NewFlagForm"
 import Flags from "./components/Flags"
 import Dashboard from "./components/Dashboard"
-import RefactorForm from "./components/RefactorForm"
+import FormHook from "./components/FormHook"
 
 function App() {
 
@@ -15,7 +15,7 @@ function App() {
         <Route path="flags" element={<Flags />} />
         <Route path="flags/observability" element={<Dashboard />} />
         <Route path="flags/add" element={<NewFlagForm />} />
-        <Route path="flags/hook-form" element={<RefactorForm />} />
+        <Route path="flags/hook-form" element={<FormHook />} />
       </Route>
     </Routes>
     </div>
