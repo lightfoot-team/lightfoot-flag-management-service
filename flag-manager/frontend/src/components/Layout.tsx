@@ -42,11 +42,11 @@ const Layout = () => {
         panelId={2}
         variables={[]}
       >
-
       </Panel>
-      <Dashboard dashboardId={redDashboardBody.metadata.name} variables={[]}>
 
+      <Dashboard dashboardId={redDashboardBody.metadata.name} variables={[]}>
       </Dashboard>
+
       <NavigationBar />
       <Outlet />
     </>
