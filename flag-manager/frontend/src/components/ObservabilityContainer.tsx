@@ -9,16 +9,20 @@ const ObservabilityContainer = () => {
   console.log('Name:', redDashboardBody.metadata.name)
   useEffect(() => {
     const dashboard = async () => {
-      if (uids.includes(redDashboardBody.metadata.name)) {
-        const uid = redDashboardBody.metadata.name;
+      try {
+        if (uids.includes(redDashboardBody.metadata.name)) {
+          const uid = redDashboardBody.metadata.name;
 
-        const response = await getDashboard(uid);
-        return response;
-      } else {
-      const response = await createDashboard(redDashboardBody);
-      console.log(response);
-      uids.push(redDashboardBody.metadata.name)
-    }
+          const response = await getDashboard(uid);
+          return response;
+        } else {
+          const response = await createDashboard(redDashboardBody);
+          console.log(response);
+          uids.push(redDashboardBody.metadata.name)
+        }
+      } catch (error) {
+        console.error('Dashboard operation failed:', error);
+      }
     }
     dashboard()
   }, [])
