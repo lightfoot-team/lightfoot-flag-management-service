@@ -19,8 +19,8 @@ export default function Dashboard(dashboardProps: DashboardProps) {
   return (
     <iframe
       src={iframeSrc}
-      width="50%"
-      height="300em"
+      width="80%"
+      height="510em"
     ></iframe>
   );
 }
