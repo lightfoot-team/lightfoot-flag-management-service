@@ -16,7 +16,8 @@ const baseURL = 'http://localhost:3000/api/flags/rule'
  * @returns API response object containing the newly added flag
  */
 export const addRule = async (rule: EvaluationRule) => {
-  const result = await axios.post(`${baseURL}`, rule, axiosConfig);
+    console.log('rule:', rule)
+  const result = await axios.post(`${baseURL}`, {rule: rule}, axiosConfig);
   console.log('result:', result)
   return result;
 }

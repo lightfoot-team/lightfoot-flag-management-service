@@ -22,7 +22,7 @@ const NewRuleForm = (props: NewRuleFormProps) => {
   const [currentContext, setCurrentContext] = useState<EvaluationContext>(contextKinds[0])
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // await addRule(formState)
+    await addRule(formState)
   }
   return (
     <>
@@ -105,7 +105,7 @@ const NewRuleForm = (props: NewRuleFormProps) => {
             type="text"
             placeholder="Value"
             onChange={(e) => {
-              const newValues = [...formState.values, e.target.value];
+              const newValues = [ e.target.value];
               setFormState({ ...formState, values: newValues });
             }}
             required
