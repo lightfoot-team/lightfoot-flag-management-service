@@ -2,7 +2,6 @@ import axios from 'axios';
 import { type FlagFormDetails, 
   type FlagDetails,
   type ParsedFlagFormDetails,
-  type TransformedFlagFormDetails,
   type Variant,
 } from '../types/flagTypes';
 const axiosConfig = {

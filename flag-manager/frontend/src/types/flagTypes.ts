@@ -22,7 +22,6 @@ export interface Variant {
 export type Product = z.infer<typeof FlagSchema>;
 
 export interface FlagFormDetails {
-  // enabled: string;
   flagKey: string;
   flagType: string;
   variantKey: string;
@@ -41,12 +40,4 @@ export type FlagDetails = ParsedFlagFormDetails & {
   createdAt: string
   updatedAt?: string
   isEnabled: boolean;
-}
-
-export interface TransformedFlagFormDetails {
-  flagKey: string;
-  flagType: string;
-  variantKey: string;
-  variantValue: boolean;
-  defaultVariant: string;
 }
