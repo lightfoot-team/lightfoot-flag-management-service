@@ -43,10 +43,10 @@ export const addFlag = async (flagFormDetails: ParsedFlagFormDetails) => {
   //     variantsObject[key] = variantsObject[key] === 'true';
   //   })
   // }
-
   const flagDetails: FlagDetails = {...flagFormDetails, createdAt, isEnabled: false}
+  console.log(flagDetails);
   const result = await axios.post(`${baseURL}/add`, flagDetails, axiosConfig);
-  console.log('result:', result)
+  // console.log('result:', result)
   return result;
 }
 

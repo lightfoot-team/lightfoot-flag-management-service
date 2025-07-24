@@ -1,8 +1,7 @@
-// Create state for this component?
 import { useState } from "react";
 
 const BooleanFlagVariantInput = ({ formState, setFormState }) => {
-  const [booleanVariants, setBooleanVariants] = useState([{key: '', value: "true"}, {key: '', value: "false"}]);
+  const [booleanVariants, setBooleanVariants] = useState([{key: '', value: true}, {key: '', value: false}]);
 
   return (
     <>

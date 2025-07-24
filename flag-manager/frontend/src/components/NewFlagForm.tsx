@@ -1,18 +1,18 @@
 // import { useForm } from "react-hook-form";
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { 
+import {
   // type FlagFormDetails,
   type ParsedFlagFormDetails,
   type Variant,
- } from "../types/flagTypes";
+} from "../types/flagTypes";
 import { addFlag } from "../services/flags";
 import BooleanFlagVariantInput from './BooleanVariantInput';
 import NonBooleanFlagVariantInput from './NonBooleanVariantInput';
 
 const NewFlagForm = () => {
   const navigate = useNavigate();
-  
+
   const [formState, setFormState] = useState({
     flagKey: '',
     flagType: 'boolean',
@@ -99,7 +99,23 @@ const NewFlagForm = () => {
           <BooleanFlagVariantInput formState={formState} setFormState={setFormState} />
         )}
         {formState.flagType !== "boolean" && (
-          <NonBooleanFlagVariantInput formState={formState} setFormState={setFormState} />
+          <>
+            <NonBooleanFlagVariantInput formState={formState} setFormState={setFormState} />
+            <button
+              type="button"
+              onClick={() =>
+                setFormState({
+                  ...formState,
+                  variants: [...formState.variants, {
+                    key: '',
+                    value: formState.flagType === 'boolean' ? 'true' : ''
+                  }]
+                })
+              }
+            >
+              + Add Variant
+            </button>
+          </>
         )}
       </div>
 

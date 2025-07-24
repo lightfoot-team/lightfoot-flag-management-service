@@ -39,20 +39,6 @@ const NonBooleanFlagVariantInput = ({formState, setFormState}) => {
             </button>
           )}
         </div>
-        <button
-          type="button"
-          onClick={() =>
-            setFormState({
-              ...formState,
-              variants: [...formState.variants, { 
-                key: '', 
-                value: formState.flagType === 'boolean' ? 'true' : '' 
-              }]
-            })
-          }
-        >
-          + Add Variant
-        </button>
         </>
       ))
     }
