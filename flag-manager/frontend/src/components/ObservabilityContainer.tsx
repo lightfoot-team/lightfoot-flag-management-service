@@ -5,7 +5,7 @@ import { createDashboard, getDashboard } from "../services/grafana";
 import { uids } from "../models/dashboard";
 import { redDashboardBody } from "../models/dashboard";
 
-const DashboardContainer = () => {
+const ObservabilityContainer = () => {
   console.log('Name:', redDashboardBody.metadata.name)
   useEffect(() => {
     const dashboard = async () => {
@@ -49,4 +49,4 @@ const DashboardContainer = () => {
 
 }
 
-export default DashboardContainer;
+export default ObservabilityContainer;
