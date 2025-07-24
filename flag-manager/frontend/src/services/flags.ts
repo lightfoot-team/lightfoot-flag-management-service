@@ -30,19 +30,6 @@ export const getAllFlags = async() => {
  */
 export const addFlag = async (flagFormDetails: ParsedFlagFormDetails) => {
   const createdAt = new Date(Date.now()).toUTCString();
-  // If the flag is a boolean type
-  //  Grab the variants object
-  //  Iterate over the keys 
-  //  Convert each keys' value to its boolean type
-  
-  // const transformedFlag: TransformedFlagFormDetails = {};
-  // const variantsObject = flagFormDetails.variants;
-  // console.log(variantsObject);  
-  // if (flagFormDetails.flagType === "boolean") {
-  //   Object.keys(variantsObject).forEach(key => {
-  //     variantsObject[key] = variantsObject[key] === 'true';
-  //   })
-  // }
   const flagDetails: FlagDetails = {...flagFormDetails, createdAt, isEnabled: false}
   console.log(flagDetails);
   const result = await axios.post(`${baseURL}/add`, flagDetails, axiosConfig);

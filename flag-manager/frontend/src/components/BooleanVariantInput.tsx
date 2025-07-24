@@ -46,48 +46,6 @@ const BooleanFlagVariantInput = ({ formState, setFormState }) => {
           <option value="false">False</option>
         </select>
       </div>
-
-
-
-
-
-
-
-
-      {/* {
-        // Remove select option
-        // Create two divs - one for the true variant, one for the false variant
-        // Label one as true and the other as false
-        // Handle how to add the variant key and true/false values to the formstate
-        formState.variants.map((pair, index) => {
-          return (
-            <div key={index}>
-              <input
-                type="text"
-                placeholder="Key"
-                value={pair.key}
-                onChange={(e) => {
-                  const newVariants = [...formState.variants];
-                  newVariants[index].key = e.target.value;
-                  setFormState({ ...formState, variants: newVariants });
-                }} 
-                required
-              />
-              <select
-                value={pair.value || "true"}
-                onChange={(e) => {
-                  const newVariants = [...formState.variants];
-                  newVariants[index].value = e.target.value;
-                  setFormState({ ...formState, variants: newVariants });
-                }}
-              >
-                <option value="true">True</option>
-                <option value="false">False</option>
-              </select>
-            </div>
-          )
-        })
-      } */}
     </>
   )
 }
