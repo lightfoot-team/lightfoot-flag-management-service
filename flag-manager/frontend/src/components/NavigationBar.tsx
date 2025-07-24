@@ -7,6 +7,9 @@ const NavigationBar = () => {
         <Link to="/flags">Flags</Link>
       </li>
       <li>
+        <Link to="/flags/observability">Observability</Link>
+      </li>
+      <li>
         <Link to="/flags/add">Add New Flag</Link>
       </li>
       <li>
