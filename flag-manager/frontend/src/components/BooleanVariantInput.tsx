@@ -1,5 +1,10 @@
 import { useState } from "react";
 
+// interface BooleanInputProps {
+//   formState: object;
+//   setFormState: () => void
+// }
+
 const BooleanFlagVariantInput = ({ formState, setFormState }) => {
   const [booleanVariants, setBooleanVariants] = useState([{key: '', value: true}, {key: '', value: false}]);
 
