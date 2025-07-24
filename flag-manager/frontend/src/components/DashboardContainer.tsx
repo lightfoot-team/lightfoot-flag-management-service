@@ -17,7 +17,7 @@ const DashboardContainer = () => {
       } else {
       const response = await createDashboard(redDashboardBody);
       console.log(response);
-      uids.push('redDashboardBody.metadata.name')
+      uids.push(redDashboardBody.metadata.name)
     }
     }
     dashboard()
