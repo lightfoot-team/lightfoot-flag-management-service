@@ -8,25 +8,49 @@ import {
 import { addFlag } from "../services/flags";
 import RHFBooleanFlagVariantInput from "./RHFBooleanVariantInput";
 import NonBooleanFlagVariantInput from './NonBooleanVariantInput';
+import { useEffect } from "react";
 
 const FormHook = () => {
   const { 
     register,
     handleSubmit,
     formState: { errors },
-    watch
+    watch,
+    setValue
   } = useForm<FlagFormDetails>({
     defaultValues: {
       flagKey: '',
       flagType: 'boolean',
-      variants: [{key: '', value: ''}],
+      variants: [
+        {key: '', value: 'true'},
+        {key: '', value: 'false'}
+      ],
       defaultVariant: ''
     }
   })
 
   const navigate = useNavigate();
-
   const flagType = watch("flagType");
+
+  useEffect(() => {
+    const getDefaultVariants = (flagType: string) => {
+      switch (flagType) {
+        case 'boolean':
+          return [
+            { key: '', value: "true" },
+            { key: '', value: "false" }
+          ];
+        case 'string':
+        case 'number':
+        case 'object':
+          return [{ key: '', value: '' }];
+        default:
+          return [{ key: '', value: '' }];
+      }
+    };
+
+    setValue('variants', getDefaultVariants(flagType));
+  }, [flagType, setValue]);
 
   const onSubmit = (data) => {
     console.log(data);
@@ -84,8 +108,14 @@ const FormHook = () => {
 
       <div>
         <label>Variants</label>
-        {flagType === "boolean" && <RHFBooleanFlagVariantInput register={register} />}
-        {flagType !== "boolean" && <NonBooleanFlagVariantInput />}
+        {flagType === "boolean" && (
+          <RHFBooleanFlagVariantInput 
+            register={register} 
+            errors={errors}
+
+          />
+        )}
+        {/*flagType !== "boolean" && <NonBooleanFlagVariantInput />}
         {/*}
         {flagType === "number" && <NumberFlagVariantInput />}
         {flagType === "string" && <StringFlagVariantInput />}
