@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { createDashboard, getDashboard } from "../services/grafana";
 import { uids } from "../models/dashboard";
 import { redDashboardBody } from "../models/dashboard";
-
+// uids.pop();
 const ObservabilityContainer = () => {
   console.log('Name:', redDashboardBody.metadata.name)
   useEffect(() => {
