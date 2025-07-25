@@ -45,8 +45,8 @@ const ObservabilityContainer = () => {
       >
       </Panel>
 
-      {/* <Dashboard dashboardId={redDashboardBody.metadata.name} variables={[]}>
-      </Dashboard> */}
+      <Dashboard dashboardId={redDashboardBody.metadata.name} variables={[]}>
+      </Dashboard>
 
     </div>
   )
