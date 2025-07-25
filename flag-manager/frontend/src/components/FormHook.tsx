@@ -23,8 +23,11 @@ const FormHook = () => {
     }
   })
 
+  const navigate = useNavigate();
+
   const onSubmit = (data) => {
     console.log(data);
+    // navigate('/flags');
   }
 
   return (
