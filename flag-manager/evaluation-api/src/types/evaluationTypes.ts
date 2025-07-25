@@ -1,4 +1,5 @@
-
+import { type FlagType, type FlagValue } from "./flagTypes";
+import { ErrorCode, FlagMetadata } from "@openfeature/server-sdk";
 export interface EvaluationContext {
   targetingKey: string, // unique identifier for subject (ie UUID or hash of username)
   kind: string
@@ -39,7 +40,14 @@ export interface EvaluationRule {
   variant: string //TODO: should exist on flag type
 }
 
-
+export interface FlagResolution {
+  value: FlagValue
+  variant?: string
+  reason?: string
+  errorCode?: ErrorCode
+  errorMessage?: string
+  flagMetadata?: FlagMetadata
+}
 /*
 Rule: 
   contextKind: user

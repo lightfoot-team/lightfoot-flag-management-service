@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import DBPersistence from '../lib/db-persistence';
 const db = new DBPersistence();
-import { type Flag } from '../types/flagTypes';
-import { type EvaluationContext, type EvaluationRule, type Operator} from '../types/evaluationTypes';
+import { type Flag, type FlagType} from '../types/flagTypes';
+import { FlagResolution, type EvaluationContext, type EvaluationRule, type Operator} from '../types/evaluationTypes';
 import { getEvaluationFunction } from '../utils/operators';
 
 /**
@@ -26,7 +26,7 @@ const matchesRule = (contextValue: unknown, operator: Operator, ruleValue: unkno
  * @param flag the flag to evaluate
  * @returns the matching variant, falling back to default variant if no rule applies
  */
-export const evaluateFlagVariant = async (evaluationContext: EvaluationContext, flag: Flag) => {
+export const evaluateFlag = async (evaluationContext: EvaluationContext, flag: Flag): Promise<FlagResolution>=> {
   const evaluationRules = await db.getMatchingRules(flag.flagKey) // TODO: add call to look up all matching values for each rule
 
   for (let i = 0; i < evaluationRules.length; i++) {
@@ -37,11 +37,19 @@ export const evaluateFlagVariant = async (evaluationContext: EvaluationContext, 
     for (let j = 0; j < values.length; j++) {
       const value = values[j].val
       if (matchesRule(contextValue, rule.operator, value)) { 
-        return flag.variants[rule.variant]
+        return {
+          value: flag.variants[rule.variant],
+          variant: rule.variant,
+          reason: "TARGETING_MATCH"
+        }
       }
     }
   }
-  return flag.variants[flag.defaultVariant];
+  return {
+    value: flag.variants[flag.defaultVariant],
+    variant: flag.defaultVariant,
+    reason: "DEFAULT"
+  }
 }
 
 //TODO: find cleaner way to handle this
@@ -66,15 +74,18 @@ export const getFlagEvaluation = async (req: Request, res: Response, next: NextF
     if (flag === null) {
       res.status(404).json({}) // TODO: send evaluation reason (see OpenFeature docs), may need to refactor expected response in provider
     } else {
-    let flagEvaluation;
+    let flagResolution: FlagResolution;
     
     if (!flag.isEnabled) {
-      flagEvaluation = disabledFlagValues[flag.flagType];
+      flagResolution = {
+        value: disabledFlagValues[flag.flagType] as FlagType,
+        reason: 'DISABLED',
+      }
     } else {
-      flagEvaluation = await evaluateFlagVariant(context, flag as Flag) //TODO; replace 'as' with zod parse
+      flagResolution = await evaluateFlag(context, flag as Flag) //TODO; replace 'as' with zod parse
     }
     
-    res.status(200).json(flagEvaluation)
+    res.status(200).json(flagResolution)
   }
   } catch (err) {
     next(err)
