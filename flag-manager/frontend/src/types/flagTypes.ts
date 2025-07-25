@@ -24,8 +24,7 @@ export type Product = z.infer<typeof FlagSchema>;
 export interface FlagFormDetails {
   flagKey: string;
   flagType: string;
-  variantKey: string;
-  variantValue: string;
+  variants: Variant[];
   defaultVariant: string;
 }
 

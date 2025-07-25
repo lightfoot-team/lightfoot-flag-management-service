@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
 import { 
-  // type FlagFormDetails,
+  type FlagFormDetails,
   type ParsedFlagFormDetails,
   type Variant,
  } from "../types/flagTypes";
@@ -14,7 +14,7 @@ const FormHook = () => {
     register,
     handleSubmit,
     formState: { errors } 
-  } = useForm({
+  } = useForm<FlagFormDetails>({
     defaultValues: {
       flagKey: '',
       flagType: 'boolean',
