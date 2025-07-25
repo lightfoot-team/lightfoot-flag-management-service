@@ -6,7 +6,7 @@ import {
   type Variant,
  } from "../types/flagTypes";
 import { addFlag } from "../services/flags";
-import BooleanFlagVariantInput from './BooleanVariantInput';
+import RHFBooleanFlagVariantInput from "./RHFBooleanVariantInput";
 import NonBooleanFlagVariantInput from './NonBooleanVariantInput';
 
 const FormHook = () => {
@@ -84,7 +84,7 @@ const FormHook = () => {
 
       <div>
         <label>Variants</label>
-        {flagType === "boolean" && <BooleanFlagVariantInput />}
+        {flagType === "boolean" && <RHFBooleanFlagVariantInput register={register} />}
         {flagType !== "boolean" && <NonBooleanFlagVariantInput />}
         {/*}
         {flagType === "number" && <NumberFlagVariantInput />}
