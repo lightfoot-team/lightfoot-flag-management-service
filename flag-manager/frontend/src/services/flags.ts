@@ -30,9 +30,7 @@ export const getAllFlags = async() => {
 export const addFlag = async (flagFormDetails: ParsedFlagFormDetails) => {
   const createdAt = new Date(Date.now()).toUTCString();
   const flagDetails: FlagDetails = {...flagFormDetails, createdAt, isEnabled: false}
-  console.log(flagDetails);
   const result = await axios.post(`${baseURL}/add`, flagDetails, axiosConfig);
-  // console.log('result:', result)
   return result;
 }
 

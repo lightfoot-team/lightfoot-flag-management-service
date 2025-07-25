@@ -74,7 +74,6 @@ export const getFlagEvaluation = async (req: Request, res: Response, next: NextF
       flagEvaluation = await evaluateFlagVariant(context, flag as Flag) //TODO; replace 'as' with zod parse
     }
     
-    console.log('response:', { data: flagEvaluation })
     res.status(200).json(flagEvaluation)
   }
   } catch (err) {
