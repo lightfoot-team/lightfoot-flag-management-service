@@ -4,7 +4,7 @@ body {
 .navBar {
   background-color: rgb(218, 226, 246);
   display: grid;
-  grid-template-columns: 25% 25% 25% 25%;
+  grid-template-columns: 20% 20% 20% 20% 20%;
 }
 h1 {
   margin-left: 5%;

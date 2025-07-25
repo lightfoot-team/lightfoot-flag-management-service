@@ -4,7 +4,9 @@ import NewFlagForm from "./components/NewFlagForm"
 import Flags from "./components/Flags"
 import ObservabilityContainer from "./components/ObservabilityContainer"
 import FormHook from "./components/FormHook"
+import FlagView from "./components/FlagView"
 import './App.css'
+import Rules from "./components/Rules"
 function App() {
 
   return (
@@ -16,6 +18,7 @@ function App() {
         <Route path="flags/observability" element={<ObservabilityContainer />} />
         <Route path="flags/add" element={<NewFlagForm />} />
         <Route path="flags/hook-form" element={<FormHook />} />
+        <Route path="flags/rules" element={<Rules></Rules>}/>
       </Route>
     </Routes>
     </div>
