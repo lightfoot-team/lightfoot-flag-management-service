@@ -30,12 +30,28 @@ const FormHook = () => {
     // navigate('/flags');
   }
 
+  console.log("errors", errors);
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div>
         <label htmlFor="flag-key">Flag Key</label>
         <input 
-          {...register("flagKey", {required: true}) }
+          {...register("flagKey", {
+            required: {
+              value: true,
+              message: "Flag Key is required"
+            },
+            minLength: {
+              value: 1,
+              message: "Flag Key must be at least 1 character long."
+            },
+            maxLength: {
+              value: 100,
+              message: "Flag Key must be less than 100 characters."
+            }
+          })
+          }
           type="text"
           id="flag-key"
           placeholder="Flag Key"
