@@ -13,7 +13,8 @@ const FormHook = () => {
   const { 
     register,
     handleSubmit,
-    formState: { errors } 
+    formState: { errors },
+    watch
   } = useForm<FlagFormDetails>({
     defaultValues: {
       flagKey: '',
@@ -24,6 +25,8 @@ const FormHook = () => {
   })
 
   const navigate = useNavigate();
+
+  const flagType = watch("flagType");
 
   const onSubmit = (data) => {
     console.log(data);
@@ -79,17 +82,18 @@ const FormHook = () => {
         </select>
       </div>
 
-      {/*
       <div>
         <label>Variants</label>
-        {formState.flagType === "boolean" && (
-          <BooleanFlagVariantInput formState={formState} setFormState={setFormState} />
-        )}
-        {formState.flagType !== "boolean" && (
-          <NonBooleanFlagVariantInput formState={formState} setFormState={setFormState} />
-        )}
+        {flagType === "boolean" && <BooleanFlagVariantInput />}
+        {flagType !== "boolean" && <NonBooleanFlagVariantInput />}
+        {/*}
+        {flagType === "number" && <NumberFlagVariantInput />}
+        {flagType === "string" && <StringFlagVariantInput />}
+        {flagType === "object" && <ObjectFlagVariantInput />}
+        */}
       </div>
 
+      {/*
       <div>
         <label htmlFor="default-variant">Default Variant</label>
         <input
