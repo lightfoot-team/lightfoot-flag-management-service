@@ -2,20 +2,20 @@ import { Link } from "react-router-dom"
 
 const NavigationBar = () => {
   return (
-    <ul>
-      <li>
+    <div className='navBar container'>
+      <div className = 'navBar item'>
         <Link to="/flags">Flags</Link>
-      </li>
-      <li>
+      </div>
+      <div className = 'navBar item'>
         <Link to="/flags/observability">Observability</Link>
-      </li>
-      <li>
+      </div>
+      <div className = 'navBar item'>
         <Link to="/flags/add">Add New Flag</Link>
-      </li>
-      <li>
+      </div>
+      <div className = 'navBar item'>
         <Link to="/flags/hook-form">Form Refactor In Progress</Link>
-      </li>
-    </ul>
+      </div>
+    </div>
   )
 }
 

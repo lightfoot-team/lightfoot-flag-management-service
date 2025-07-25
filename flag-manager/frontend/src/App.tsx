@@ -4,7 +4,7 @@ import NewFlagForm from "./components/NewFlagForm"
 import Flags from "./components/Flags"
 import ObservabilityContainer from "./components/ObservabilityContainer"
 import FormHook from "./components/FormHook"
-
+import './App.css'
 function App() {
 
   return (
