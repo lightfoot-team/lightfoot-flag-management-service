@@ -58,17 +58,18 @@ const FormHook = () => {
         />
       </div>
 
-      {/* <div>
+      <div>
         <label htmlFor="flag-type">Flag Type</label>
         <select
           id="flag-type"
-          value={formState.flagType}
-          onChange={(e) =>
-            setFormState({
-              ...formState,
-              flagType: e.target.value
-            })
+          {...register("flagType", {
+            required: {
+              value: true,
+              message: "You must select a flag type."
+            }
           }
+
+          )}
           required
         >
           <option value="boolean">boolean</option>
@@ -78,6 +79,7 @@ const FormHook = () => {
         </select>
       </div>
 
+      {/*
       <div>
         <label>Variants</label>
         {formState.flagType === "boolean" && (
