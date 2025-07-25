@@ -1,5 +1,4 @@
-// import { useForm } from "react-hook-form";
-import { useState } from 'react';
+import { useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
 import { 
   // type FlagFormDetails,
@@ -11,69 +10,36 @@ import BooleanFlagVariantInput from './BooleanVariantInput';
 import NonBooleanFlagVariantInput from './NonBooleanVariantInput';
 
 const FormHook = () => {
-  const navigate = useNavigate();
-  
-  const [formState, setFormState] = useState({
-    flagKey: '',
-    flagType: 'boolean',
-    variants: [{ key: '', value: '' }],
-    default: ''
-  });
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const variantsObject: Variant = {};
-    formState.variants.forEach(pair => {
-      if (pair.key.trim() !== '') {
-        variantsObject[pair.key] = pair.value;
-      }
-
-      if (formState.flagType === 'boolean') {
-        if (pair.value === '') {
-          variantsObject[pair.key] = 'true';
-        }
-      }
-    });
-    const parsedData: ParsedFlagFormDetails = {
-      flagKey: formState.flagKey,
-      flagType: formState.flagType,
-      variants: variantsObject,
-      defaultVariant: formState.default
-    };
-
-    await addFlag(parsedData);
-
-    setFormState({
+  const { 
+    register,
+    handleSubmit,
+    formState: { errors } 
+  } = useForm({
+    defaultValues: {
       flagKey: '',
       flagType: 'boolean',
-      variants: [{ key: '', value: '' }],
+      variants: [{key: '', value: ''}],
       default: ''
-    });
+    }
+  })
 
-    navigate('/flags');
-  };
+  const onSubmit = (data) => {
+    console.log(data);
+  }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div>
         <label htmlFor="flag-key">Flag Key</label>
-        <input
-          id="flag-key"
+        <input 
+          {...register("flagKey", {required: true}) }
           type="text"
+          id="flag-key"
           placeholder="Flag Key"
-          value={formState.flagKey}
-          onChange={(e) =>
-            setFormState({
-              ...formState,
-              flagKey: e.target.value
-            })
-          }
-          required
         />
       </div>
 
-      <div>
+      {/* <div>
         <label htmlFor="flag-type">Flag Type</label>
         <select
           id="flag-type"
@@ -118,7 +84,7 @@ const FormHook = () => {
           }
           required
         />
-      </div>
+      </div> */}
 
       <button type="submit">Create Flag</button>
     </form>
