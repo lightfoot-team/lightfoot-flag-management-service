@@ -19,7 +19,7 @@ const FormHook = () => {
       flagKey: '',
       flagType: 'boolean',
       variants: [{key: '', value: ''}],
-      default: ''
+      defaultVariant: ''
     }
   })
 
