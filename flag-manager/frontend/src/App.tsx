@@ -2,9 +2,10 @@ import { Route, Routes } from "react-router-dom"
 import Layout from "./components/Layout"
 import NewFlagForm from "./components/NewFlagForm"
 import Flags from "./components/Flags"
-//import DashboardContainer from "./components/ObservabilityContainer"
-import ObservabilityContainer from "./components/ObservabilityContainer"
+import DashboardContainer from "./components/ObservabilityContainer"
 import FormHook from "./components/FormHook"
+import ObservabilityContainer from "./components/ObservabilityContainer"
+
 import FlagView from "./components/FlagView"
 import './App.css'
 import Rules from "./components/Rules"

@@ -1,10 +1,10 @@
 import Panel from "./Panel";
-import Dashboard from "./Dashboard"
+// import Dashboard from "./Dashboard"
 import { useEffect } from "react";
 import { createDashboard, getDashboard } from "../services/grafana";
 import { uids } from "../models/dashboard";
 import { redDashboardBody } from "../models/dashboard";
-
+// uids.pop();
 const ObservabilityContainer = () => {
   console.log('Name:', redDashboardBody.metadata.name)
   useEffect(() => {
@@ -44,10 +44,18 @@ const ObservabilityContainer = () => {
         variables={[]}
       >
       </Panel>
-
-      {/* <Dashboard dashboardId={redDashboardBody.metadata.name} variables={[]}>
-      </Dashboard> */}
-
+      <Panel
+        dashboardId={redDashboardBody.metadata.name}
+        panelId={2}
+        variables={[]}
+      >
+      </Panel>
+      <Panel
+        dashboardId={redDashboardBody.metadata.name}
+        panelId={3}
+        variables={[]}
+      >
+      </Panel>
     </div>
   )
 
