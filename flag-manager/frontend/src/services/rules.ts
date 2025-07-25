@@ -21,3 +21,15 @@ export const addRule = async (rule: EvaluationRule) => {
   console.log('result:', result)
   return result;
 }
+
+export const getRules = async () => {
+  return [{
+      name: 'test rule (need to implement api call)',
+      contextKind: 'user',
+      attribute: 'email',
+      operator: 'equals',
+      values: ['something@example.com'],
+      flagKey: 'featured-park',
+      variant: 'on'
+  }]
+}

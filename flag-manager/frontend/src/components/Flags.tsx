@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { type FlagDetails } from "../types/flagTypes";
 import { getAllFlags, deleteFlag, toggleFlag } from "../services/flags";
-import Flag from "./Flag";
-
+// import Flag from "./Flag";
+import FlagListItem from "./FlagListItem";
 const Flags = () => {
   const [flags, setFlags] = useState<Array<FlagDetails>>([]);
 
@@ -37,7 +37,7 @@ const Flags = () => {
       <h1>Flags</h1>
       {flags.map((flag) => {
         return (
-          <Flag flagDetails={flag} onDeleteFlag={handleDeleteFlag} onToggleFlag={handleToggleFlag} key={flag.flagKey} />
+          <FlagListItem flagDetails={flag} onDeleteFlag={handleDeleteFlag} onToggleFlag={handleToggleFlag} key={flag.flagKey} />
         )
       })}
     </>

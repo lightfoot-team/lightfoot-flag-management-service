@@ -20,8 +20,8 @@ export default function Panel(panelProps: PanelProps) {
   return (
     <iframe
       src={iframeSrc}
-      width="450"
-      height="200"
+      width="80%"
+      height="300px"
     ></iframe>
   );
 }

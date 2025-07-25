@@ -1,0 +1,41 @@
+body {
+  font-family: sans-serif
+}
+.navBar {
+  background-color: rgb(218, 226, 246);
+  display: grid;
+  grid-template-columns: 20% 20% 20% 20% 20%;
+}
+h1 {
+  margin-left: 5%;
+}
+.navBar .item {
+ border-style: solid;
+ border-width: 1px;
+ padding: 4%;
+ align-items: center;
+ text-wrap: nowrap;
+}
+.flag-list-item {
+  border-style: solid;
+  padding: 1%;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-bottom: 2%;
+}
+.variant-container {
+  display: grid;
+  grid-template-columns: 25% 25%;
+  margin-bottom: 1%;
+  align-items: center;
+}
+.variant {
+  border-style: solid;
+  padding: 4%;
+  margin: 1%;
+}
+.value {
+  border-style: solid;
+  padding: 4%;
+  margin: 1%;
+}
