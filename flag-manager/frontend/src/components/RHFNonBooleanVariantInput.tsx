@@ -1,26 +1,12 @@
-import { useFieldArray } from "react-hook-form";
 
 const RHFNonBooleanVariantInput = ({ 
-  control,
   register,
   errors,
-  flagType
+  flagType,
+  fields,
+  append,
+  remove
 }) => {
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: "variants",
-    rules: {
-      required: "At least one variant is required.",
-      minLength: {
-        value: 1,
-        message: "At least one variant is required."
-      },
-      maxLength: {
-        value: 5,
-        message: "Maximum 5 variants allowed."
-      }
-    }
-  });
 
   const addVariant = () => {
     if (fields.length < 5) {
@@ -67,7 +53,7 @@ const RHFNonBooleanVariantInput = ({
             <div className="variant-inputs">
               <label htmlFor={`variant-${index}-key`}>Key</label>
               <input
-                {...register(`variant.${index}.key`, validation.key)}
+                {...register(`variants.${index}.key`, validation.key)}
                 id={`variant-${index}-key`}
                 type="text"
                 placeholder="Enter variant key"

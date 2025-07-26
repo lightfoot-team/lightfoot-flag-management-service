@@ -6,6 +6,7 @@ import {
   type Variant,
  } from "../types/flagTypes";
 import { addFlag } from "../services/flags";
+import { useFieldArray } from "react-hook-form";
 import RHFBooleanFlagVariantInput from "./RHFBooleanVariantInput";
 import RHFNonBooleanVariantInput from "./RHFNonBooleanVariantInput";
 import { useEffect } from "react";
@@ -32,6 +33,22 @@ const FormHook = () => {
 
   const navigate = useNavigate();
   const flagType = watch("flagType");
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "variants",
+    rules: {
+      required: "At least one variant is required.",
+      minLength: {
+        value: 1,
+        message: "At least one variant is required."
+      },
+      maxLength: {
+        value: 5,
+        message: "Maximum 5 variants allowed."
+      }
+    }
+  });
 
   useEffect(() => {
     const getDefaultVariants = (flagType: string) => {
@@ -118,7 +135,9 @@ const FormHook = () => {
         )}
         {flagType !== "boolean" && (
           <RHFNonBooleanVariantInput 
-            control={control}
+            fields={fields}
+            append={append}
+            remove={remove}
             register={register}
             errors={errors}
             flagType={flagType}

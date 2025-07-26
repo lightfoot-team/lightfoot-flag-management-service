@@ -5,7 +5,7 @@ const RHFBooleanFlagVariantInput = ({ register, errors, setValue }) => {
   useEffect(() => {
     setValue("variants.0.value", "true");
     setValue("variants.1.value", "false");
-  }, []); // Only run once when component mounts
+  }, []); 
 
   return (
     <div>
