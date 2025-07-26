@@ -1,10 +1,10 @@
-import { getFlagEvaluation, evaluateFlagVariant } from '../../src/controllers/controller';
-import DBPersistence from '../../src/lib/db-persistence';
+import { getFlagEvaluation, evaluateFlag } from '../../src/controllers/controller';
+import DBPersistence from '../../src/lib/dbPersistence';
 import { Request, Response, NextFunction } from 'express';
 import { type EvaluationRule, type EvaluationContext, type UserEvaluationContext } from '../../src/types/evaluationTypes';
 import { type Flag } from '../../src/types/flagTypes';
 
-jest.mock('../../src/lib/db-persistence');
+jest.mock('../../src/lib/dbPersistence');
 
 const mockFlag: Flag = {
   id: 1,
@@ -23,6 +23,7 @@ const mockUserContext: UserEvaluationContext = {
 }
 
 const mockRuleEmailEquals: EvaluationRule = {
+  name: 'evaluation rule',
   contextKind: 'user',
   attribute: 'email',
   operator: 'equals',
@@ -48,7 +49,7 @@ describe('evaluateFlagVariant',() => {
     let resultArr = [mockRuleEmailEquals];
     const mockGetRules = jest.spyOn(DBPersistence.prototype, 'getMatchingRules').mockImplementation(async (flagKey) => resultArr);
     
-    const result = await evaluateFlagVariant(mockUserContext, mockFlag);
+    const result = await evaluateFlag(mockUserContext, mockFlag);
     expect(result).toBe('red');
   })
 
@@ -57,7 +58,7 @@ describe('evaluateFlagVariant',() => {
     let resultArr: Array<EvaluationRule> = [];
     const mockGetRules = jest.spyOn(DBPersistence.prototype, 'getMatchingRules').mockImplementation(async (flagKey) => resultArr);
     
-    const result = await evaluateFlagVariant(mockUserContext, mockFlag);
+    const result = await evaluateFlag(mockUserContext, mockFlag);
     expect(result).toBe('blue');
   })
 })

@@ -26,7 +26,7 @@ const FlagView:React.FC<FlagProps> = ({ flagDetails, onDeleteFlag, onToggleFlag 
           return (
             <div className='variant-container'>
               <div className='variant'>{entry[0]}</div>
-              <div className='value'>{entry[1]}</div>
+              <div className='value'>{String(entry[1])}</div>
             </div>
           )
         })}

@@ -36,6 +36,7 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "@openfeature/server-sdk": "^1.18.0",
     "cors": "^2.8.5",
     "pg": "^8.16.3",
     "typescript-eslint": "^8.38.0",

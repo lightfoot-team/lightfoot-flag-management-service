@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 interface PanelProps {
   dashboardId: string
   panelId: number
@@ -5,6 +7,8 @@ interface PanelProps {
 }
 export default function Panel(panelProps: PanelProps) {
   const {dashboardId, panelId, variables} = panelProps
+  const [refreshKey, setRefreshKey] = useState(0);
+
   const baseUrl = 'http://localhost:3002';
   const queryParams = new URLSearchParams({
     orgId: '1',
@@ -17,11 +21,19 @@ export default function Panel(panelProps: PanelProps) {
 
   const iframeSrc = `${baseUrl}/d-solo/${dashboardId}?${queryParams}`;
 
+  const handleRefresh = () => {
+    setRefreshKey(prev => prev + 1);
+  };
+
   return (
-    <iframe
-      src={iframeSrc}
-      width="80%"
-      height="300px"
-    ></iframe>
+    <div>
+      <button onClick={handleRefresh}>Refresh panel</button>
+      <iframe
+        key={refreshKey}
+        src={iframeSrc}
+        width="80%"
+        height="300px"
+      ></iframe>
+    </div>
   );
 }

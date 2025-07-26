@@ -8,6 +8,7 @@ interface FlagProps {
 }
 
 const testUserEvaluationContext: UserEvaluationContext = {
+  targetingKey: '',
   kind: 'user',
   name: '',
   email: '',
