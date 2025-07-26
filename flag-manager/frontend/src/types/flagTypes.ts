@@ -13,7 +13,7 @@ export const FlagSchema = z.object({
 
 export const FlagsSchema = z.array(FlagSchema);
 
-type FlagValue = string | number | boolean | object
+export type FlagValue = string | number | boolean | object
 
 export interface Variant {
   [key: string]: FlagValue;
