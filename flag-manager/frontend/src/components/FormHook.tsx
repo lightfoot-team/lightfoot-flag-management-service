@@ -131,23 +131,12 @@ const FormHook = () => {
         */}
       </div>
 
-      {/*
       <div>
         <label htmlFor="default-variant">Default Variant</label>
-        <input
+        <select
           id="default-variant"
-          type="text"
-          placeholder="Default Variant"
-          value={formState.default}
-          onChange={(e) =>
-            setFormState({
-              ...formState,
-              default: e.target.value
-            })
-          }
-          required
         />
-      </div> */}
+      </div>
 
       <button type="submit">Create Flag</button>
     </form>
