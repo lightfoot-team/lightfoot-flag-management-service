@@ -1,8 +1,8 @@
 export type FlagType = 'boolean' | 'string' | 'number' | 'object';
 
-type FlagValue = string | number | boolean | object
+export type FlagValue = string | number | boolean | object
 
-interface Variant {
+export interface Variant {
   [key: string]: FlagValue;
 }
 
@@ -19,4 +19,3 @@ export interface NewFlag {
 export interface Flag extends NewFlag {
   id: number;
 }
-

@@ -19,7 +19,7 @@ export interface Variant {
   [key: string]: FlagValue;
 }
 
-export type Product = z.infer<typeof FlagSchema>;
+export type Flag = z.infer<typeof FlagSchema>;
 
 export interface FlagFormDetails {
   flagKey: string;

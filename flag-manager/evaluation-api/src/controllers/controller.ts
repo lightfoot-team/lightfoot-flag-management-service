@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import DBPersistence from '../lib/db-persistence';
+import DBPersistence from '../lib/dbPersistence';
 const db = new DBPersistence();
 import { type Flag, type FlagType} from '../types/flagTypes';
 import { FlagResolution, type EvaluationContext, type EvaluationRule, type Operator} from '../types/evaluationTypes';
