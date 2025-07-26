@@ -7,7 +7,7 @@ import {
  } from "../types/flagTypes";
 import { addFlag } from "../services/flags";
 import RHFBooleanFlagVariantInput from "./RHFBooleanVariantInput";
-import NonBooleanFlagVariantInput from './NonBooleanVariantInput';
+import RHFNonBooleanVariantInput from "./RHFNonBooleanVariantInput";
 import { useEffect } from "react";
 
 const FormHook = () => {
@@ -16,7 +16,8 @@ const FormHook = () => {
     handleSubmit,
     formState: { errors },
     watch,
-    setValue
+    setValue,
+    control
   } = useForm<FlagFormDetails>({
     defaultValues: {
       flagKey: '',
@@ -112,10 +113,17 @@ const FormHook = () => {
           <RHFBooleanFlagVariantInput 
             register={register} 
             errors={errors}
-
+            setValue={setValue}
           />
         )}
-        {/*flagType !== "boolean" && <NonBooleanFlagVariantInput />}
+        {flagType !== "boolean" && (
+          <RHFNonBooleanVariantInput 
+            control={control}
+            register={register}
+            errors={errors}
+            flagType={flagType}
+          />
+        )}
         {/*}
         {flagType === "number" && <NumberFlagVariantInput />}
         {flagType === "string" && <StringFlagVariantInput />}

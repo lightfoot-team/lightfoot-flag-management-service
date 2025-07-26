@@ -1,8 +1,16 @@
-const RHFBooleanFlagVariantInput = ({ register, errors }) => {
+import { useEffect } from "react";
+
+const RHFBooleanFlagVariantInput = ({ register, errors, setValue }) => {
+
+  useEffect(() => {
+    setValue("variants.0.value", "true");
+    setValue("variants.1.value", "false");
+  }, []); // Only run once when component mounts
+
   return (
     <div>
       <div>
-        <label htmlFor="variant-true-key"></label>
+        <label htmlFor="variant-true-key">Key</label>
         <input
           {...register("variants.0.key", {
             required: {
@@ -23,16 +31,15 @@ const RHFBooleanFlagVariantInput = ({ register, errors }) => {
           type="text"
           placeholder="Key for true value"
         />
-        <label>True</label>
         <input 
           {...register("variants.0.value")}
-          type="hidden"
-          value="true"
+          type="text"
+          readOnly
         />
       </div>
 
       <div>
-        <label htmlFor="variant-false-key"></label>
+        <label htmlFor="variant-false-key">Key</label>
         <input
           {...register("variants.1.key", {
             required: {
@@ -53,11 +60,10 @@ const RHFBooleanFlagVariantInput = ({ register, errors }) => {
           type="text"
           placeholder="Key for false value"
         />
-        <label>False</label>
         <input 
           {...register("variants.1.value")}
-          type="hidden"
-          value="false"
+          type="text"
+          readOnly
         />
       </div>
     </div>
