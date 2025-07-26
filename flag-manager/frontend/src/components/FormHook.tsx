@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { useMemo } from "react";
 import { useNavigate } from 'react-router-dom';
 import { 
   type FlagFormDetails,
@@ -33,6 +34,10 @@ const FormHook = () => {
 
   const navigate = useNavigate();
   const flagType = watch("flagType");
+  const variants = watch("variants") || [];
+  const validOptions = variants.filter(variant => 
+    variant?.key && variant.key.trim() !== ''
+  );
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -49,6 +54,8 @@ const FormHook = () => {
       }
     }
   });
+
+  
 
   useEffect(() => {
     const getDefaultVariants = (flagType: string) => {
@@ -153,8 +160,26 @@ const FormHook = () => {
       <div>
         <label htmlFor="default-variant">Default Variant</label>
         <select
+          {...register("defaultVariant", {
+            required: validOptions.length > 0 ? "Please select a default variant" : "Add variants first",
+            validate: (value) => {
+              if (!value) return true;
+              const variantKeys = validOptions.map(v => v.key);
+              return variantKeys.includes(value) || "Default variant must match an existing variant key"
+            }
+          })}
           id="default-variant"
-        />
+          disabled={validOptions.length <= 0}
+        >
+          <option value="">
+            {validOptions.length > 0 ? "Select a default variant" : "No variants available"}
+          </option>
+          {validOptions.map((variant, index) => (
+            <option key={`${variant.key}-${index}`} value={variant.key}>
+              {variant.key}: {variant.value && `${variant.value}`}
+            </option>
+          ))}
+        </select>
       </div>
 
       <button type="submit">Create Flag</button>
