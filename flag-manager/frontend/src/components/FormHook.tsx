@@ -66,13 +66,17 @@ const FormHook = () => {
     setValue('variants', getDefaultVariants(flagType));
   }, [flagType, setValue]);
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log(data);
     console.log("Validation passed!");
-    // navigate('/flags');
+    try {
+      await addFlag(data);
+      console.log("Flag created successfully")
+      navigate('/flags');
+    } catch (e) {
+      console.error("Error submitting form, please try again", e)
+    }
   }
-
-  console.log("errors", errors);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
