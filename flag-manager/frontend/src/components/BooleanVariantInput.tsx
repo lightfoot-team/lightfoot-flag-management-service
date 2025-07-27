@@ -1,57 +1,72 @@
-import { useState } from "react";
+import { useEffect } from "react";
 
-// interface BooleanInputProps {
-//   formState: object;
-//   setFormState: () => void
-// }
+const BooleanFlagVariantInput = ({ register, errors, setValue }) => {
 
-const BooleanFlagVariantInput = ({ formState, setFormState }) => {
-  const [booleanVariants, setBooleanVariants] = useState([{key: '', value: true}, {key: '', value: false}]);
+  useEffect(() => {
+    setValue("variants.0.value", "true");
+    setValue("variants.1.value", "false");
+  }, []); 
 
   return (
-    <>
-      <div key={0}>
+    <div>
+      <div>
+        <label htmlFor="variant-true-key">Key</label>
         <input
+          {...register("variants.0.key", {
+            required: {
+              value: true,
+              message: "True variant key is required"
+            },
+            minLength: {
+              value: 1,
+              message: "True variant key must be at least 1 character long."
+            },
+            maxLength: {
+              value: 50,
+              message: "True variant key must be fewer than 50 characters long."
+            }
+          })
+          }
+          id="variant-true-key"
           type="text"
-          placeholder="Key"
-          value={booleanVariants[0].key}
-          onChange={(e) => {
-            const newVariants = [...booleanVariants];
-            newVariants[0].key = e.target.value;
-            setBooleanVariants(newVariants);
-            setFormState({ ...formState, variants: newVariants });
-          }}
-          required
+          placeholder="Key for true value"
         />
-        <select>
-          <option value="true">True</option>
-        </select>
+        <input 
+          {...register("variants.0.value")}
+          type="text"
+          readOnly
+        />
       </div>
-      <div key={1}>
+
+      <div>
+        <label htmlFor="variant-false-key">Key</label>
         <input
+          {...register("variants.1.key", {
+            required: {
+              value: true,
+              message: "False variant key is required"
+            },
+            minLength: {
+              value: 1,
+              message: "False variant key must be at least 1 character long."
+            },
+            maxLength: {
+              value: 50,
+              message: "False variant key must be fewer than 50 characters long."
+            }
+          })
+          }
+          id="variant-false-key"
           type="text"
-          placeholder="Key"
-          value={booleanVariants[1].key}
-          onChange={(e) => {
-            const newVariants = [...booleanVariants];
-            newVariants[1].key = e.target.value;
-            setBooleanVariants(newVariants);
-            setFormState({ ...formState, variants: newVariants });
-          }}
-          required
+          placeholder="Key for false value"
         />
-        <select
-          value="false"
-          onChange={(e) => {
-            const newVariants = [...formState.variants];
-            newVariants[1].value = e.target.value;
-            setFormState({ ...formState, variants: newVariants });
-          }}
-        >
-          <option value="false">False</option>
-        </select>
+        <input 
+          {...register("variants.1.value")}
+          type="text"
+          readOnly
+        />
       </div>
-    </>
+    </div>
   )
 }
 

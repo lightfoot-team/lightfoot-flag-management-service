@@ -1,75 +1,92 @@
-// import { useForm } from "react-hook-form";
-import { useState } from 'react';
+import { useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import {
-  // type FlagFormDetails,
-  type ParsedFlagFormDetails,
-  type Variant,
-} from "../types/flagTypes";
+import { useForm } from "react-hook-form";
+import { useFieldArray } from "react-hook-form";
+import { flagFormSchema } from "../types/newFlagZodSchema";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import { addFlag } from "../services/flags";
-import BooleanFlagVariantInput from './BooleanVariantInput';
-import NonBooleanFlagVariantInput from './NonBooleanVariantInput';
+import BooleanFlagVariantInput from "./BooleanVariantInput";
+import NonBooleanVariantInput from "./NonBooleanVariantInput";
+
+type FlagFormDetails = z.infer<typeof flagFormSchema>;
 
 const NewFlagForm = () => {
-  const navigate = useNavigate();
-
-  const [formState, setFormState] = useState({
-    flagKey: '',
-    flagType: 'boolean',
-    variants: [{ key: '', value: '' }],
-    default: ''
-  });
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const variantsObject: Variant = {};
-    formState.variants.forEach(pair => {
-      if (pair.key.trim() !== '') {
-        variantsObject[pair.key] = pair.value;
-      }
-
-      if (formState.flagType === 'boolean') {
-        if (pair.value === '') {
-          variantsObject[pair.key] = 'true';
-        }
-      }
-    });
-    const parsedData: ParsedFlagFormDetails = {
-      flagKey: formState.flagKey,
-      flagType: formState.flagType,
-      variants: variantsObject,
-      defaultVariant: formState.default
-    };
-
-    await addFlag(parsedData);
-
-    setFormState({
+  const { 
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+    setValue,
+    control
+  } = useForm<FlagFormDetails>({
+    resolver: zodResolver(flagFormSchema),
+    defaultValues: {
       flagKey: '',
       flagType: 'boolean',
-      variants: [{ key: '', value: '' }],
-      default: ''
-    });
+      variants: [
+        {key: '', value: 'true'},
+        {key: '', value: 'false'}
+      ],
+      defaultVariant: ''
+    }
+  })
 
-    navigate('/flags');
-  };
+  const navigate = useNavigate();
+  const flagType = watch("flagType");
+  const variants = watch("variants") || [];
+  const validOptions = variants.filter(variant => 
+    variant?.key && variant.key.trim() !== ''
+  );
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "variants",
+  });
+
+  
+
+  useEffect(() => {
+    const getDefaultVariants = (flagType: string) => {
+      switch (flagType) {
+        case 'boolean':
+          return [
+            { key: '', value: "true" },
+            { key: '', value: "false" }
+          ];
+        case 'string':
+        case 'number':
+        case 'object':
+          return [{ key: '', value: '' }];
+        default:
+          return [{ key: '', value: '' }];
+      }
+    };
+
+    setValue('variants', getDefaultVariants(flagType));
+  }, [flagType, setValue]);
+
+  const onSubmit = async (data) => {
+    console.log(data);
+    console.log("Validation passed!");
+    try {
+      await addFlag(data);
+      console.log("Flag created successfully")
+      navigate('/flags');
+    } catch (e) {
+      console.error("Error submitting form, please try again", e)
+    }
+  }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div>
         <label htmlFor="flag-key">Flag Key</label>
-        <input
-          id="flag-key"
+        <input 
+          {...register("flagKey")}
           type="text"
+          id="flag-key"
           placeholder="Flag Key"
-          value={formState.flagKey}
-          onChange={(e) =>
-            setFormState({
-              ...formState,
-              flagKey: e.target.value
-            })
-          }
-          required
         />
       </div>
 
@@ -77,14 +94,7 @@ const NewFlagForm = () => {
         <label htmlFor="flag-type">Flag Type</label>
         <select
           id="flag-type"
-          value={formState.flagType}
-          onChange={(e) =>
-            setFormState({
-              ...formState,
-              flagType: e.target.value
-            })
-          }
-          required
+          {...register("flagType")}
         >
           <option value="boolean">boolean</option>
           <option value="string">string</option>
@@ -95,45 +105,46 @@ const NewFlagForm = () => {
 
       <div>
         <label>Variants</label>
-        {formState.flagType === "boolean" && (
-          <BooleanFlagVariantInput formState={formState} setFormState={setFormState} />
+        {flagType === "boolean" && (
+          <BooleanFlagVariantInput 
+            register={register} 
+            errors={errors}
+            setValue={setValue}
+          />
         )}
-        {formState.flagType !== "boolean" && (
-          <>
-            <NonBooleanFlagVariantInput formState={formState} setFormState={setFormState} />
-            <button
-              type="button"
-              onClick={() =>
-                setFormState({
-                  ...formState,
-                  variants: [...formState.variants, {
-                    key: '',
-                    value: formState.flagType === 'boolean' ? 'true' : ''
-                  }]
-                })
-              }
-            >
-              + Add Variant
-            </button>
-          </>
+        {flagType !== "boolean" && (
+          <NonBooleanVariantInput 
+            fields={fields}
+            append={append}
+            remove={remove}
+            register={register}
+            errors={errors}
+            flagType={flagType}
+          />
         )}
+        {/*}
+        {flagType === "number" && <NumberFlagVariantInput />}
+        {flagType === "string" && <StringFlagVariantInput />}
+        {flagType === "object" && <ObjectFlagVariantInput />}
+        */}
       </div>
 
       <div>
         <label htmlFor="default-variant">Default Variant</label>
-        <input
+        <select
+          {...register("defaultVariant")}
           id="default-variant"
-          type="text"
-          placeholder="Default Variant"
-          value={formState.default}
-          onChange={(e) =>
-            setFormState({
-              ...formState,
-              default: e.target.value
-            })
-          }
-          required
-        />
+          disabled={validOptions.length <= 0}
+        >
+          <option value="">
+            {validOptions.length > 0 ? "Select a default variant" : "No variants available"}
+          </option>
+          {validOptions.map((variant, index) => (
+            <option key={`${variant.key}-${index}`} value={variant.key}>
+              {variant.key}: {variant.value && `${variant.value}`}
+            </option>
+          ))}
+        </select>
       </div>
 
       <button type="submit">Create Flag</button>
@@ -142,115 +153,3 @@ const NewFlagForm = () => {
 };
 
 export default NewFlagForm;
-
-// const NewFlagForm = () => {
-//   const {
-//     register,
-//     handleSubmit,
-//     formState: { errors },
-//   } = useForm<FlagFormDetails>({
-//   });
-
-//   const onSubmit = async (data: FlagFormDetails) => {
-//     const variantKey = data.variantKey;
-//     const variantValue = data.variantValue;
-//     const variants: Variant = {}
-//     variants[variantKey] = variantValue;
-
-//     const parsedData: ParsedFlagFormDetails = {
-//       flagKey: data.flagKey,
-//       flagType: data.flagType,
-//       variants,
-//       defaultVariant: data.defaultVariant
-//     }
-
-//     await addFlag(parsedData);
-//   }
-//   console.log(errors);
-
-//   return (
-//     <form onSubmit={handleSubmit(onSubmit)}>
-//       <fieldset>
-//         <legend>Flag Configuration</legend>
-
-//         <div>
-//           <label htmlFor="flag-name">Flag Name</label>
-//           <input
-//             id="flag-name"
-//             type="text"
-//             placeholder="Flag Name"
-//             {...register("flagKey", { required: true, maxLength: 150, minLength: 1 })}
-//           />
-//         </div>
-
-//         <div>
-//           <label htmlFor="flag-type">Flag Type</label>
-//           <select id="flag-type" {...register("flagType", { required: true })}>
-//             <option value="string">string</option>
-//             <option value="boolean">boolean</option>
-//             <option value="number">number</option>
-//             <option value="object">object</option>
-//           </select>
-//         </div>
-
-//         <div>
-//           <label htmlFor="variant-key">Variant Key</label>
-//           <input
-//             id="variant-key"
-//             type="text"
-//             placeholder="Variant Key"
-//             {...register("variantKey", { required: true })}
-//           />
-//         </div>
-
-//         <div>
-//           <label htmlFor="variant-value">Variant Value</label>
-//           <input
-//             id="variant-value"
-//             type="text"
-//             placeholder="Variant Value"
-//             {...register("variantValue", { required: true })}
-//           />
-//         </div>
-
-//         <div>
-//           <label htmlFor="default-variant">Default</label>
-//           <input
-//             id="default-variant"
-//             type="text"
-//             placeholder="Default Variant"
-//             {...register("defaultVariant", { required: true })}
-//           />
-//         </div>
-
-//       </fieldset>
-
-//       {/* <fieldset>
-//         <legend>Enabled</legend>
-//         <div>
-//           <input
-//             type="radio"
-//             id="enabled-true"
-//             value="true"
-//             {...register("enabled")}
-//           />
-//           <label htmlFor="enabled-true">True</label>
-//         </div>
-//         <div>
-//           <input
-//             type="radio"
-//             id="enabled-false"
-//             value="false"
-//             {...register("enabled")}
-//           />
-//           <label htmlFor="enabled-false">False</label>
-//         </div>
-//       </fieldset> */}
-
-//       <div>
-//         <input type="submit" value="Submit" />
-//       </div>
-
-//     </form>
-//   )
-// }

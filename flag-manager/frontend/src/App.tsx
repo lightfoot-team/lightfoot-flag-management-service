@@ -3,7 +3,6 @@ import Layout from "./components/Layout"
 import NewFlagForm from "./components/NewFlagForm"
 import Flags from "./components/Flags"
 //import DashboardContainer from "./components/ObservabilityContainer"
-import FormHook from "./components/FormHook"
 import ObservabilityContainer from "./components/ObservabilityContainer"
 
 import FlagViewPage from "./components/FlagViewPage"
@@ -20,7 +19,6 @@ function App() {
         <Route path="flags/:flagKey" element={<FlagViewPage />} />
         <Route path="flags/observability" element={<ObservabilityContainer />} />
         <Route path="flags/add" element={<NewFlagForm />} />
-        <Route path="flags/hook-form" element={<FormHook />} />
         <Route path="flags/rules" element={<Rules></Rules>}/>
       </Route>
     </Routes>
