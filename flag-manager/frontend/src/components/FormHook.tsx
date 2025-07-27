@@ -5,14 +5,9 @@ import { useFieldArray } from "react-hook-form";
 import { flagFormSchema } from "../types/newFlagZodSchema";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { 
-  type ParsedFlagFormDetails,
-  type Variant,
- } from "../types/flagTypes";
 import { addFlag } from "../services/flags";
 import RHFBooleanFlagVariantInput from "./RHFBooleanVariantInput";
 import RHFNonBooleanVariantInput from "./RHFNonBooleanVariantInput";
-import Flag from "./Flag";
 
 type FlagFormDetails = z.infer<typeof flagFormSchema>;
 
