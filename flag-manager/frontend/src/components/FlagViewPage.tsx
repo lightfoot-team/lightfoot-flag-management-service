@@ -23,8 +23,9 @@ const FlagViewPage = () => {
   return (
     <div className="min-h-screen bg-gray-100 p-6 flex justify-center">
       <div className="bg-white rounded-lg shadow-md w-full max-w-4xl p-8">
-        <h1 className="text-3xl font-semibold text-blue-700 mb-6">
-          Flag: {flagDetails.flagKey}
+        <h1 className="text-3xl font-semibold mb-6">
+          <span className="text-black">Flag:</span>{" "}
+          <span className="font-mono text-blue-600">{flagDetails.flagKey}</span>
         </h1>
         <FlagView
           flagDetails={flagDetails}
