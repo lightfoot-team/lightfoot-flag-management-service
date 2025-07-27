@@ -14,12 +14,13 @@ export default function Panel(panelProps: PanelProps) {
     orgId: '1',
     theme: 'dark',
     panelId: panelId.toString(),
-    ...Object.fromEntries(
-      Object.entries(variables).map(([key, val]) => [`var-${key}`, val])
-    ),
+    'var-feature_flag_key': variables[0] as string,
+    // ...Object.fromEntries(
+    //   Object.entries(variables).map(([key, val]) => [`var-${key}`, val])
+    // ),
   });
 
-  const iframeSrc = `${baseUrl}/d-solo/${dashboardId}?${queryParams}`;
+  const iframeSrc = `${baseUrl}/d-solo/${dashboardId}?${queryParams.toString()}`;
 
   const handleRefresh = () => {
     setRefreshKey(prev => prev + 1);

@@ -1548,18 +1548,17 @@ const byVariantDashboard = {
           "text": "featured-park",
           "value": "featured-park"
         },
-        "definition": "",
         "label": "Feature Flag Key",
         "name": "feature_flag_key",
-        "options": [],
-        "query": {
-          "label": "feature_flag.key",
-          "refId": "TempoDatasourceVariableQueryEditor-VariableQuery",
-          "type": 1
-        },
-        "refresh": 1,
-        "regex": "",
-        "type": "query"
+        "options": [
+          {
+            "selected": true,
+            "text": "featured-park",
+            "value": "featured-park"
+          }
+        ],
+        "query": "featured-park",
+        "type": "textbox"
       }
     ]
   },
@@ -1571,7 +1570,7 @@ const byVariantDashboard = {
   "timezone": "browser",
   "title": "RED by variant",
   // "uid": "f1ff6c6a-f84c-4c53-add9-afbbc89a4ea3",
-  "version": 6
+  "version": 8
 }
 
 export const redDashboardBody = {
