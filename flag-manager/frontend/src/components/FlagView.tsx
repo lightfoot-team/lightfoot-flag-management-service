@@ -1,6 +1,7 @@
 import { type FlagDetails } from "../types/flagTypes";
 import { type UserEvaluationContext } from "../types/evaluationTypes";
 import NewRuleForm from "./NewRuleForm";
+import FlagDashboard from "./FlagDashboard";
 
      
 interface FlagProps {
@@ -45,6 +46,7 @@ const FlagView:React.FC<FlagProps> = ({ flagDetails, onDeleteFlag, onToggleFlag 
       {/* <p>default variant: {flagDetails.defaultVariant}</p> */}
 
       <NewRuleForm flag={flagDetails} contextKinds={[testUserEvaluationContext]}></NewRuleForm>
+      <FlagDashboard flagKey={flagDetails.flagKey}></FlagDashboard>
     </div>
   );
 }

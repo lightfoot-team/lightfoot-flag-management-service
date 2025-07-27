@@ -1578,3 +1578,8 @@ export const redDashboardBody = {
   "metadata": metadata,
   "spec": dashboardSpec3
 }
+
+export const byVariantDashboardBody = {
+  "metadata": {...metadata, name: 'gdflaglightfoot'},
+  "spec": byVariantDashboard
+}

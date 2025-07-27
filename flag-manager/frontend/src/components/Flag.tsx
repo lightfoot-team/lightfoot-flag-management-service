@@ -1,6 +1,7 @@
 import { type FlagDetails } from "../types/flagTypes";
 import { type UserEvaluationContext } from "../types/evaluationTypes";
 import NewRuleForm from "./NewRuleForm";
+import FlagDashboard from "./FlagDashboard";
 interface FlagProps {
   flagDetails: FlagDetails;
   onDeleteFlag: (flagKey: string) => void;
@@ -15,6 +16,7 @@ const testUserEvaluationContext: UserEvaluationContext = {
   location: ''
 }
 const Flag:React.FC<FlagProps> = ({ flagDetails, onDeleteFlag, onToggleFlag }) => {
+  console.log("Rendering FlagDashboard with flagKey:", flagDetails.flagKey);
 
   return (
     <div>
@@ -35,6 +37,9 @@ const Flag:React.FC<FlagProps> = ({ flagDetails, onDeleteFlag, onToggleFlag }) =
         <button onClick={() => onToggleFlag(flagDetails.flagKey)}>Toggle Feature ON/OFF</button>
       </div>
         <NewRuleForm flag={flagDetails} contextKinds={[testUserEvaluationContext]}></NewRuleForm>
+      <div>
+        <FlagDashboard flagKey={flagDetails.flagKey}></FlagDashboard>
+      </div>
     </div>
   );
 }
