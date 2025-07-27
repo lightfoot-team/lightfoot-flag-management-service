@@ -1,16 +1,20 @@
-import { useForm } from "react-hook-form";
-import { useMemo } from "react";
+import { useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
+import { useForm } from "react-hook-form";
+import { useFieldArray } from "react-hook-form";
+import { flagFormSchema } from "../types/zodSchema";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import { 
-  type FlagFormDetails,
   type ParsedFlagFormDetails,
   type Variant,
  } from "../types/flagTypes";
 import { addFlag } from "../services/flags";
-import { useFieldArray } from "react-hook-form";
 import RHFBooleanFlagVariantInput from "./RHFBooleanVariantInput";
 import RHFNonBooleanVariantInput from "./RHFNonBooleanVariantInput";
-import { useEffect } from "react";
+import Flag from "./Flag";
+
+type FlagFormDetails = z.infer<typeof flagFormSchema>;
 
 const FormHook = () => {
   const { 
@@ -21,6 +25,7 @@ const FormHook = () => {
     setValue,
     control
   } = useForm<FlagFormDetails>({
+    resolver: zodResolver(flagFormSchema),
     defaultValues: {
       flagKey: '',
       flagType: 'boolean',
@@ -42,17 +47,6 @@ const FormHook = () => {
   const { fields, append, remove } = useFieldArray({
     control,
     name: "variants",
-    rules: {
-      required: "At least one variant is required.",
-      minLength: {
-        value: 1,
-        message: "At least one variant is required."
-      },
-      maxLength: {
-        value: 5,
-        message: "Maximum 5 variants allowed."
-      }
-    }
   });
 
   
@@ -79,6 +73,7 @@ const FormHook = () => {
 
   const onSubmit = (data) => {
     console.log(data);
+    console.log("Validation passed!");
     // navigate('/flags');
   }
 
@@ -89,21 +84,7 @@ const FormHook = () => {
       <div>
         <label htmlFor="flag-key">Flag Key</label>
         <input 
-          {...register("flagKey", {
-            required: {
-              value: true,
-              message: "Flag Key is required"
-            },
-            minLength: {
-              value: 1,
-              message: "Flag Key must be at least 1 character long."
-            },
-            maxLength: {
-              value: 100,
-              message: "Flag Key must be less than 100 characters."
-            }
-          })
-          }
+          {...register("flagKey")}
           type="text"
           id="flag-key"
           placeholder="Flag Key"
@@ -114,15 +95,7 @@ const FormHook = () => {
         <label htmlFor="flag-type">Flag Type</label>
         <select
           id="flag-type"
-          {...register("flagType", {
-            required: {
-              value: true,
-              message: "You must select a flag type."
-            }
-          }
-
-          )}
-          required
+          {...register("flagType")}
         >
           <option value="boolean">boolean</option>
           <option value="string">string</option>
@@ -160,14 +133,7 @@ const FormHook = () => {
       <div>
         <label htmlFor="default-variant">Default Variant</label>
         <select
-          {...register("defaultVariant", {
-            required: validOptions.length > 0 ? "Please select a default variant" : "Add variants first",
-            validate: (value) => {
-              if (!value) return true;
-              const variantKeys = validOptions.map(v => v.key);
-              return variantKeys.includes(value) || "Default variant must match an existing variant key"
-            }
-          })}
+          {...register("defaultVariant")}
           id="default-variant"
           disabled={validOptions.length <= 0}
         >
