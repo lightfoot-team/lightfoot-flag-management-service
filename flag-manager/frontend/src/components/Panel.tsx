@@ -27,14 +27,19 @@ export default function Panel(panelProps: PanelProps) {
   };
 
   return (
-    <div>
-      <button onClick={handleRefresh}>Refresh panel</button>
-      <iframe
-        key={refreshKey}
-        src={iframeSrc}
-        width="80%"
-        height="300px"
-      ></iframe>
-    </div>
-  );
+  <div className="w-full max-w-5xl bg-gray-900 p-4 rounded shadow">
+    <button
+      onClick={handleRefresh}
+      className="mb-2 px-4 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded"
+    >
+      Refresh panel
+    </button>
+    <iframe
+      key={refreshKey}
+      src={iframeSrc}
+      className="w-full h-[600px] border rounded"
+    ></iframe>
+  </div>
+);
+
 }

@@ -33,14 +33,27 @@ const Flags = () => {
   }
 
   return (
-    <>
-      <h1>Flags</h1>
-      {flags.map((flag) => {
-        return (
-          <FlagListItem flagDetails={flag} onDeleteFlag={handleDeleteFlag} onToggleFlag={handleToggleFlag} key={flag.flagKey} />
-        )
-      })}
-    </>
+    // <>
+    //   <h1>Flags</h1>
+    //   {flags.map((flag) => {
+    //     return (
+    //       <FlagListItem flagDetails={flag} onDeleteFlag={handleDeleteFlag} onToggleFlag={handleToggleFlag} key={flag.flagKey} />
+    //     )
+    //   })}
+    // </>
+    <div className="max-w-4xl mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-6 text-gray-800">Feature Flags</h1>
+      <div className="space-y-4">
+        {flags.map((flag) => (
+          <FlagListItem
+            key={flag.flagKey}
+            flagDetails={flag}
+            onDeleteFlag={handleDeleteFlag}
+            onToggleFlag={handleToggleFlag}
+          />
+        ))}
+      </div>
+    </div>
   )
 }
 

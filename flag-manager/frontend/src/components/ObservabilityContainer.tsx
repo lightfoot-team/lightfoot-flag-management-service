@@ -28,37 +28,24 @@ const ObservabilityContainer = () => {
   }, [])
 
   return (
-    <div className="dashboard-container">
-      {/* <iframe src="http://localhost:3002/d-solo/64daa860-5d81-4078-979a-107e984fdf57/new-dashboard?orgId=1&from=1753170283267&to=1753191883267&timezone=browser&panelId=1&__feature.dashboardSceneSolo"
-        width="450" height="200"
-      >
-      </iframe>
-      <iframe src="http://localhost:3002/d-solo/gdxccn/example-dashboard?orgId=1&from=1753170283267&to=1753191883267&timezone=browser&panelId=1&__feature.dashboardSceneSolo"
-        width="450" height="200"
-      >
-      </iframe>
-      */}
+    <div className="flex flex-col items-center space-y-6 px-4 py-6">
       <Panel
         dashboardId={redDashboardBody.metadata.name}
         panelId={1}
         variables={[]}
-      >
-      </Panel>
+      />
       <Panel
         dashboardId={redDashboardBody.metadata.name}
         panelId={2}
         variables={[]}
-      >
-      </Panel>
+      />
       <Panel
         dashboardId={redDashboardBody.metadata.name}
         panelId={3}
         variables={[]}
-      >
-      </Panel>
+      />
     </div>
-  )
-
+  );
 }
 
 export default ObservabilityContainer;

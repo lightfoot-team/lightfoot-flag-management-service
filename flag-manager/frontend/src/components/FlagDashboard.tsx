@@ -31,10 +31,11 @@ const FlagDashboard:React.FC<FlagDashboardProps> = ({ flagKey }) => {
   }, []);
 
   return (
-    <div>
-      <Panel dashboardId={byVariantDashboardBody.metadata.name} panelId={1} variables={[flagKey]}></Panel>
-      <Panel dashboardId={byVariantDashboardBody.metadata.name} panelId={2} variables={[flagKey]}></Panel>
-      <Panel dashboardId={byVariantDashboardBody.metadata.name} panelId={3} variables={[flagKey]}></Panel>
+    <div className="flex flex-col gap-4 p-4 bg-white rounded-lg shadow">
+      <h2 className="text-xl font-semibold mb-2">Flag Dashboard: <span className="font-mono text-blue-600">{flagKey}</span></h2>
+      <Panel dashboardId={byVariantDashboardBody.metadata.name} panelId={1} variables={[flagKey]} />
+      <Panel dashboardId={byVariantDashboardBody.metadata.name} panelId={2} variables={[flagKey]} />
+      <Panel dashboardId={byVariantDashboardBody.metadata.name} panelId={3} variables={[flagKey]} />
     </div>
   );
 }

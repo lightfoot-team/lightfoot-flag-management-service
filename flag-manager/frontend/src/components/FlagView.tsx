@@ -6,8 +6,8 @@ import FlagDashboard from "./FlagDashboard";
      
 interface FlagProps {
   flagDetails: FlagDetails;
-  onDeleteFlag: (flagKey: string) => void;
-  onToggleFlag: (flagKey: string) => void;
+  // onDeleteFlag: (flagKey: string) => void;
+  // onToggleFlag: (flagKey: string) => void;
 }
 
 const testUserEvaluationContext: UserEvaluationContext = {
@@ -17,36 +17,33 @@ const testUserEvaluationContext: UserEvaluationContext = {
   email: '',
   location: ''
 }
-const FlagView:React.FC<FlagProps> = ({ flagDetails, onDeleteFlag, onToggleFlag }) => {
+const FlagView:React.FC<FlagProps> = ({ flagDetails }) => {
 
   return (
-   <div>
-      <div className='variants-container'>
-        Variants:
-        {Object.entries(flagDetails.variants).map((entry) => {
-          return (
-            <div className='variant-container'>
-              <div className='variant'>{entry[0]}</div>
-              <div className='value'>{String(entry[1])}</div>
+    <div className="space-y-8">
+  
+      <section className="bg-gray-50 rounded-lg p-6 shadow-sm border border-gray-200">
+        <h2 className="text-xl font-semibold text-blue-700 mb-4">Variants:</h2>
+        <div className="grid grid-cols-2 gap-4">
+          {Object.entries(flagDetails.variants).map(([variantKey, variantValue]) => (
+            <div
+              key={variantKey}
+              className="bg-white rounded-md p-3 shadow border border-gray-200 flex justify-between items-center"
+            >
+              <div className="font-medium text-gray-800">{variantKey}</div>
+              <div className="text-gray-600">{String(variantValue)}</div>
             </div>
-          )
-        })}
-      </div>
+          ))}
+        </div>
+      </section>
 
-      {/* <p>{`Created at:
-        ${new Date(flagDetails.createdAt).toLocaleTimeString()}
-        ${new Date(flagDetails.createdAt).toLocaleDateString()}
-        `}
-      </p> */}
-      <div>
-        <button onClick={() => onDeleteFlag(flagDetails.flagKey)}>Delete Feature</button>
-        <button onClick={() => onToggleFlag(flagDetails.flagKey)}>Toggle Feature ON/OFF</button>
-      </div>
+      <section className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+        <NewRuleForm flag={flagDetails} contextKinds={[testUserEvaluationContext]} />
+      </section>
 
-      {/* <p>default variant: {flagDetails.defaultVariant}</p> */}
-
-      <NewRuleForm flag={flagDetails} contextKinds={[testUserEvaluationContext]}></NewRuleForm>
-      <FlagDashboard flagKey={flagDetails.flagKey}></FlagDashboard>
+      <section className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+        <FlagDashboard flagKey={flagDetails.flagKey} />
+      </section>
     </div>
   );
 }
