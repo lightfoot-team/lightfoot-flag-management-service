@@ -9,6 +9,7 @@ interface FlagDashboardProps {
 }
 
 const FlagDashboard:React.FC<FlagDashboardProps> = ({ flagKey }) => {
+  // uids.pop();
   useEffect(() => {
     const dashboard = async () => {
       try {
