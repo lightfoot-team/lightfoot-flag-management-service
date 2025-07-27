@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { useFieldArray } from "react-hook-form";
-import { flagFormSchema } from "../types/zodSchema";
+import { flagFormSchema } from "../types/newFlagZodSchema";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { 
