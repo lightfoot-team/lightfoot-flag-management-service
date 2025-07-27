@@ -44,3 +44,8 @@ export const toggleFlag = async (flagKey: string) => {
   const result = await axios.patch(`${baseURL}/toggle/${flagKey}`);
   return result;
 }
+
+export const getFlag = async (flagKey: string) => {
+  const response = await axios.get(`${baseURL}/${flagKey}`);
+  return response;
+};
