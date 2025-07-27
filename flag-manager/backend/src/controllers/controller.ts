@@ -1,20 +1,80 @@
 import { Request, Response, NextFunction } from 'express';
 import DBPersistence from '../lib/dbPersistence';
-import type { FlagType } from '../types/flagTypes';
+import type { 
+  FlagType, 
+  NewFlag,
+  FlagValue,
+  Variant,
+  FlagFormVariant
+} from '../types/flagTypes';
 import type { AppError } from '../types/errorTypes';
 import { EvaluationRule } from '../types/evaluationTypes';
+import { z } from 'zod';
+import { flagFormSchema } from '../types/newFlagZodSchema';
+
+type FlagFormDetails = z.infer<typeof flagFormSchema>
 
 const db = new DBPersistence();
 
+const convertVariantValue = (value: string, flagType: FlagType): FlagValue => {
+  switch (flagType) {
+    case 'string':
+      return value;
+    case 'number':
+      return Number(value);
+    case 'boolean':
+      return value === 'true';
+    case 'object':
+      return value;
+    default:
+      return value;
+  }
+}
+
+const convertVariants = (variantsArray: FlagFormVariant[], flagType: FlagType) => {
+  const variants: Variant = {};
+  variantsArray.forEach(variant => {
+    const key: string = variant.key;
+    const value: string = variant.value;
+
+    variants[key] = convertVariantValue(value, flagType);
+  });
+
+  return variants;
+}
+const parseFlagFormDetails = (flagFormDetails: FlagFormDetails): NewFlag => {
+  const { flagKey, flagType, defaultVariant, variants: variantsArray } = flagFormDetails;
+  const createdAt = new Date(Date.now()).toUTCString();
+  const variants = convertVariants(variantsArray as FlagFormVariant[], flagType);
+
+  const parsedFlagFormDetails = {
+    flagKey,
+    flagType,
+    variants,
+    createdAt,
+    defaultVariant,
+    isEnabled: false
+  };
+
+  return parsedFlagFormDetails;
+}
+
 // Create 
 export const createFlag = async (req: Request, res: Response, next: NextFunction) => {
-  // const createdAt = "today"
+  const flagFormDetails = req.body;
+  const validationResult = flagFormSchema.safeParse(flagFormDetails);
+
+  if (validationResult.success) {
+    console.log("Flag form data successfully validated.")
+  } else {
+    console.error("Validation errors: ", validationResult.error.errors);
+    res.status(422).send();
+  }
 
   try {
-    // await db.addFlag(testFlag);
-    const result = await db.addFlag(req.body);
-    const allFlags = await db.getAllFlags();
-
+    const parsedFlagFormDetails: NewFlag = parseFlagFormDetails(flagFormDetails);
+    const result = await db.addFlag(parsedFlagFormDetails);
+    // const allFlags = await db.getAllFlags();
     res.status(201).send();
   } catch (err) {
     next(err);

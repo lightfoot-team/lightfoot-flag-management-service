@@ -1,3 +1,8 @@
+export interface FlagFormVariant {
+  key: string,
+  value: string
+}
+
 export type FlagType = 'boolean' | 'string' | 'number' | 'object';
 
 export type FlagValue = string | number | boolean | object
@@ -11,7 +16,7 @@ export interface NewFlag {
   flagType: FlagType;
   variants: Variant;
   createdAt: string;
-  updatedAt: null | string;
+  updatedAt?: null | string;
   defaultVariant: string;
   isEnabled: boolean;
 }

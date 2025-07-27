@@ -1,14 +1,19 @@
 import axios from 'axios';
-import { type FlagFormDetails, 
+import { 
   type FlagDetails,
-  type ParsedFlagFormDetails,
   type Variant,
 } from '../types/flagTypes';
+import { z } from 'zod';
+import { flagFormSchema } from '../types/newFlagZodSchema';
+
+type FlagFormDetails = z.infer<typeof flagFormSchema>
+
 const axiosConfig = {
   headers: {
       'Content-Type': 'application/json',
   }
 };
+
 const baseURL = 'http://localhost:3000/api/flags'
 /**
  * Submits a GET request to the FlagManager API to retrieve 
@@ -22,15 +27,12 @@ export const getAllFlags = async() => {
 
 /**
  * Submits a POST request to the FlagManager API to create a new flag
- * from the provided details. Generates the createdAt property from the current
- * time at execution. 
+ * from the provided details. 
  * @param flagFormDetails the flag details submitted by the user
  * @returns API response object containing the newly added flag
  */
-export const addFlag = async (flagFormDetails: ParsedFlagFormDetails) => {
-  const createdAt = new Date(Date.now()).toUTCString();
-  const flagDetails: FlagDetails = {...flagFormDetails, createdAt, isEnabled: false}
-  const result = await axios.post(`${baseURL}/add`, flagDetails, axiosConfig);
+export const addFlag = async (flagFormDetails: FlagFormDetails) => {
+  const result = await axios.post(`${baseURL}/add`, flagFormDetails, axiosConfig);
   return result;
 }
 
