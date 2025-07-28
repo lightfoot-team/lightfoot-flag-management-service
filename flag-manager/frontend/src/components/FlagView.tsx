@@ -21,9 +21,11 @@ const FlagView:React.FC<FlagProps> = ({ flagDetails, onDeleteFlag, onToggleFlag 
 
   return (
    <div>
+      <h1>{flagDetails.flagKey}</h1>
+      <h2>Flag Type: {flagDetails.flagType}</h2>
       <div>
-        <button onClick={() => onDeleteFlag(flagDetails.flagKey)}>Delete Feature</button>
-        <button onClick={() => onToggleFlag(flagDetails.flagKey)}>Toggle Feature ON/OFF</button>
+        <button onClick={() => onDeleteFlag(flagDetails.flagKey)}>Delete Flag</button>
+        <button onClick={() => onToggleFlag(flagDetails.flagKey)}>Toggle Flag ON/OFF</button>
       </div>
       <div className='variants-container'>
         Variants:
