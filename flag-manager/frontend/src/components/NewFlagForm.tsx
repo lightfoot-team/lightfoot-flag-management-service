@@ -44,8 +44,6 @@ const NewFlagForm = () => {
     name: "variants",
   });
 
-  
-
   useEffect(() => {
     const getDefaultVariants = (flagType: string) => {
       switch (flagType) {
