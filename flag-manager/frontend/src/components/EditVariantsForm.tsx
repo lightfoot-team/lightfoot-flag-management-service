@@ -1,8 +1,44 @@
 import BooleanFlagVariantInput from "./BooleanVariantInput";
 import NonBooleanVariantInput from "./NonBooleanVariantInput";
+import { 
+  useForm,
+  useFieldArray
+} from "react-hook-form";
+import { variantsToArray } from "../services/forms";
 
-const EditVariantsForm = ({ variants, onSave, onCancel, flagDetails }) => {
+const EditVariantsForm = ({ onCancel, flagDetails, onToggle }) => {
   const flagType = flagDetails.flagType;
+  const formVariants = variantsToArray(flagDetails.variants);
+
+  const { 
+      register,
+      handleSubmit,
+      formState: { errors },
+      watch,
+      setValue,
+      control
+    } = useForm<FlagFormDetails>({
+      defaultValues: {
+        flagKey: flagDetails.flagKey,
+        flagType,
+        variants: formVariants,
+        defaultVariant: flagDetails.defaultVariant
+      }
+    })
+
+    const onSubmit = async (data) => {
+      onToggle();
+    }
+
+  const variants = watch("variants") || [];
+  const validOptions = variants.filter(variant => 
+    variant?.key && variant.key.trim() !== ''
+  );
+
+  const { fields, append, remove } = useFieldArray({
+      control,
+      name: "variants",
+  });
   
   return (
     <div>
@@ -24,8 +60,27 @@ const EditVariantsForm = ({ variants, onSave, onCancel, flagDetails }) => {
             flagType={flagType}
           />
         )}
+
       <div>
-        <button onClick={onSave}>Save changes</button>
+        <label htmlFor="default-variant">Default Variant</label>
+        <select
+          {...register("defaultVariant")}
+          id="default-variant"
+          disabled={validOptions.length <= 0}
+        >
+          <option value="">
+            {validOptions.length > 0 ? "Select a default variant" : "No variants available"}
+          </option>
+          {validOptions.map((variant, index) => (
+            <option key={`${variant.key}-${index}`} value={variant.key}>
+              {variant.key}: {variant.value && `${variant.value}`}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div>
+        <button onClick={handleSubmit(onSubmit)}>Save changes</button>
         <button onClick={onCancel}>Cancel</button>
       </div>
     </div>

@@ -26,12 +26,6 @@ const FlagView:React.FC<FlagProps> = ({ flagDetails }) => {
     setIsEditingVariants(!isEditingVariants);
   }
 
-  const handleSaveVariants = (newVariants) => {
-    // Handle saving the variants
-    console.log("Saving variants:", newVariants);
-    setIsEditingVariants(false); // Hide edit form
-  };
-
   const handleCancelEdit = () => {
     setIsEditingVariants(false); // Hide edit form without saving
   };
@@ -41,8 +35,7 @@ const FlagView:React.FC<FlagProps> = ({ flagDetails }) => {
       {isEditingVariants ? (
         <EditVariantsForm
           flagDetails={flagDetails}
-          variants={flagDetails.variants}
-          onSave={handleSaveVariants}
+          onToggle={handleToggleEditingVariants}
           onCancel={handleCancelEdit}
         />
       ) : (
