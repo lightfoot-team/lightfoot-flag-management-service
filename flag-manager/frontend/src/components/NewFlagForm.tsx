@@ -11,7 +11,11 @@ import NonBooleanVariantInput from "./NonBooleanVariantInput";
 
 type FlagFormDetails = z.infer<typeof flagFormSchema>;
 
-const NewFlagForm = () => {
+interface NewFlagFormProps {
+  onClose: () => void;
+}
+
+const NewFlagForm:React.FC<NewFlagFormProps> = ({ onClose }) => {
   const { 
     register,
     handleSubmit,
@@ -69,30 +73,35 @@ const NewFlagForm = () => {
     console.log("Validation passed!");
     try {
       await addFlag(data);
-      console.log("Flag created successfully")
-      navigate('/flags');
+      onClose();
+      // navigate('/flags');
     } catch (e) {
       console.error("Error submitting form, please try again", e)
     }
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="bg-white rounded-lg p-6 shadow-sm border border-gray-200 space-y-6"
+    >
       <div>
-        <label htmlFor="flag-key">Flag Key</label>
+        <label htmlFor="flag-key" className="block font-medium text-gray-700 mb-1">Flag Key</label>
         <input 
           {...register("flagKey")}
           type="text"
           id="flag-key"
           placeholder="Flag Key"
+          className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
 
       <div>
-        <label htmlFor="flag-type">Flag Type</label>
+        <label htmlFor="flag-type" className="block font-medium text-gray-700 mb-1">Flag Type</label>
         <select
           id="flag-type"
           {...register("flagType")}
+          className="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="boolean">boolean</option>
           <option value="string">string</option>
@@ -102,7 +111,7 @@ const NewFlagForm = () => {
       </div>
 
       <div>
-        <label>Variants</label>
+        <label className="block font-medium text-gray-700 mb-1">Variants</label>
         {flagType === "boolean" && (
           <BooleanFlagVariantInput 
             register={register} 
@@ -128,11 +137,12 @@ const NewFlagForm = () => {
       </div>
 
       <div>
-        <label htmlFor="default-variant">Default Variant</label>
+        <label htmlFor="default-variant" className="block font-medium text-gray-700 mb-1">Default Variant</label>
         <select
           {...register("defaultVariant")}
           id="default-variant"
           disabled={validOptions.length <= 0}
+          className="w-full border border-gray-300 rounded px-3 py-2 bg-white disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="">
             {validOptions.length > 0 ? "Select a default variant" : "No variants available"}
@@ -145,7 +155,21 @@ const NewFlagForm = () => {
         </select>
       </div>
 
-      <button type="submit">Create Flag</button>
+      <div className="flex justify-start space-x-4 mt-6">
+        <button
+          type="submit"
+          className="px-4 py-2 rounded-md text-base bg-blue-200 text-blue-1000 hover:bg-blue-300 transition"
+        >
+          Create Flag
+        </button>
+        <button
+          type="button"
+          onClick={onClose}
+          className="px-4 py-2 rounded-md text-base bg-red-100 text-red-800 hover:bg-red-200 transition"
+        >
+          Cancel
+        </button>
+      </div>
     </form>
   );
 };
