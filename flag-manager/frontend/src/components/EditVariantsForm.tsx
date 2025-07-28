@@ -1,10 +1,16 @@
-import BooleanFlagVariantInput from "./BooleanVariantInput";
-import NonBooleanVariantInput from "./NonBooleanVariantInput";
+import { z } from 'zod';
 import { 
   useForm,
   useFieldArray
 } from "react-hook-form";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { flagFormSchema } from '../types/newFlagZodSchema';
+import BooleanFlagVariantInput from "./BooleanVariantInput";
+import NonBooleanVariantInput from "./NonBooleanVariantInput";
 import { variantsToArray } from "../services/forms";
+import { updateFlag } from '../services/flags';
+
+type FlagFormDetails = z.infer<typeof flagFormSchema>;
 
 const EditVariantsForm = ({ onCancel, flagDetails, onToggle }) => {
   const flagType = flagDetails.flagType;
@@ -18,6 +24,7 @@ const EditVariantsForm = ({ onCancel, flagDetails, onToggle }) => {
       setValue,
       control
     } = useForm<FlagFormDetails>({
+      resolver: zodResolver(flagFormSchema),
       defaultValues: {
         flagKey: flagDetails.flagKey,
         flagType,
@@ -27,7 +34,14 @@ const EditVariantsForm = ({ onCancel, flagDetails, onToggle }) => {
     })
 
     const onSubmit = async (data) => {
-      onToggle();
+      console.log("Validation passed!")
+      console.log(data);
+      try {
+        await updateFlag(data);
+        // onToggle();
+      } catch (e) {
+        console.error("Error submitting form, please try again", e)
+      }
     }
 
   const variants = watch("variants") || [];

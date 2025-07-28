@@ -1,9 +1,19 @@
 import { Router } from 'express';
-import { createFlag, readAllFlags, readFlag, deleteFlag, toggleFlag, createRule } from '../controllers/controller';
+import { 
+  createFlag, 
+  updateFlag,
+  readAllFlags, 
+  readFlag, 
+  deleteFlag, 
+  toggleFlag, 
+  createRule
+} from '../controllers/controller';
 
 const router = Router();
 
 router.post('/add', createFlag);
+
+router.post('/update', updateFlag);
 
 router.get('/all', readAllFlags);
 

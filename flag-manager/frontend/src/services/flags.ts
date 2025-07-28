@@ -36,6 +36,12 @@ export const addFlag = async (flagFormDetails: FlagFormDetails) => {
   return result;
 }
 
+export const updateFlag = async (flagFormDetails: FlagFormDetails) => {
+  console.log("Updating flag...", flagFormDetails)
+  const result = await axios.post(`${baseURL}/update`, flagFormDetails, axiosConfig);
+  return result;
+}
+
 export const deleteFlag = async (flagKey: string) => {
   const result = await axios.delete(`${baseURL}/${flagKey}`);
   console.log('result:', result);

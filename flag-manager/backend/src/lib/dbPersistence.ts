@@ -83,6 +83,19 @@ class DBPersistence {
     return result.rowCount;
   }
 
+  async updateFlag(flag: NewFlag) {
+    const { flagKey, variants, defaultVariant } = flag;
+
+    const QUERY =
+      `
+      UPDATE ${FLAGS} 
+      SET variants = $2, default_variant = $3, updated_at = NOW()
+      WHERE flag_key = $1
+    `;
+    const result = await executeQuery(QUERY, flagKey, variants, defaultVariant);
+    return result;
+  }
+
   async toggleFlagEnabled(flagKey: string) {
     const QUERY =
       `

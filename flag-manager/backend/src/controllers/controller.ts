@@ -121,8 +121,24 @@ export const toggleFlag = async (req: Request, res: Response, next: NextFunction
 }
 
 //TODO: implement
-export const editFlag = (req: Request, res: Response, next: NextFunction) => {
+export const updateFlag = async (req: Request, res: Response, next: NextFunction) => {
+  const flagFormDetails = req.body;
+  const validationResult = flagFormSchema.safeParse(flagFormDetails);
 
+  if (validationResult.success) {
+    console.log("Flag form data successfully validated.")
+  } else {
+    console.error("Validation errors: ", validationResult.error.errors);
+    res.status(422).send();
+  }
+
+  try {
+    const parsedFlagFormDetails: NewFlag = parseFlagFormDetails(flagFormDetails);
+    const result = await db.updateFlag(parsedFlagFormDetails);
+    res.status(201).send();
+  } catch (err) {
+    next(err);
+  }
 }
 
 export const deleteFlag = async (req: Request, res: Response, next: NextFunction) => {
