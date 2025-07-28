@@ -1,5 +1,3 @@
-import { ratePanel, errorPanel, durationPanel } from "./panel";
-
 export const uids: Array<string> = [
   'gdxccn'
 ];
