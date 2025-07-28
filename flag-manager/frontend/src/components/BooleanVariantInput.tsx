@@ -8,66 +8,70 @@ const BooleanFlagVariantInput = ({ register, errors, setValue }) => {
   }, []); 
 
   return (
-    <div>
-      <div>
+    <div className="flex flex-wrap gap-4">
+      {/* True Variant */}
+      <div className="flex flex-col flex-1">
         <label htmlFor="variant-true-key">Key</label>
         <input
           {...register("variants.0.key", {
             required: {
               value: true,
-              message: "True variant key is required"
+              message: "True variant key is required",
             },
             minLength: {
               value: 1,
-              message: "True variant key must be at least 1 character long."
+              message: "True variant key must be at least 1 character long.",
             },
             maxLength: {
               value: 50,
-              message: "True variant key must be fewer than 50 characters long."
-            }
-          })
-          }
+              message: "True variant key must be fewer than 50 characters long.",
+            },
+          })}
           id="variant-true-key"
           type="text"
           placeholder="Key for true value"
+          className="border rounded p-2"
         />
-        <input 
+        <input
           {...register("variants.0.value")}
           type="text"
           readOnly
+          className="border rounded p-2 mt-1 bg-gray-100"
         />
       </div>
 
-      <div>
+      {/* False Variant */}
+      <div className="flex flex-col flex-1">
         <label htmlFor="variant-false-key">Key</label>
         <input
           {...register("variants.1.key", {
             required: {
               value: true,
-              message: "False variant key is required"
+              message: "False variant key is required",
             },
             minLength: {
               value: 1,
-              message: "False variant key must be at least 1 character long."
+              message: "False variant key must be at least 1 character long.",
             },
             maxLength: {
               value: 50,
-              message: "False variant key must be fewer than 50 characters long."
-            }
-          })
-          }
+              message: "False variant key must be fewer than 50 characters long.",
+            },
+          })}
           id="variant-false-key"
           type="text"
           placeholder="Key for false value"
+          className="border rounded p-2"
         />
-        <input 
+        <input
           {...register("variants.1.value")}
           type="text"
           readOnly
+          className="border rounded p-2 mt-1 bg-gray-100"
         />
       </div>
     </div>
-  )
+  );
 }
 
 export default BooleanFlagVariantInput;

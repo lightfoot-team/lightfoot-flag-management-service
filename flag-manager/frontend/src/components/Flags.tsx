@@ -1,10 +1,14 @@
 import { useState, useEffect } from "react";
 import { type FlagDetails } from "../types/flagTypes";
 import { getAllFlags, deleteFlag, toggleFlag } from "../services/flags";
-// import Flag from "./Flag";
 import FlagListItem from "./FlagListItem";
+import Modal from "./Modal";
+import NewFlagForm from "./NewFlagForm";
+
 const Flags = () => {
   const [flags, setFlags] = useState<Array<FlagDetails>>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMode, setModalMode] = useState<"add" | "edit">("add")
 
   useEffect(() => {
     const fetchFlags = async () => {
@@ -33,28 +37,41 @@ const Flags = () => {
   }
 
   return (
-    // <>
-    //   <h1>Flags</h1>
-    //   {flags.map((flag) => {
-    //     return (
-    //       <FlagListItem flagDetails={flag} onDeleteFlag={handleDeleteFlag} onToggleFlag={handleToggleFlag} key={flag.flagKey} />
-    //     )
-    //   })}
-    // </>
-    <div className="max-w-4xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6 text-gray-800">Feature Flags</h1>
-      <div className="space-y-4">
-        {flags.map((flag) => (
-          <FlagListItem
-            key={flag.flagKey}
-            flagDetails={flag}
-            onDeleteFlag={handleDeleteFlag}
-            onToggleFlag={handleToggleFlag}
-          />
-        ))}
+    <>
+      <div className="max-w-4xl mx-auto px-4 py-8">
+        <div className="flex items-center justify-between mb-6 pr-4">
+          <h1 className="text-3xl font-bold text-gray-800">Feature Flags</h1>
+          {/* <button
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-800"
+            onClick={() => setIsModalOpen(true)}
+          >
+            New Flag
+          </button> */}
+          <button
+            className="px-4 py-2 rounded-md text-base bg-blue-200 text-blue-1000 hover:bg-blue-300 transition"
+            onClick={() => setIsModalOpen(true)}
+          >
+            New Flag
+          </button>
+        </div>
+
+        <div className="space-y-4">
+          {flags.map((flag) => (
+            <FlagListItem
+              key={flag.flagKey}
+              flagDetails={flag}
+              onDeleteFlag={handleDeleteFlag}
+              onToggleFlag={handleToggleFlag}
+            />
+          ))}
+        </div>
       </div>
-    </div>
-  )
+
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        {modalMode === "add" ? <NewFlagForm onClose={() => setIsModalOpen(false)} /> : null}
+      </Modal>
+    </>
+  );
 }
 
 export default Flags;
