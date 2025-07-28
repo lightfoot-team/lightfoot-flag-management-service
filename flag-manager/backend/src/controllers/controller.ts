@@ -74,7 +74,6 @@ export const createFlag = async (req: Request, res: Response, next: NextFunction
   try {
     const parsedFlagFormDetails: NewFlag = parseFlagFormDetails(flagFormDetails);
     const result = await db.addFlag(parsedFlagFormDetails);
-    // const allFlags = await db.getAllFlags();
     res.status(201).send();
   } catch (err) {
     next(err);
