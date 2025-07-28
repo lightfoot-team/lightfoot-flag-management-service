@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { type FlagDetails } from "../types/flagTypes";
 import { type UserEvaluationContext } from "../types/evaluationTypes";
 import NewRuleForm from "./Forms/NewRuleForm";
@@ -17,7 +18,23 @@ const testUserEvaluationContext: UserEvaluationContext = {
   email: '',
   location: ''
 }
+
 const FlagView:React.FC<FlagProps> = ({ flagDetails, onDeleteFlag, onToggleFlag }) => {
+  const [ isEditingVariants, setIsEditingVariants ] = useState(false);
+
+  const handleToggleEditingVariants = () => {
+    setIsEditingVariants(!isEditingVariants);
+  }
+
+  const handleSaveVariants = (newVariants) => {
+    // Handle saving the variants
+    console.log("Saving variants:", newVariants);
+    setIsEditingVariants(false); // Hide edit form
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditingVariants(false); // Hide edit form without saving
+  };
 
   return (
    <div>
@@ -27,17 +44,30 @@ const FlagView:React.FC<FlagProps> = ({ flagDetails, onDeleteFlag, onToggleFlag 
         <button onClick={() => onDeleteFlag(flagDetails.flagKey)}>Delete Flag</button>
         <button onClick={() => onToggleFlag(flagDetails.flagKey)}>Toggle Flag ON/OFF</button>
       </div>
-      <div className='variants-container'>
-        Variants:
-        {Object.entries(flagDetails.variants).map((entry) => {
-          return (
-            <div className='variant-container'>
-              <div className='variant'>{entry[0]}</div>
-              <div className='value'>{String(entry[1])}</div>
-            </div>
-          )
-        })}
-      </div>
+      {isEditingVariants ? (
+        <EditVariantsForm
+          variants={flagDetails.variants}
+          onSave={handleSaveVariants}
+          onCancel={handleCancelEdit}
+        />
+      ) : (
+        <>
+        <div className='variants-container'>
+          Variants:
+          {Object.entries(flagDetails.variants).map((entry) => {
+            return (
+              <div className='variant-container'>
+                <div className='variant'>{entry[0]}</div>
+                <div className='value'>{String(entry[1])}</div>
+              </div>
+            )
+          })}
+        </div>
+        <div>
+          <button onClick={handleToggleEditingVariants}>Edit Variants</button>
+        </div>
+        </>
+      )}
 
       {/* <p>{`Created at:
         ${new Date(flagDetails.createdAt).toLocaleTimeString()}
