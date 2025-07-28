@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { addFlag } from "../../services/flags";
 import BooleanFlagVariantInput from "./BooleanVariantInput";
-import NonBooleanVariantInput from "../NonBooleanVariantInput";
+import NonBooleanVariantInput from "./NonBooleanVariantInput";
 
 type FlagFormDetails = z.infer<typeof flagFormSchema>;
 

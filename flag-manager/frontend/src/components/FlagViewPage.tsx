@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import FlagView from "./FlagView";
 import { type FlagDetails } from "../types/flagTypes";
 import { getFlag, deleteFlag, toggleFlag } from "../services/flags";
@@ -17,9 +18,14 @@ const FlagViewPage = () => {
     fetchFlag();
   }, [flagKey]);
 
+  const navigate = useNavigate();
+
   const handleDeleteFlag = async (flagKey: string) => {
-    await deleteFlag(flagKey);
-    // redirect to flag list? or show message that flag was deleted?
+    if (window.confirm('Are you sure you want to delete this flag? This cannot be undone.')) {
+      await deleteFlag(flagKey);
+    }
+    // show message that flag was deleted after navigating to flags page?
+    navigate('/flags')
   };
 
   const handleToggleFlag = async (flagKey: string) => {

@@ -1,6 +1,6 @@
 import { type FlagDetails } from "../types/flagTypes";
 import { type UserEvaluationContext } from "../types/evaluationTypes";
-import NewRuleForm from "./NewRuleForm";
+import NewRuleForm from "./Forms/NewRuleForm";
 import FlagDashboard from "./FlagDashboard";
 
      
@@ -21,6 +21,10 @@ const FlagView:React.FC<FlagProps> = ({ flagDetails, onDeleteFlag, onToggleFlag 
 
   return (
    <div>
+      <div>
+        <button onClick={() => onDeleteFlag(flagDetails.flagKey)}>Delete Feature</button>
+        <button onClick={() => onToggleFlag(flagDetails.flagKey)}>Toggle Feature ON/OFF</button>
+      </div>
       <div className='variants-container'>
         Variants:
         {Object.entries(flagDetails.variants).map((entry) => {
@@ -38,10 +42,6 @@ const FlagView:React.FC<FlagProps> = ({ flagDetails, onDeleteFlag, onToggleFlag 
         ${new Date(flagDetails.createdAt).toLocaleDateString()}
         `}
       </p> */}
-      <div>
-        <button onClick={() => onDeleteFlag(flagDetails.flagKey)}>Delete Feature</button>
-        <button onClick={() => onToggleFlag(flagDetails.flagKey)}>Toggle Feature ON/OFF</button>
-      </div>
 
       {/* <p>default variant: {flagDetails.defaultVariant}</p> */}
 

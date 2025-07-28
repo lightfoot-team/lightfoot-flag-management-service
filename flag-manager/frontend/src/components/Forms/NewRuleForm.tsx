@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { type EvaluationRule, type Operator, type EvaluationContext } from '../types/evaluationTypes';
-import { type FlagDetails } from '../types/flagTypes';
-import { addRule } from '../services/rules';
+import { type EvaluationRule, type Operator, type EvaluationContext } from '../../types/evaluationTypes';
+import { type FlagDetails } from '../../types/flagTypes';
+import { addRule } from '../../services/rules';
+
 interface NewRuleFormProps {
   flag: FlagDetails
   contextKinds: Array<EvaluationContext>
