@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom"
 import Layout from "./components/Layout"
-import NewFlagForm from "./components/NewFlagForm"
+import NewFlagForm from "./components/Forms/NewFlagForm"
 import Flags from "./components/Flags"
 //import DashboardContainer from "./components/ObservabilityContainer"
 import ObservabilityContainer from "./components/ObservabilityContainer"

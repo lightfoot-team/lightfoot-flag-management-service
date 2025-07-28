@@ -2,12 +2,12 @@ import { useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { useFieldArray } from "react-hook-form";
-import { flagFormSchema } from "../types/newFlagZodSchema";
+import { flagFormSchema } from "../../types/newFlagZodSchema";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { addFlag } from "../services/flags";
+import { addFlag } from "../../services/flags";
 import BooleanFlagVariantInput from "./BooleanVariantInput";
-import NonBooleanVariantInput from "./NonBooleanVariantInput";
+import NonBooleanVariantInput from "../NonBooleanVariantInput";
 
 type FlagFormDetails = z.infer<typeof flagFormSchema>;
 
