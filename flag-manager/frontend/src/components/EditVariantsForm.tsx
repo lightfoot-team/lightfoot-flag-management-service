@@ -1,4 +1,4 @@
-const EditVariantsForm = ({ variants, onSave, onCancel }) => {
+const EditVariantsForm = ({ variants, onSave, onCancel, flagDetails }) => {
   return (
     <div>
       <p>Placeholder edit variants</p>

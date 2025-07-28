@@ -40,6 +40,7 @@ const FlagView:React.FC<FlagProps> = ({ flagDetails }) => {
     <div className="space-y-8">
       {isEditingVariants ? (
         <EditVariantsForm
+          flagDetails={flagDetails}
           variants={flagDetails.variants}
           onSave={handleSaveVariants}
           onCancel={handleCancelEdit}
