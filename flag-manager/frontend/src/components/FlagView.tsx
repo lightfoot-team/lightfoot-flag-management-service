@@ -9,8 +9,6 @@ import EditVariantsForm from "./EditVariantsForm";
 interface FlagViewProps {
   flagDetails: FlagDetails;
   flagDashboardLoaded: boolean;
-  // onDeleteFlag: (flagKey: string) => void;
-  // onToggleFlag: (flagKey: string) => void;
 }
 
 const testUserEvaluationContext: UserEvaluationContext = {

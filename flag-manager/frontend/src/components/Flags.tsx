@@ -1,40 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { type FlagDetails } from "../types/flagTypes";
-import { getAllFlags, deleteFlag, toggleFlag } from "../services/flags";
 import FlagListItem from "./FlagListItem";
-// import Modal from "./Modal";
-// import NewFlagForm from "./NewFlagForm";
 
-const Flags = () => {
-  const [flags, setFlags] = useState<Array<FlagDetails>>([]);
+interface FlagsProps {
+  flags: FlagDetails[];
+  onToggle: (flayKey: string) => void;
+  onDelete: (flayKey: string) => void;
+}
+
+const Flags:React.FC<FlagsProps> = ({ flags, onToggle, onDelete }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState<"add" | "edit">("add")
-
-  useEffect(() => {
-    const fetchFlags = async () => {
-      const response = await getAllFlags();
-      setFlags(response.data)
-    }
-    fetchFlags()
-  }, []);
-
-  const handleDeleteFlag = (flagKey: string) => {
-    deleteFlag(flagKey);
-    const newFlags = flags.filter(flag => flag.flagKey != flagKey);
-    setFlags(newFlags);
-  }
-
-  const handleToggleFlag = (flagKey: string) => {
-    toggleFlag(flagKey);
-    const newFlags = flags.map(flag => {
-      if (flag.flagKey === flagKey) {
-        flag.isEnabled = !flag.isEnabled;
-      }
-      return flag;
-    });
-
-    setFlags(newFlags);
-  }
 
   const handleNewFlagClick = () => {
     setModalMode("add");
@@ -64,8 +40,8 @@ const Flags = () => {
             <FlagListItem
               key={flag.flagKey}
               flagDetails={flag}
-              onDeleteFlag={handleDeleteFlag}
-              onToggleFlag={handleToggleFlag}
+              onDeleteFlag={onDelete}
+              onToggleFlag={onToggle}
               onClose={() => setIsModalOpen(false)}
               modalMode={modalMode}
               onEdit={handleEditClick}

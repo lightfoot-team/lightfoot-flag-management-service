@@ -31,9 +31,6 @@ const NavigationBar = () => {
         <Link to="/flags/observability" className="hover:text-yellow-400 font-medium">
           Observability
         </Link>
-        <Link to="/flags/add" className="hover:text-yellow-400 font-medium">
-          Add New Flag
-        </Link>
         <Link to="/flags/rules" className="hover:text-yellow-400 font-medium">
           Rules
         </Link>
