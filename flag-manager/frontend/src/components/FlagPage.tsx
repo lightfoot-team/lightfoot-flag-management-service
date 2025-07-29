@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import FlagDashboard from "./FlagDashboard";
 import EditVariantsForm from "./EditVariantsForm";
 import NewRuleForm from "./NewRuleForm";
+import ToggleButton from "./ToggleButton";
 import { type FlagDetails } from "../types/flagTypes";
 import { type UserEvaluationContext } from "../types/evaluationTypes";
 import { getFlag } from "../services/flags";
@@ -53,39 +54,15 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
           Flag: <span className="font-mono text-blue-600">{flagDetails.flagKey}</span>
         </h1>
         <div className="flex gap-6 items-center">
-          <div
-            className="flex items-center gap-3 cursor-pointer"
-            role="switch"
-            aria-checked={flagDetails.isEnabled}
-            tabIndex={0}
-            onClick={() => {
-              onToggle(flagDetails.flagKey);
-              setFlagDetails({
-                ...flagDetails,
-                isEnabled: !flagDetails.isEnabled
-              });
-            }}
-          >
-            <div
-              className={`relative inline-flex h-8 w-16 items-center rounded-full transition-colors ${
-                flagDetails.isEnabled ? "bg-yellow-500" : "bg-gray-300"
-              }`}
-            >
-              <span
-                className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform ${
-                  flagDetails.isEnabled ? "translate-x-8" : "translate-x-1"
-                }`}
-              />
-            </div>
-            <span
-              className={`text-md font-medium ${
-                flagDetails.isEnabled ? "text-yellow-600" : "text-gray-600"
-              }`}
-            >
-              {flagDetails.isEnabled ? "Enabled" : "Disabled"}
-            </span>
+          <div className="text-xl">
+            <ToggleButton
+              isEnabled={flagDetails.isEnabled}
+              onToggle={() => {
+                onToggle(flagDetails.flagKey);
+                setFlagDetails({...flagDetails, isEnabled: !flagDetails.isEnabled})
+              }}
+            />
           </div>
-
           <button
             onClick={() => onDelete(flagDetails.flagKey) }
             className="px-5 py-2 rounded-md text-md font-medium bg-red-100 text-red-800 hover:bg-red-200"
@@ -94,11 +71,6 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
           </button>
         </div>
       </div>
-
-      {/* <FlagView
-        flagDetails={flagDetails}
-        flagDashboardLoaded={flagDashboardLoaded}
-      /> */}
       <div className="space-y-8">
         {isEditingVariants ? (
           <EditVariantsForm
@@ -126,9 +98,9 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
         </section>
         )}
 
-        <section className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+        {/* <section className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
           <NewRuleForm flag={flagDetails} contextKinds={[testUserEvaluationContext]} />
-        </section>
+        </section> */}
 
         <section className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
           <FlagDashboard flagKey={flagDetails.flagKey} flagDashboardLoaded={flagDashboardLoaded} />

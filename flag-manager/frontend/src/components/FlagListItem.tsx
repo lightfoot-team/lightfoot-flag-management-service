@@ -5,7 +5,8 @@ import { Link } from "react-router-dom";
 import Modal from "./Modal";
 import EditVariantsForm from "./EditVariantsForm";
 import NewFlagForm from "./NewFlagForm";
-// import FlagView from "./FlagView";
+import ToggleButton from "./ToggleButton";
+
 interface FlagListItemProps {
   flagDetails: FlagDetails;
   onDeleteFlag: (flagKey: string) => void;
@@ -29,35 +30,12 @@ const FlagListItem: React.FC<FlagListItemProps> = (props: FlagListItemProps) => 
       </Link>
 
       <div className="flex gap-2">
-        <div className="flex items-center gap-2 cursor-pointer" 
-            role="switch" 
-            aria-checked={flagDetails.isEnabled} 
-            tabIndex={0}
-            onClick={() => onToggleFlag(flagDetails.flagKey)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                onToggleFlag(flagDetails.flagKey);
-              }
-            }}
-        >
-          <div
-            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 ${
-              flagDetails.isEnabled ? "bg-yellow-500" : "bg-gray-300"
-            }`}
-          >
-            <span
-              className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                flagDetails.isEnabled ? "translate-x-6" : "translate-x-1"
-              }`}
-            />
-          </div>
-          <span className={`select-none text-sm font-medium ${
-            flagDetails.isEnabled ? "text-yellow-600" : "text-gray-600"
-          }`}>
-            {flagDetails.isEnabled ? "Enabled" : "Disabled"}
-          </span>
-        </div>
+        <ToggleButton
+          isEnabled={flagDetails.isEnabled}
+          onToggle={() => {
+            onToggleFlag(flagDetails.flagKey);
+          }}
+        />
 
         <button
           onClick={onEdit}
