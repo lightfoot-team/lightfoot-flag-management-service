@@ -14,7 +14,6 @@ const ObservabilityContainer = () => {
       } catch (error) {
         await createDashboard(redDashboardBody);
         setDashboardLoaded(true);
-        console.error('Get Dashboard failed, creating dashboard instead.', error);
       }
     }
     dashboard()

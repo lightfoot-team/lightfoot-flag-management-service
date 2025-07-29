@@ -26,5 +26,6 @@ export const getDashboard = async(uid: string) => {
     return response
   } catch (error) {
     console.error("Get Dashboard error", error)
+    throw error
   }
 }
