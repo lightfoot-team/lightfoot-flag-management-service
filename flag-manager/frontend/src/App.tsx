@@ -78,7 +78,6 @@ function App() {
           <Route path="flags" element={<Flags flags={flags} onToggle={handleToggleFlag} onDelete={handleDeleteFlag}></Flags>} />
           <Route path="flags/:flagKey" element={<FlagViewPage flagDashboardLoaded={variantsDashboardLoaded} onToggle={handleToggleFlag} onDelete={handleDeleteFlag}></FlagViewPage>} />
           <Route path="flags/observability" element={<ObservabilityContainer dashboardLoaded={overviewDashboardLoaded}></ObservabilityContainer>} />
-          <Route path="flags/add" element={<NewFlagForm />} />
           <Route path="flags/rules" element={<Rules></Rules>} />
         </Route>
       </Routes>
