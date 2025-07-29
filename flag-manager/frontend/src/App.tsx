@@ -3,7 +3,7 @@ import Layout from "./components/Layout"
 import Flags from "./components/Flags"
 import ObservabilityContainer from "./components/ObservabilityContainer"
 import { useState, useEffect } from "react"
-import FlagViewPage from "./components/FlagViewPage"
+import FlagPage from "./components/FlagPage"
 import { getDashboard, createDashboard } from "./services/grafana"
 import { redDashboardBody, byVariantDashboardBody } from "./models/dashboard"
 import type { FlagDetails } from "./types/flagTypes"
@@ -81,7 +81,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Flags flags={flags} onToggle={handleToggleFlag} onDelete={handleDeleteFlag} onAddFlag={handleAddFlag}></Flags>} />
           <Route path="flags" element={<Flags flags={flags} onToggle={handleToggleFlag} onDelete={handleDeleteFlag} onAddFlag={handleAddFlag}></Flags>} />
-          <Route path="flags/:flagKey" element={<FlagViewPage flagDashboardLoaded={variantsDashboardLoaded} onToggle={handleToggleFlag} onDelete={handleDeleteFlag}></FlagViewPage>} />
+          <Route path="flags/:flagKey" element={<FlagPage flagDashboardLoaded={variantsDashboardLoaded} onToggle={handleToggleFlag} onDelete={handleDeleteFlag}></FlagPage>} />
           <Route path="flags/observability" element={<ObservabilityContainer dashboardLoaded={overviewDashboardLoaded}></ObservabilityContainer>} />
           <Route path="flags/rules" element={<Rules></Rules>} />
         </Route>
