@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { type FlagDetails } from "../types/flagTypes";
 import { getAllFlags, deleteFlag, toggleFlag } from "../services/flags";
 import FlagListItem from "./FlagListItem";
-import Modal from "./Modal";
-import NewFlagForm from "./NewFlagForm";
+// import Modal from "./Modal";
+// import NewFlagForm from "./NewFlagForm";
 
 const Flags = () => {
   const [flags, setFlags] = useState<Array<FlagDetails>>([]);
@@ -36,20 +36,24 @@ const Flags = () => {
     setFlags(newFlags);
   }
 
+  const handleNewFlagClick = () => {
+    setModalMode("add");
+    setIsModalOpen(true);
+  }
+
+  const handleEditClick = () => {
+    setModalMode("edit");
+    setIsModalOpen(true);
+  }
+
   return (
     <>
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-6 pr-4">
           <h1 className="text-3xl font-bold text-gray-800">Feature Flags</h1>
-          {/* <button
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-800"
-            onClick={() => setIsModalOpen(true)}
-          >
-            New Flag
-          </button> */}
           <button
             className="px-4 py-2 rounded-md text-base bg-blue-200 text-blue-1000 hover:bg-blue-300 transition"
-            onClick={() => setIsModalOpen(true)}
+            onClick={handleNewFlagClick}
           >
             New Flag
           </button>
@@ -62,14 +66,14 @@ const Flags = () => {
               flagDetails={flag}
               onDeleteFlag={handleDeleteFlag}
               onToggleFlag={handleToggleFlag}
+              onClose={() => setIsModalOpen(false)}
+              modalMode={modalMode}
+              onEdit={handleEditClick}
+              isModalOpen={isModalOpen}
             />
           ))}
         </div>
       </div>
-
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        {modalMode === "add" ? <NewFlagForm onClose={() => setIsModalOpen(false)} /> : null}
-      </Modal>
     </>
   );
 }

@@ -12,7 +12,7 @@ import { updateFlag } from '../services/flags';
 
 type FlagFormDetails = z.infer<typeof flagFormSchema>;
 
-const EditVariantsForm = ({ onCancel, flagDetails, onToggle }) => {
+const EditVariantsForm = ({ onClose, flagDetails }) => {
   const flagType = flagDetails.flagType;
   const formVariants = variantsToArray(flagDetails.variants);
 
@@ -38,7 +38,6 @@ const EditVariantsForm = ({ onCancel, flagDetails, onToggle }) => {
       console.log(data);
       try {
         await updateFlag(data);
-        // onToggle();
       } catch (e) {
         console.error("Error submitting form, please try again", e)
       }
@@ -95,7 +94,7 @@ const EditVariantsForm = ({ onCancel, flagDetails, onToggle }) => {
 
       <div>
         <button onClick={handleSubmit(onSubmit)}>Save changes</button>
-        <button onClick={onCancel}>Cancel</button>
+        <button onClick={onClose}>Cancel</button>
       </div>
     </div>
   )
