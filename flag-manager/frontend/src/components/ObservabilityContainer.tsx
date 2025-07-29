@@ -1,6 +1,6 @@
 import Panel from "./Panel";
-import { useEffect, useState } from "react";
-import { createDashboard, getDashboard } from "../services/grafana";
+// import { useEffect, useState } from "react";
+// import { createDashboard, getDashboard } from "../services/grafana";
 import { redDashboardBody } from "../models/dashboard";
 interface ObservabilityContainerProps {
   dashboardLoaded: boolean

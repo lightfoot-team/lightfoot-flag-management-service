@@ -3,8 +3,11 @@ import { useEffect, useState } from "react";
 import FlagView from "./FlagView";
 import { type FlagDetails } from "../types/flagTypes";
 import { getFlag } from "../services/flags";
-
-const FlagViewPage = () => {
+interface FlagViewPageProps {
+  flagDashboardLoaded: boolean
+}
+const FlagViewPage = (props: FlagViewPageProps) => {
+  const {flagDashboardLoaded} = props;
   const { flagKey } = useParams<{ flagKey: string }>();
   const [flagDetails, setFlagDetails] = useState<FlagDetails | null>(null);
 
@@ -29,6 +32,7 @@ const FlagViewPage = () => {
         </h1>
         <FlagView
           flagDetails={flagDetails}
+          flagDashboardLoaded={flagDashboardLoaded}
         />
       </div>
     </div>

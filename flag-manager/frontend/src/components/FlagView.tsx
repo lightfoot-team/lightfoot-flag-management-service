@@ -6,8 +6,9 @@ import FlagDashboard from "./FlagDashboard";
 import EditVariantsForm from "./EditVariantsForm";
 
      
-interface FlagProps {
+interface FlagViewProps {
   flagDetails: FlagDetails;
+  flagDashboardLoaded: boolean;
   // onDeleteFlag: (flagKey: string) => void;
   // onToggleFlag: (flagKey: string) => void;
 }
@@ -19,7 +20,8 @@ const testUserEvaluationContext: UserEvaluationContext = {
   email: '',
   location: ''
 }
-const FlagView:React.FC<FlagProps> = ({ flagDetails }) => {
+const FlagView:React.FC<FlagViewProps> = (props: FlagViewProps) => {
+  const { flagDetails, flagDashboardLoaded } = props;
   const [ isEditingVariants, setIsEditingVariants ] = useState(false);
 
   const handleToggleEditingVariants = () => {
@@ -63,7 +65,7 @@ const FlagView:React.FC<FlagProps> = ({ flagDetails }) => {
       </section>
 
       <section className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
-        <FlagDashboard flagKey={flagDetails.flagKey} />
+        <FlagDashboard flagKey={flagDetails.flagKey} flagDashboardLoaded={flagDashboardLoaded} />
       </section>
     </div>
   );

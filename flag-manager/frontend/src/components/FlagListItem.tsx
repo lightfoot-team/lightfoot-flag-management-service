@@ -16,7 +16,8 @@ interface FlagListItemProps {
   isModalOpen: boolean;
 }
 
-const FlagListItem: React.FC<FlagListItemProps> = ({ flagDetails, onDeleteFlag, onToggleFlag, onClose, onEdit, modalMode, isModalOpen }) => {
+const FlagListItem: React.FC<FlagListItemProps> = (props: FlagListItemProps) => {
+  const { flagDetails, onDeleteFlag, onToggleFlag, onClose, onEdit, modalMode, isModalOpen} = props;
   return (
     <div className="flex justify-between items-center bg-white border rounded-xl p-4 shadow-sm hover:shadow-md transition mb-4">
       <Link

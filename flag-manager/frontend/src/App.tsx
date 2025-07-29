@@ -43,7 +43,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Flags />} />
           <Route path="flags" element={<Flags />} />
-          <Route path="flags/:flagKey" element={<FlagViewPage />} />
+          <Route path="flags/:flagKey" element={<FlagViewPage flagDashboardLoaded={dashboardsLoaded.byVariant}></FlagViewPage>} />
           <Route path="flags/observability" element={<ObservabilityContainer dashboardLoaded={dashboardsLoaded.overview}></ObservabilityContainer>} />
           <Route path="flags/add" element={<NewFlagForm />} />
           <Route path="flags/rules" element={<Rules></Rules>} />
