@@ -1,6 +1,5 @@
 import { Route, Routes } from "react-router-dom"
 import Layout from "./components/Layout"
-import NewFlagForm from "./components/NewFlagForm"
 import Flags from "./components/Flags"
 import ObservabilityContainer from "./components/ObservabilityContainer"
 import { useState, useEffect } from "react"
@@ -70,12 +69,16 @@ function App() {
     setFlags(newFlags);
   }
 
+  const handleAddFlag = (newFlag: FlagDetails) => {
+    setFlags(prev => [...prev, newFlag])
+  }
+
   return (
     <div className="application">
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Flags flags={flags} onToggle={handleToggleFlag} onDelete={handleDeleteFlag}></Flags>} />
-          <Route path="flags" element={<Flags flags={flags} onToggle={handleToggleFlag} onDelete={handleDeleteFlag}></Flags>} />
+          <Route index element={<Flags flags={flags} onToggle={handleToggleFlag} onDelete={handleDeleteFlag} onAddFlag={handleAddFlag}></Flags>} />
+          <Route path="flags" element={<Flags flags={flags} onToggle={handleToggleFlag} onDelete={handleDeleteFlag} onAddFlag={handleAddFlag}></Flags>} />
           <Route path="flags/:flagKey" element={<FlagViewPage flagDashboardLoaded={variantsDashboardLoaded} onToggle={handleToggleFlag} onDelete={handleDeleteFlag}></FlagViewPage>} />
           <Route path="flags/observability" element={<ObservabilityContainer dashboardLoaded={overviewDashboardLoaded}></ObservabilityContainer>} />
           <Route path="flags/rules" element={<Rules></Rules>} />

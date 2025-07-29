@@ -14,10 +14,11 @@ interface FlagListItemProps {
   onEdit: () => void;
   modalMode: string;
   isModalOpen: boolean;
+  onAddFlag: (newFlag: FlagDetails) => void;
 }
 
 const FlagListItem: React.FC<FlagListItemProps> = (props: FlagListItemProps) => {
-  const { flagDetails, onDeleteFlag, onToggleFlag, onClose, onEdit, modalMode, isModalOpen} = props;
+  const { flagDetails, onDeleteFlag, onToggleFlag, onClose, onEdit, modalMode, isModalOpen, onAddFlag} = props;
   return (
     <div className="flex justify-between items-center bg-white border rounded-xl p-4 shadow-sm hover:shadow-md transition mb-4">
       <Link
@@ -74,7 +75,7 @@ const FlagListItem: React.FC<FlagListItemProps> = (props: FlagListItemProps) => 
         </button>
       </div>
       <Modal isOpen={isModalOpen} onClose={onClose}>
-        {modalMode === "add" ? <NewFlagForm onClose={onClose} />
+        {modalMode === "add" ? <NewFlagForm onClose={onClose} onAddFlag={onAddFlag} />
           : <EditVariantsForm onClose={onClose} flagDetails={flagDetails}/>}
       </Modal>
     </div>

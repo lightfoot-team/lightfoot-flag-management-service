@@ -6,9 +6,10 @@ interface FlagsProps {
   flags: FlagDetails[];
   onToggle: (flayKey: string) => void;
   onDelete: (flayKey: string) => void;
+  onAddFlag: (newFlag: FlagDetails) => void;
 }
 
-const Flags:React.FC<FlagsProps> = ({ flags, onToggle, onDelete }) => {
+const Flags:React.FC<FlagsProps> = ({ flags, onToggle, onDelete, onAddFlag }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState<"add" | "edit">("add")
 
@@ -46,6 +47,7 @@ const Flags:React.FC<FlagsProps> = ({ flags, onToggle, onDelete }) => {
               modalMode={modalMode}
               onEdit={handleEditClick}
               isModalOpen={isModalOpen}
+              onAddFlag={onAddFlag}
             />
           ))}
         </div>

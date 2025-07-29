@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { useFieldArray } from "react-hook-form";
 import { flagFormSchema } from "../types/newFlagZodSchema";
@@ -8,14 +7,16 @@ import { z } from 'zod';
 import { addFlag } from "../services/flags";
 import BooleanFlagVariantInput from "./BooleanVariantInput";
 import NonBooleanVariantInput from "./NonBooleanVariantInput";
+import type { FlagDetails } from "../types/flagTypes";
 
 type FlagFormDetails = z.infer<typeof flagFormSchema>;
 
 interface NewFlagFormProps {
   onClose: () => void;
+  onAddFlag: (newFlag: FlagDetails) => void;
 }
 
-const NewFlagForm:React.FC<NewFlagFormProps> = ({ onClose }) => {
+const NewFlagForm:React.FC<NewFlagFormProps> = ({ onClose, onAddFlag }) => {
   const { 
     register,
     handleSubmit,
@@ -36,7 +37,6 @@ const NewFlagForm:React.FC<NewFlagFormProps> = ({ onClose }) => {
     }
   })
 
-  const navigate = useNavigate();
   const flagType = watch("flagType");
   const variants = watch("variants") || [];
   const validOptions = variants.filter(variant => 
@@ -73,8 +73,8 @@ const NewFlagForm:React.FC<NewFlagFormProps> = ({ onClose }) => {
     console.log("Validation passed!");
     try {
       await addFlag(data);
+      onAddFlag(data)
       onClose();
-      // navigate('/flags');
     } catch (e) {
       console.error("Error submitting form, please try again", e)
     }
