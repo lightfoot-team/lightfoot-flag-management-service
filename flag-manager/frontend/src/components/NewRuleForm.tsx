@@ -1,12 +1,22 @@
 import { useState } from 'react';
-import { type EvaluationRule, type Operator, type EvaluationContext } from '../types/evaluationTypes';
+import { 
+  type EvaluationRule, 
+  type Operator, 
+  type EvaluationContext
+} from '../types/evaluationTypes';
 import { type FlagDetails } from '../types/flagTypes';
 import { addRule } from '../services/rules';
+import { z } from 'zod';
+
 interface NewRuleFormProps {
   flag: FlagDetails
   contextKinds: Array<EvaluationContext>
 }
+
+type NewRuleFormDetails = z.infer<typeof ruleFormSchema>;
+
 const OPERATORS: Array<Operator> = ['equals', 'contains', 'endsWith', 'startsWith', 'lessThan']
+
 const NewRuleForm = (props: NewRuleFormProps) => {
   const { flag, contextKinds } = props;
   const { flagKey, flagType } = flag;
@@ -138,4 +148,5 @@ const NewRuleForm = (props: NewRuleFormProps) => {
     </>
   )
 };
+
 export default NewRuleForm

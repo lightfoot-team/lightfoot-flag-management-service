@@ -42,6 +42,7 @@ const convertVariants = (variantsArray: FlagFormVariant[], flagType: FlagType) =
 
   return variants;
 }
+
 const parseFlagFormDetails = (flagFormDetails: FlagFormDetails): NewFlag => {
   const { flagKey, flagType, defaultVariant, variants: variantsArray } = flagFormDetails;
   const createdAt = new Date(Date.now()).toUTCString();
@@ -119,7 +120,6 @@ export const toggleFlag = async (req: Request, res: Response, next: NextFunction
   }
 }
 
-//TODO: implement
 export const updateFlag = async (req: Request, res: Response, next: NextFunction) => {
   const flagFormDetails = req.body;
   const validationResult = flagFormSchema.safeParse(flagFormDetails);
@@ -156,6 +156,12 @@ export const deleteFlag = async (req: Request, res: Response, next: NextFunction
 }
 
 export const createRule = async (req: Request, res: Response, next: NextFunction) => {
+  // backend validation with Zod schema
+  // if error, send 422 status
+
+  // try parsing and submitting
+  // catch and next error
+
   try {
     const rule: EvaluationRule = req.body.rule;
     console.log('Rule:', rule);
