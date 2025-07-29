@@ -72,7 +72,7 @@ export const getFlagEvaluation = async (req: Request, res: Response, next: NextF
 
     const flag = await db.getFlagByKey(flagKey) as Flag;
     if (flag === null) {
-      res.status(404).json({}) // TODO: send evaluation reason (see OpenFeature docs), may need to refactor expected response in provider
+      res.status(404).json({}) // TODO: send evaluation reason (see OpenFeature docs)
     } else {
     let flagResolution: FlagResolution;
     
@@ -91,4 +91,31 @@ export const getFlagEvaluation = async (req: Request, res: Response, next: NextF
     next(err)
   }
 
+}
+
+export const getFlagEvaluationConfig = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const flagEvaluations: Record<string, FlagResolution>  = {}
+    const context = req.body.context;
+    const flags = await db.getAllFlags();
+    for (let i = 0; i < flags.length; i++) {
+      const flag = flags[i] as Flag;
+      let flagResolution: FlagResolution;
+    
+      if (!flag.isEnabled) {
+        flagResolution = {
+          value: disabledFlagValues[flag.flagType] as FlagType,
+          reason: 'DISABLED',
+        }
+      } else {
+        flagResolution = await evaluateFlag(context, flag as Flag)
+      }
+      flagEvaluations[flag.flagKey] = flagResolution
+    }
+    console.log('Evaluations:', flagEvaluations)
+    res.status(200).json(flagEvaluations)
+  }
+  catch (err) {
+    next(err)
+  }
 }

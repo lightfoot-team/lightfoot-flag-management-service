@@ -51,6 +51,15 @@ async function executeQuery(statement: string, ...parameters: any[]) {
 
 class DBPersistence {
 
+  async getAllFlags() {
+    const QUERY = `SELECT flag_key, flag_type, variants, created_at, updated_at, default_variant, is_enabled FROM ${FLAGS}`
+    const result = await executeQuery(QUERY);
+
+    return result.rows.map((row: Flag) => {
+      return setFlagKeysToCamelCase(row)
+    });
+  }
+  
   async getFlagByKey(flagKey: string) {
     const QUERY = `SELECT flag_key, flag_type, variants, created_at, updated_at, default_variant, is_enabled FROM ${FLAGS}
                     WHERE flag_key = $1`;

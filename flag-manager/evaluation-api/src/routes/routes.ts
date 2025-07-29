@@ -1,9 +1,9 @@
 import {Router} from 'express';
-import { getFlagEvaluation } from '../controllers/controller';
+import { getFlagEvaluation, getFlagEvaluationConfig } from '../controllers/controller';
 
 const router = Router();
 
-//TODO: check best practice for method here
-router.post('/', getFlagEvaluation);
 
+router.post('/', getFlagEvaluation);
+router.post('/config', getFlagEvaluationConfig)
 export default router;
