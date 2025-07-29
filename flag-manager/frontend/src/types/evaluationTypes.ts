@@ -7,7 +7,7 @@ export const ruleFormSchema = z.object({
   name: z
     .string()
     .min(1, "A name for the rule is required.")
-    .max(100, "Rule name must be less than 100 characters"
+    .max(100, "Rule name must be less than 100 characters")
 })
 
 export interface EvaluationContext {
