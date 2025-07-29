@@ -1,35 +1,58 @@
 interface ToggleButtonProps {
   isEnabled: boolean;
   onToggle: () => void;
+  size?: "sm" | "lg";
 }
 
-const ToggleButton: React.FC<ToggleButtonProps> = ({ isEnabled, onToggle }) => {
+interface SizeClass {
+  container: string;
+  circle: string;
+  translateOn: string;
+  translateOff: string;
+  text: string;
+}
+
+const sizeClasses = {
+  sm: {
+    container: "w-9 h-5",
+    circle: "w-4 h-4",
+    translateOn: "translate-x-4.5",
+    translateOff: "translate-x-0.5",
+    text: "text-sm"
+  },
+  lg: {
+    container: "w-14 h-7",
+    circle: "w-6 h-6",
+    translateOn: "translate-x-7",
+    translateOff: "translate-x-1",
+    text: "text-lg"
+  }
+};
+
+const ToggleButton: React.FC<ToggleButtonProps> = ({
+  isEnabled,
+  onToggle,
+  size = "sm",
+}) => {
+  const sizeClass: SizeClass = sizeClasses[size];
+
   return (
     <div
-      className="flex items-center gap-2 cursor-pointer"
+      className={`flex items-center gap-2 cursor-pointer ${sizeClass.text}`}
       role="switch"
       aria-checked={isEnabled}
       tabIndex={0}
       onClick={onToggle}
-      style={{ fontSize: "1em" }}
     >
       <div
         className={`relative inline-flex items-center rounded-full transition-colors ${
           isEnabled ? "bg-yellow-500" : "bg-gray-300"
-        }`}
-        style={{
-          width: "2.5em",
-          height: "1.25em",
-        }}
+        } ${sizeClass.container}`}
       >
         <span
-          className={`inline-block transform rounded-full bg-white transition-transform ${
-            isEnabled ? "translate-x-[1.25em]" : "translate-x-[0.125em]"
-          }`}
-          style={{
-            width: "1em",
-            height: "1em",
-          }}
+          className={`inline-block bg-white rounded-full transition-transform transform ${
+            isEnabled ? sizeClass.translateOn : sizeClass.translateOff
+          } ${sizeClass.circle}`}
         />
       </div>
       <span
@@ -42,6 +65,5 @@ const ToggleButton: React.FC<ToggleButtonProps> = ({ isEnabled, onToggle }) => {
     </div>
   );
 };
-
 
 export default ToggleButton;

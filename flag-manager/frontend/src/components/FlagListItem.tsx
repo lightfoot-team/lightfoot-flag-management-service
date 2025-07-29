@@ -35,16 +35,14 @@ const FlagListItem: React.FC<FlagListItemProps> = (props: FlagListItemProps) => 
           onToggle={() => {
             onToggleFlag(flagDetails.flagKey);
           }}
+          size="sm"
         />
-
         <button
           onClick={onEdit}
           className="px-3 py-1 rounded-md text-sm font-medium bg-blue-200 text-blue-800 hover:bg-blue-300 transition"
         >
           Edit
         </button>
-
-        
         <button
           onClick={() => onDeleteFlag(flagDetails.flagKey)}
           className="px-3 py-1 rounded-md text-sm font-medium bg-red-100 text-red-800 hover:bg-red-200 transition"

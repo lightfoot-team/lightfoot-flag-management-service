@@ -54,18 +54,19 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
           Flag: <span className="font-mono text-blue-600">{flagDetails.flagKey}</span>
         </h1>
         <div className="flex gap-6 items-center">
-          <div className="text-xl">
+          <div className="text-md">
             <ToggleButton
               isEnabled={flagDetails.isEnabled}
               onToggle={() => {
                 onToggle(flagDetails.flagKey);
                 setFlagDetails({...flagDetails, isEnabled: !flagDetails.isEnabled})
               }}
+              size="lg"
             />
           </div>
           <button
             onClick={() => onDelete(flagDetails.flagKey) }
-            className="px-5 py-2 rounded-md text-md font-medium bg-red-100 text-red-800 hover:bg-red-200"
+            className="px-5 py-2 rounded-md text-lg font-medium bg-red-100 text-red-800 hover:bg-red-200"
           >
             Delete
           </button>
