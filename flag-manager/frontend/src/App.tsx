@@ -51,9 +51,11 @@ function App() {
   }, [overviewDashboardLoaded, variantsDashboardLoaded]);
 
   const handleDeleteFlag = (flagKey: string) => {
-    deleteFlag(flagKey);
-    const newFlags = flags.filter(flag => flag.flagKey != flagKey);
-    setFlags(newFlags);
+    if (confirm("Are you sure you want to delete this flag?")) {
+      deleteFlag(flagKey);
+      const newFlags = flags.filter(flag => flag.flagKey != flagKey);
+      setFlags(newFlags);
+    }
   }
 
   const handleToggleFlag = (flagKey: string) => {
