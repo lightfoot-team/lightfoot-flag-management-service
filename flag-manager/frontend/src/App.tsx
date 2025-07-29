@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom"
+import { Route, Routes, useNavigate } from "react-router-dom"
 import Layout from "./components/Layout"
 import Flags from "./components/Flags"
 import ObservabilityContainer from "./components/ObservabilityContainer"
@@ -15,6 +15,7 @@ function App() {
   const [flags, setFlags] = useState<Array<FlagDetails>>([]);
   const [overviewDashboardLoaded, setOverviewDashboardLoaded] = useState(false);
   const [variantsDashboardLoaded, setVariantsDashboardLoaded] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchFlags = async () => {
@@ -54,6 +55,7 @@ function App() {
       deleteFlag(flagKey);
       const newFlags = flags.filter(flag => flag.flagKey != flagKey);
       setFlags(newFlags);
+      navigate("/flags");
     }
   }
 

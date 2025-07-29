@@ -68,7 +68,7 @@ const FlagViewPage = (props: FlagViewPageProps) => {
           </div>
 
           <button
-            onClick={() => onDelete(flagDetails.flagKey)}
+            onClick={() => onDelete(flagDetails.flagKey) }
             className="px-5 py-2 rounded-md text-md font-medium bg-red-100 text-red-800 hover:bg-red-200"
           >
             Delete
