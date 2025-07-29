@@ -2,22 +2,24 @@ import Panel from "./Panel";
 import { useEffect, useState } from "react";
 import { createDashboard, getDashboard } from "../services/grafana";
 import { redDashboardBody } from "../models/dashboard";
-
-const ObservabilityContainer = () => {
-  const [dashboardLoaded, setDashboardLoaded] = useState(false);
+interface ObservabilityContainerProps {
+  dashboardLoaded: boolean
+}
+const ObservabilityContainer = (props: ObservabilityContainerProps) => {
+  const {dashboardLoaded} = props;
   console.log('Name:', redDashboardBody.metadata.name)
-  useEffect(() => {
-    const dashboard = async () => {
-      try {
-        await getDashboard(redDashboardBody.metadata.name);
-        setDashboardLoaded(true);
-      } catch (error) {
-        await createDashboard(redDashboardBody);
-        setDashboardLoaded(true);
-      }
-    }
-    dashboard()
-  }, [dashboardLoaded])
+  // useEffect(() => {
+  //   const dashboard = async () => {
+  //     try {
+  //       await getDashboard(redDashboardBody.metadata.name);
+  //       setDashboardLoaded(true);
+  //     } catch (error) {
+  //       await createDashboard(redDashboardBody);
+  //       setDashboardLoaded(true);
+  //     }
+  //   }
+  //   dashboard()
+  // }, [dashboardLoaded])
 
   return (
     <>
