@@ -4,6 +4,10 @@ import { z } from 'zod'
 
 export const ruleFormSchema = z.object({
   // TODO: zod schema for rule form
+  name: z
+    .string()
+    .min(1, "A name for the rule is required.")
+    .max(100, "Rule name must be less than 100 characters"
 })
 
 export interface EvaluationContext {
