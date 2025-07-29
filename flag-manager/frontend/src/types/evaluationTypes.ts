@@ -2,6 +2,10 @@ import { type FlagValue } from "./flagTypes";
 import { z } from 'zod'
 // import { type ErrorCode, type FlagMetadata } from "@openfeature/server-sdk";
 
+export const ruleFormSchema = z.object({
+  // TODO: zod schema for rule form
+})
+
 export interface EvaluationContext {
   targetingKey: string, // unique identifier for subject (ie UUID or hash of username)
   kind: string

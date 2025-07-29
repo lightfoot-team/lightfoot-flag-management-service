@@ -142,6 +142,13 @@ const NewRuleForm = (props: NewRuleFormProps) => {
           </select>
         </div>
         <button type="submit">Submit Rule</button>
+        <button
+          type="button"
+          onClick={onClose}
+          className="px-4 py-2 rounded-md text-base bg-red-100 text-red-800 hover:bg-red-200 transition"
+        >
+          Cancel
+        </button>
 
 
       </form >

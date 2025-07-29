@@ -5,7 +5,6 @@ import NewRuleForm from "./NewRuleForm";
 import FlagDashboard from "./FlagDashboard";
 import EditVariantsForm from "./EditVariantsForm";
 
-     
 interface FlagViewProps {
   flagDetails: FlagDetails;
   flagDashboardLoaded: boolean;
@@ -18,6 +17,7 @@ const testUserEvaluationContext: UserEvaluationContext = {
   email: '',
   location: ''
 }
+
 const FlagView:React.FC<FlagViewProps> = (props: FlagViewProps) => {
   const { flagDetails, flagDashboardLoaded } = props;
   const [ isEditingVariants, setIsEditingVariants ] = useState(false);
