@@ -11,6 +11,7 @@ import { z } from 'zod';
 interface NewRuleFormProps {
   flag: FlagDetails
   contextKinds: Array<EvaluationContext>
+  onClose: () => void;
 }
 
 type NewRuleFormDetails = z.infer<typeof ruleFormSchema>;
@@ -18,7 +19,7 @@ type NewRuleFormDetails = z.infer<typeof ruleFormSchema>;
 const OPERATORS: Array<Operator> = ['equals', 'contains', 'endsWith', 'startsWith', 'lessThan']
 
 const NewRuleForm = (props: NewRuleFormProps) => {
-  const { flag, contextKinds } = props;
+  const { flag, contextKinds, onClose } = props;
   const { flagKey, flagType } = flag;
   const [formState, setFormState] = useState<EvaluationRule>({
     name: '',
@@ -36,10 +37,9 @@ const NewRuleForm = (props: NewRuleFormProps) => {
   }
   return (
     <>
-      <h3>Add a new rule</h3>
-      <form onSubmit={handleSubmit}>
-        <div id='name-input-container'>
-          <label htmlFor="name">Name</label>
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div>
+          <label htmlFor="name" className="block font-medium text-gray-700 mb-1">Name</label>
           <input
             type="text"
             placeholder="Name"
@@ -47,10 +47,11 @@ const NewRuleForm = (props: NewRuleFormProps) => {
               setFormState({ ...formState, name: e.target.value });
             }}
             required
+            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-        <div id='context-select-container'>
-          <label htmlFor="context-kind">Context Kind</label>
+        <div>
+          <label htmlFor="context-kind" className="block font-medium text-gray-700 mb-1">Context Kind</label>
           <select
             id="context-select"
             value={formState.contextKind}
@@ -61,16 +62,17 @@ const NewRuleForm = (props: NewRuleFormProps) => {
               })
             }
             required
+            className="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             {contextKinds.map((context) => {
               return (
-                <option value={context.kind}>{context.kind}</option>
+                <option key={context.kind} value={context.kind}>{context.kind}</option>
               )
             })}
           </select>
         </div>
-        <div id='attribute-select-container'>
-          <label htmlFor="attribute">Attribute</label>
+        <div>
+          <label htmlFor="attribute" className="block font-medium text-gray-700 mb-1">Attribute</label>
           <select
             id="attribute-select"
             value={formState.attribute}
@@ -81,16 +83,17 @@ const NewRuleForm = (props: NewRuleFormProps) => {
               })
             }
             required
+            className="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             {Object.keys(contextKinds[0]).map((attribute) => {
               return (
-                <option value={attribute}>{attribute}</option>
+                <option key={attribute} value={attribute}>{attribute}</option>
               )
             })}
           </select>
         </div>
-        <div id='operator-select-container'>
-          <label htmlFor="operator">Operator</label>
+        <div>
+          <label htmlFor="operator" className="block font-medium text-gray-700 mb-1">Operator</label>
           <select
             id="operator-select"
             value={formState.operator}
@@ -101,16 +104,17 @@ const NewRuleForm = (props: NewRuleFormProps) => {
               })
             }
             required
+            className="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             {OPERATORS.map((operator) => {
               return (
-                <option value={operator}>{operator}</option>
+                <option key={operator} value={operator}>{operator}</option>
               )
             })}
           </select>
         </div>
-        <div id='values-input-container'>
-          <label htmlFor="values">Values</label>
+        <div>
+          <label htmlFor="values" className="block font-medium text-gray-700 mb-1">Values</label>
           <input
             type="text"
             placeholder="Value"
@@ -119,10 +123,11 @@ const NewRuleForm = (props: NewRuleFormProps) => {
               setFormState({ ...formState, values: newValues });
             }}
             required
+            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-        <div id='variant-select-container'>
-          <label htmlFor="variant">Variant</label>
+        <div>
+          <label htmlFor="variant" className="block font-medium text-gray-700 mb-1">Variant</label>
           <select
             id="variant-select-container"
             value={formState.variant}
@@ -133,24 +138,30 @@ const NewRuleForm = (props: NewRuleFormProps) => {
               })
             }
             required
+            className="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             {Object.keys(flag.variants).map((variant) => {
               return (
-                <option value={variant}>{variant}</option>
+                <option key={variant} value={variant}>{variant}</option>
               )
             })}
           </select>
         </div>
-        <button type="submit">Submit Rule</button>
-        <button
-          type="button"
-          onClick={onClose}
-          className="px-4 py-2 rounded-md text-base bg-red-100 text-red-800 hover:bg-red-200 transition"
-        >
-          Cancel
-        </button>
-
-
+        <div className="flex space-x-4">
+          <button
+            type="submit"
+            className="px-4 py-2 rounded-md text-base bg-blue-200 text-blue-1000 hover:bg-blue-300 transition"
+          >
+            Submit Rule
+          </button>
+          <button
+            type="button"
+            onClick={onClose}
+            className="px-4 py-2 rounded-md text-base bg-red-100 text-red-800 hover:bg-red-200 transition"
+          >
+            Cancel
+          </button>
+        </div>
       </form >
     </>
   )

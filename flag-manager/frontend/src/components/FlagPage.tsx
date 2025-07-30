@@ -26,6 +26,8 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
   const { flagKey } = useParams<{ flagKey: string }>();
   const [flagDetails, setFlagDetails] = useState<FlagDetails | null>(null);
   const [ isEditingVariants, setIsEditingVariants ] = useState(false);
+  const [isAddingRule, setIsAddingRule] = useState(false);
+
 
   useEffect(() => {
     const fetchFlag = async () => {
@@ -114,9 +116,25 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
         </section>
         )}
 
-        {/* <section className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
-          <NewRuleForm flag={flagDetails} contextKinds={[testUserEvaluationContext]} />
-        </section> */}
+        <section className="bg-gray-50 rounded-lg p-6 shadow-sm border border-gray-200">
+          {isAddingRule ? (
+            <>
+              <h2 className="text-xl font-semibold text-blue-700 mb-4">Add New Rule</h2>
+              <NewRuleForm
+                flag={flagDetails}
+                contextKinds={[testUserEvaluationContext]}
+                onClose={() => setIsAddingRule(false)}
+              />
+            </>
+          ) : (
+            <button
+              onClick={() => setIsAddingRule(true)}
+              className="px-4 py-2 rounded-md text-base bg-blue-200 text-blue-1000 hover:bg-blue-300 transition"
+            >
+              Add Rule
+            </button>
+          )}
+        </section>
 
         <section className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
           <FlagDashboard flagKey={flagDetails.flagKey} flagDashboardLoaded={flagDashboardLoaded} />
