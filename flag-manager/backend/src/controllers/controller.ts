@@ -164,7 +164,6 @@ export const createRule = async (req: Request, res: Response, next: NextFunction
 
   try {
     const rule: EvaluationRule = req.body.rule;
-    console.log('Rule:', rule);
     const {name, values} = rule;
     const addRuleResult = await db.addRule(rule);
     const addRuleValuesResult = await db.addRuleValues(name, values);
