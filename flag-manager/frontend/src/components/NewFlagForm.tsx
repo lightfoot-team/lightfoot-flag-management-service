@@ -170,6 +170,7 @@ const NewFlagForm:React.FC<NewFlagFormProps> = ({ onClose, onAddFlag }) => {
           Cancel
         </button>
       </div>
+
     </form>
   );
 };
