@@ -17,11 +17,11 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
 
   return (
     <div
-      className="fixed inset-0 backdrop-blur-sm backdrop-brightness-75 flex items-center justify-center z-50"
+      className="fixed inset-0 backdrop-blur-sm backdrop-brightness-75 flex items-center justify-center z-50 overflow-y-auto"
       onClick={handleBackdropClick}
     >
       <div
-        className="bg-white rounded-lg shadow-lg p-6 max-w-xl w-full relative"
+        className="bg-white rounded-lg shadow-lg p-6 max-w-xl w-full max-h-[90vh] overflow-y-auto relative"
         onClick={(e) => e.stopPropagation()}
       >
         {children}
