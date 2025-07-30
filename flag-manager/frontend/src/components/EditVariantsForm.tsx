@@ -9,10 +9,16 @@ import BooleanFlagVariantInput from "./BooleanVariantInput";
 import NonBooleanVariantInput from "./NonBooleanVariantInput";
 import { variantsToArray } from "../services/forms";
 import { updateFlag } from '../services/flags';
+import type { FlagDetails } from '../types/flagTypes';
 
 type FlagFormDetails = z.infer<typeof flagFormSchema>;
 
-const EditVariantsForm = ({ onClose, flagDetails }) => {
+interface EditVariantsFormProps {
+  onClose: () => void;
+  flagDetails: FlagDetails;
+}
+
+const EditVariantsForm:React.FC<EditVariantsFormProps> = ({ onClose, flagDetails }) => {
   const flagType = flagDetails.flagType;
   const formVariants = variantsToArray(flagDetails.variants);
 
@@ -106,11 +112,12 @@ const EditVariantsForm = ({ onClose, flagDetails }) => {
         )}
 
       <div>
-        <label htmlFor="default-variant">Default Variant</label>
+        <label htmlFor="default-variant" className="block font-medium text-gray-700 mb-1">Default Variant</label>
         <select
           {...register("defaultVariant")}
           id="default-variant"
           disabled={validOptions.length <= 0}
+          className="w-full border border-gray-300 rounded px-3 py-2 bg-white disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="">
             {validOptions.length > 0 ? "Select a default variant" : "No variants available"}

@@ -36,8 +36,8 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
     fetchFlag();
   }, [flagKey]);
 
-  const handleToggleEditingVariants = () => {
-    setIsEditingVariants(!isEditingVariants);
+  const handleEditVariantsClick = () => {
+    setIsEditingVariants(true);
   }
 
   const handleCancelEdit = () => {
@@ -76,8 +76,7 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
         {isEditingVariants ? (
           <EditVariantsForm
             flagDetails={flagDetails}
-            onToggle={handleToggleEditingVariants}
-            onCancel={handleCancelEdit}
+            onClose={handleCancelEdit}
           />
         ) : (
         <section className="bg-gray-50 rounded-lg p-6 shadow-sm border border-gray-200">
@@ -93,8 +92,13 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
               </div>
             ))}
           </div>
-          <div>
-            <button onClick={handleToggleEditingVariants}>Edit Variants</button>
+          <div className="mt-4">
+            <button
+              className="px-4 py-2 rounded-md text-base bg-blue-200 text-blue-1000 hover:bg-blue-300 transition"
+              onClick={handleEditVariantsClick}
+            >
+              Edit Variants
+            </button>
           </div>
         </section>
         )}
