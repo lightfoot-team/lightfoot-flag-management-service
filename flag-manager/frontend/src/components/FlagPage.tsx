@@ -4,6 +4,7 @@ import FlagDashboard from "./FlagDashboard";
 import EditVariantsForm from "./EditVariantsForm";
 import NewRuleForm from "./NewRuleForm";
 import ToggleButton from "./ToggleButton";
+import Rules from "./Rules";
 import { type FlagDetails } from "../types/flagTypes";
 import { type UserEvaluationContext } from "../types/evaluationTypes";
 import { getFlag } from "../services/flags";
@@ -117,6 +118,8 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
         )}
 
         <section className="bg-gray-50 rounded-lg p-6 shadow-sm border border-gray-200">
+          {/* this Rules component currently crashes the app when rendered */}
+          {/* <Rules /> */}
           {isAddingRule ? (
             <>
               <h2 className="text-xl font-semibold text-blue-700 mb-4">Add New Rule</h2>
