@@ -36,13 +36,23 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
     fetchFlag();
   }, [flagKey]);
 
-  const handleEditVariantsClick = () => {
+  const handleOpenEdit = () => {
     setIsEditingVariants(true);
   }
 
   const handleCancelEdit = () => {
-    setIsEditingVariants(false); // Hide edit form without saving
+    setIsEditingVariants(false);
   };
+
+  const handleSubmitEdit = async () => {
+    const fetchFlag = async () => {
+      const response = await getFlag(flagKey as string);
+      setFlagDetails(response.data);
+    };
+
+    await fetchFlag();
+    setIsEditingVariants(false);
+  }
 
   // change this to be separate loading page and error page
   if (!flagDetails) return <div>Flag Not Found</div>;
@@ -76,7 +86,8 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
         {isEditingVariants ? (
           <EditVariantsForm
             flagDetails={flagDetails}
-            onClose={handleCancelEdit}
+            onSubmitEdit={handleSubmitEdit}
+            onCancel={handleCancelEdit}
           />
         ) : (
         <section className="bg-gray-50 rounded-lg p-6 shadow-sm border border-gray-200">
@@ -95,7 +106,7 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
           <div className="mt-4">
             <button
               className="px-4 py-2 rounded-md text-base bg-blue-200 text-blue-1000 hover:bg-blue-300 transition"
-              onClick={handleEditVariantsClick}
+              onClick={handleOpenEdit}
             >
               Edit Variants
             </button>

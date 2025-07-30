@@ -14,11 +14,12 @@ import type { FlagDetails } from '../types/flagTypes';
 type FlagFormDetails = z.infer<typeof flagFormSchema>;
 
 interface EditVariantsFormProps {
-  onClose: () => void;
+  onSubmitEdit: () => void;
+  onCancel: () => void;
   flagDetails: FlagDetails;
 }
 
-const EditVariantsForm:React.FC<EditVariantsFormProps> = ({ onClose, flagDetails }) => {
+const EditVariantsForm:React.FC<EditVariantsFormProps> = ({ onSubmitEdit, onCancel, flagDetails }) => {
   const flagType = flagDetails.flagType;
   const formVariants = variantsToArray(flagDetails.variants);
 
@@ -39,15 +40,16 @@ const EditVariantsForm:React.FC<EditVariantsFormProps> = ({ onClose, flagDetails
       }
     })
 
-    const onSubmit = async (data) => {
-      console.log("Validation passed!")
-      console.log(data);
-      try {
-        await updateFlag(data);
-      } catch (e) {
-        console.error("Error submitting form, please try again", e)
-      }
+  const onSubmit = async (data) => {
+    console.log("Validation passed!")
+    console.log(data);
+    try {
+      await updateFlag(data);
+      onSubmitEdit();
+    } catch (e) {
+      console.error("Error submitting form, please try again", e)
     }
+  }
 
   const variants = watch("variants") || [];
   const validOptions = variants.filter(variant => 
@@ -139,7 +141,7 @@ const EditVariantsForm:React.FC<EditVariantsFormProps> = ({ onClose, flagDetails
         </button>
         <button
           type="button"
-          onClick={onClose}
+          onClick={onCancel}
           className="px-4 py-2 rounded-md text-base bg-red-100 text-red-800 hover:bg-red-200 transition"
         >
           Cancel
