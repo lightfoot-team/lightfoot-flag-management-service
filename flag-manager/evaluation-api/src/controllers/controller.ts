@@ -73,6 +73,7 @@ export const getFlagEvaluation = async (req: Request, res: Response, next: NextF
     const flag = await db.getFlagByKey(flagKey) as Flag;
     if (flag === null) {
       res.status(404).json({}) // TODO: send evaluation reason (see OpenFeature docs)
+      return;
     } else {
     let flagResolution: FlagResolution;
     
