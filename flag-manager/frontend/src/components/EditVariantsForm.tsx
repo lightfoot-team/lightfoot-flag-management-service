@@ -54,6 +54,37 @@ const EditVariantsForm = ({ onClose, flagDetails }) => {
   });
   
   return (
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="bg-white rounded-lg p-6 shadow-sm border border-gray-200 space-y-6"
+    >
+    <div>
+        <label htmlFor="flag-key" className="block font-medium text-gray-700 mb-1">Flag Key</label>
+        <input 
+          {...register("flagKey")}
+          type="text"
+          id="flag-key"
+          placeholder="Flag Key"
+          className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          disabled
+        />
+      </div>
+
+      <div>
+        <label htmlFor="flag-type" className="block font-medium text-gray-700 mb-1">Flag Type</label>
+        <select
+          id="flag-type"
+          {...register("flagType")}
+          className="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+          disabled
+        >
+          <option value="boolean">boolean</option>
+          <option value="string">string</option>
+          <option value="number">number</option>
+          <option value="object">object</option>
+        </select>
+      </div>
+
     <div>
       <p>Placeholder edit variants</p>
       {flagType === "boolean" && (
@@ -92,11 +123,24 @@ const EditVariantsForm = ({ onClose, flagDetails }) => {
         </select>
       </div>
 
-      <div>
-        <button onClick={handleSubmit(onSubmit)}>Save changes</button>
-        <button onClick={onClose}>Cancel</button>
+      <div className="flex justify-start space-x-4 mt-6">
+        <button
+          type="submit"
+          className="px-4 py-2 rounded-md text-base bg-blue-200 text-blue-1000 hover:bg-blue-300 transition"
+        >
+          Save Changes
+        </button>
+        <button
+          type="button"
+          onClick={onClose}
+          className="px-4 py-2 rounded-md text-base bg-red-100 text-red-800 hover:bg-red-200 transition"
+        >
+          Cancel
+        </button>
       </div>
+
     </div>
+    </form>
   )
 }
 
