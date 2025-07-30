@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { type FlagDetails } from "../types/flagTypes";
 import FlagListItem from "./FlagListItem";
+import EmptyFlagsList from "./EmptyFlagsList";
 
 interface FlagsProps {
   flags: FlagDetails[];
@@ -36,7 +37,7 @@ const Flags:React.FC<FlagsProps> = ({ flags, onToggle, onDelete, onAddFlag }) =>
           </button>
         </div>
 
-        <div className="space-y-4">
+        {flags.length > 0 ? (<div className="space-y-4">
           {flags.map((flag) => (
             <FlagListItem
               key={flag.flagKey}
@@ -50,7 +51,10 @@ const Flags:React.FC<FlagsProps> = ({ flags, onToggle, onDelete, onAddFlag }) =>
               onAddFlag={onAddFlag}
             />
           ))}
-        </div>
+        </div>)
+        : 
+        <EmptyFlagsList onClose={() => setIsModalOpen(false)} isModalOpen={isModalOpen} onAddFlag={onAddFlag}/>
+        }
       </div>
     </>
   );
