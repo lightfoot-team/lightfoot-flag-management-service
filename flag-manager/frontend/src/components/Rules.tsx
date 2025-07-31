@@ -26,7 +26,7 @@ const Rules:React.FC<RulesProps> = ({ flagKey }) => {
       ) : (
         <ul className="space-y-3">
           {rules.map(rule => (
-            <li key={rule.name} className="p-3 border rounded-md hover:shadow-lg transition-shadow duration-200">
+            <li key={rule.name}>
               <RuleListItem ruleDetails={rule} />
             </li>
           ))}
