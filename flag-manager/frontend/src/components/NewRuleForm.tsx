@@ -1,150 +1,119 @@
-import { useState } from 'react';
+import { useForm } from "react-hook-form";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import { 
   type EvaluationRule, 
   type Operator, 
-  type EvaluationContext
+  type EvaluationContext,
+  ruleFormSchema,
 } from '../types/evaluationTypes';
 import { type FlagDetails } from '../types/flagTypes';
 import { addRule } from '../services/rules';
-import { z } from 'zod';
 
 interface NewRuleFormProps {
   flag: FlagDetails
-  contextKinds: Array<EvaluationContext>
+  // contextKinds: Array<EvaluationContext>
   onClose: () => void;
 }
 
-type NewRuleFormDetails = z.infer<typeof ruleFormSchema>;
+type RuleFormDetails = z.infer<typeof ruleFormSchema>;
 
-const OPERATORS: Array<Operator> = ['equals', 'contains', 'endsWith', 'startsWith', 'lessThan']
+const OPERATORS: Array<Operator> = ['=', '!=', '>', '<', '>=', '<='];
 
-const NewRuleForm = (props: NewRuleFormProps) => {
-  const { flag, contextKinds, onClose } = props;
-  const { flagKey, flagType } = flag;
-  const [formState, setFormState] = useState<EvaluationRule>({
-    name: '',
-    contextKind: 'user',
-    attribute: '',
-    operator: 'equals',
-    values: [],
-    flagKey: flagKey,
-    variant: ''
-  })
-  const [currentContext, setCurrentContext] = useState<EvaluationContext>(contextKinds[0])
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    await addRule(formState)
-  }
+const NewRuleForm:React.FC<NewRuleFormProps> = ({ flag, contextKinds, onClose }) => {
+  const { flagKey } = flag;
+  
+  const { 
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+    setValue
+  } = useForm<RuleFormDetails>({
+    resolver: zodResolver(ruleFormSchema),
+    defaultValues: {
+      name: '',
+      attribute: 'id',
+      operator: '=',
+      value: '',
+      flagKey: flagKey,
+      variant: ''
+    }
+  });
+
+  const onSubmit = async (data: RuleFormDetails) => {
+    try {
+      console.log('need to work on backend rule stuff...')
+      // await addRule(data);
+      onClose();
+    } catch (error) {
+      console.error("Error submitting rule, please try again", error);
+    }
+  };
+
   return (
     <>
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div>
           <label htmlFor="name" className="block font-medium text-gray-700 mb-1">Rule Name</label>
           <input
+            {...register("name")}
             type="text"
+            id="name"
             placeholder="Name"
-            onChange={(e) => {
-              setFormState({ ...formState, name: e.target.value });
-            }}
-            required
             className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-        {/* <div>
-          <label htmlFor="context-kind" className="block font-medium text-gray-700 mb-1">Context Kind</label>
-          <select
-            id="context-select"
-            value={formState.contextKind}
-            onChange={(e) =>
-              setFormState({
-                ...formState,
-                contextKind: e.target.value
-              })
-            }
-            required
-            className="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            {contextKinds.map((context) => {
-              return (
-                <option key={context.kind} value={context.kind}>{context.kind}</option>
-              )
-            })}
-          </select>
-        </div> */}
         <div>
           <label htmlFor="attribute" className="block font-medium text-gray-700 mb-1">User Attribute</label>
           <select
-            id="attribute-select"
-            value={formState.attribute}
-            onChange={(e) =>
-              setFormState({
-                ...formState,
-                attribute: e.target.value
-              })
-            }
-            required
+            {...register("attribute")}
+            id="attribute"
             className="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            {Object.keys(contextKinds[0]).map((attribute) => {
-              return (
-                <option key={attribute} value={attribute}>{attribute}</option>
-              )
-            })}
+            <option value="">Select an attribute</option>
+            <option key='id' value='attribute'>id</option>
+            <option key='role' value='role'>role</option>
+            <option key='group' value='group'>group</option>
           </select>
         </div>
         <div>
           <label htmlFor="operator" className="block font-medium text-gray-700 mb-1">Operator</label>
           <select
-            id="operator-select"
-            value={formState.operator}
-            onChange={(e) =>
-              setFormState({
-                ...formState,
-                operator: e.target.value as Operator
-              })
-            }
-            required
+            {...register("operator")}
+            id="operator"
             className="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            {OPERATORS.map((operator) => {
-              return (
-                <option key={operator} value={operator}>{operator}</option>
-              )
-            })}
+            {OPERATORS.map((operator) => (
+              <option key={operator} value={operator}>
+                {operator}
+              </option>
+            ))}
           </select>
         </div>
         <div>
-          <label htmlFor="values" className="block font-medium text-gray-700 mb-1">Values</label>
+          <label htmlFor="value" className="block font-medium text-gray-700 mb-1">Value</label>
           <input
+            {...register("value")}
             type="text"
+            id="value"
             placeholder="Value"
-            onChange={(e) => {
-              const newValues = [ e.target.value];
-              setFormState({ ...formState, values: newValues });
-            }}
-            required
             className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
         <div>
           <label htmlFor="variant" className="block font-medium text-gray-700 mb-1">Assign to Variant</label>
           <select
-            id="variant-select-container"
-            value={formState.variant}
-            onChange={(e) =>
-              setFormState({
-                ...formState,
-                variant: e.target.value
-              })
-            }
-            required
+            {...register("variant")}
+            id="variant"
             className="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            {Object.keys(flag.variants).map((variant) => {
-              return (
-                <option key={variant} value={variant}>{variant}</option>
-              )
-            })}
+            <option value="">Select a variant</option>
+            {Object.keys(flag.variants || {}).map((variant) => (
+              <option key={variant} value={variant}>
+                {variant}
+              </option>
+            ))}
           </select>
         </div>
         <div className="flex space-x-4">
