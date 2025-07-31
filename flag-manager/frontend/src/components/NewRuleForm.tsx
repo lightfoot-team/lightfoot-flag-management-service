@@ -39,7 +39,7 @@ const NewRuleForm = (props: NewRuleFormProps) => {
     <>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label htmlFor="name" className="block font-medium text-gray-700 mb-1">Name</label>
+          <label htmlFor="name" className="block font-medium text-gray-700 mb-1">Rule Name</label>
           <input
             type="text"
             placeholder="Name"
@@ -50,7 +50,7 @@ const NewRuleForm = (props: NewRuleFormProps) => {
             className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-        <div>
+        {/* <div>
           <label htmlFor="context-kind" className="block font-medium text-gray-700 mb-1">Context Kind</label>
           <select
             id="context-select"
@@ -70,9 +70,9 @@ const NewRuleForm = (props: NewRuleFormProps) => {
               )
             })}
           </select>
-        </div>
+        </div> */}
         <div>
-          <label htmlFor="attribute" className="block font-medium text-gray-700 mb-1">Attribute</label>
+          <label htmlFor="attribute" className="block font-medium text-gray-700 mb-1">User Attribute</label>
           <select
             id="attribute-select"
             value={formState.attribute}
@@ -127,7 +127,7 @@ const NewRuleForm = (props: NewRuleFormProps) => {
           />
         </div>
         <div>
-          <label htmlFor="variant" className="block font-medium text-gray-700 mb-1">Variant</label>
+          <label htmlFor="variant" className="block font-medium text-gray-700 mb-1">Assign to Variant</label>
           <select
             id="variant-select-container"
             value={formState.variant}

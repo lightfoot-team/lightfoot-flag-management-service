@@ -16,11 +16,11 @@ interface FlagPageProps {
 }
 
 const testUserEvaluationContext: UserEvaluationContext = {
-  targetingKey: '',
-  kind: 'user',
-  name: '',
-  email: '',
-  location: ''
+  // targetingKey: '',
+  // kind: 'user',
+  id: '',
+  role: '',
+  group: '',
 }
 
 const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDelete}) => {
