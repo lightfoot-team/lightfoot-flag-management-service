@@ -61,7 +61,7 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
   if (!flagDetails) return <div>Flag Not Found</div>;
 
   return (
-    <div className="p-4">
+    <div className="max-w-full mx-auto">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl font-bold">
           Flag: <span className="font-mono text-blue-600">{flagDetails.flagKey}</span>
@@ -143,7 +143,6 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
           <FlagDashboard flagKey={flagDetails.flagKey} flagDashboardLoaded={flagDashboardLoaded} />
         </section>
       </div>
-
     </div>
   );
 
