@@ -25,9 +25,7 @@ export interface UserEvaluationContext extends EvaluationContext {
 }
 
 export type Operator =
-  'equals' | 'notEquals' | 'endsWith' | 'startsWith' |
-  'matches' | 'contains' | 'lessThan' | 'greaterThan' |
-  'lessThanEquals' | 'greaterThanEquals';
+  '<' | '>' | '=' | '!=' | '<=' | '>=';
 
 export interface EvaluationRule {
   name: string
