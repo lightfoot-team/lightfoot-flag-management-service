@@ -135,6 +135,32 @@ class DBPersistence {
       await executeQuery(ADD_VALUES_QUERY, val, ruleId);
     }
   }
+
+  async getAllRulesByFlagKey(flagKey: string): Promise<EvaluationRule[]> {
+    const RULES_QUERY = `SELECT id, rule_name, user_attribute, operator, flag_key, variant FROM rules WHERE flag_key = $1`;
+    const rulesResult = await executeQuery(RULES_QUERY, flagKey);
+    const rules = rulesResult.rows;
+    const rulesWithValues: EvaluationRule[] = [];
+
+    for (const rule of rules) {
+      const VALUES_QUERY = `SELECT val FROM rule_values WHERE rule_id = $1`;
+      const valuesResult = await executeQuery(VALUES_QUERY, rule.id);
+      const values = valuesResult.rows.map((row: { val: string }) => row.val);
+      const ruleWithValues: EvaluationRule = {
+        name: rule.rule_name,
+        attribute: rule.user_attribute,
+        operator: rule.operator,
+        values,
+        flagKey: rule.flag_key,
+        variant: rule.variant,
+      };
+
+      rulesWithValues.push(ruleWithValues);
+    }
+
+    return rulesWithValues;
+  }
+
 }
 
 export default DBPersistence;

@@ -5,7 +5,7 @@ const axiosConfig = {
       'Content-Type': 'application/json',
   }
 };
-const baseURL = 'http://localhost:3000/api/flags/rule'
+const baseURL = 'http://localhost:3000/api/flags'
 
 
 /**
@@ -17,18 +17,12 @@ const baseURL = 'http://localhost:3000/api/flags/rule'
  */
 export const addRule = async (rule: EvaluationRule) => {
     console.log('rule:', rule)
-  const result = await axios.post(`${baseURL}`, {rule: rule}, axiosConfig);
+  const result = await axios.post(`${baseURL}/rule`, {rule: rule}, axiosConfig);
   console.log('result:', result)
   return result;
 }
 
-export const getRules = async () => {
-  return [{
-      name: 'test rule (need to implement api call)',
-      attribute: 'role',
-      operator: '=',
-      value: 'admin',
-      flagKey: 'featured-park',
-      variant: 'on'
-  }]
-}
+export const getRulesByFlagKey = async (flagKey: string) => {
+  const response = await axios.get(`${baseURL}/rules/${flagKey}`);
+  return response.data as EvaluationRule[];
+};

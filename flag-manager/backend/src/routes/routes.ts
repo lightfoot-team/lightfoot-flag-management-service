@@ -7,6 +7,7 @@ import {
   deleteFlag, 
   toggleFlag, 
   createRule,
+  getRulesByFlagKey
 } from '../controllers/controller';
 
 const router = Router();
@@ -16,6 +17,8 @@ router.post('/add', createFlag);
 router.post('/update', updateFlag);
 
 router.get('/all', readAllFlags);
+
+router.get('/rules/:flagKey', getRulesByFlagKey);
 
 router.get('/:flagName', readFlag);
 

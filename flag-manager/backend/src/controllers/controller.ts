@@ -174,3 +174,18 @@ export const createRule = async (req: Request, res: Response, next: NextFunction
     next(err);
   }
 }
+
+export const getRulesByFlagKey = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const flagKey = req.params.flagKey;
+    if (typeof flagKey !== 'string' || flagKey.trim() === '') {
+      res.status(400).json({ error: 'flagKey parameter must be a non-empty string' });
+      return;
+    }
+
+    const rules = await db.getAllRulesByFlagKey(flagKey);
+    res.status(200).json(rules);
+  } catch (err) {
+    next(err);
+  }
+};
