@@ -118,14 +118,13 @@ class DBPersistence {
   }
 
   async addRule(rule: EvaluationRule) {
-    const { name, contextKind, attribute, operator, flagKey, variant } = rule;
+    const { name, attribute, operator, flagKey, variant } = rule;
 
-    const QUERY = `INSERT INTO rules (rule_name, context_kind, attribute, operator, flag_key, variant)
-                  VALUES ($1, $2, $3, $4, $5, $6)`;
-    const result = await executeQuery(QUERY, name, contextKind, attribute, operator, flagKey, variant);
+    const QUERY = `INSERT INTO rules (rule_name, user_attribute, operator, flag_key, variant)
+                  VALUES ($1, $2, $3, $4, $5)`;
+    const result = await executeQuery(QUERY, name, attribute, operator, flagKey, variant);
     return result.rowCount;
   }
-
 
   async addRuleValues(name: string, values: Array<string>) {
     const SELECT_RULE_QUERY = `SELECT * FROM rules WHERE rules.rule_name = $1`;

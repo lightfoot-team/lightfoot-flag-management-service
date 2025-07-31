@@ -6,7 +6,7 @@ import {
   readFlag, 
   deleteFlag, 
   toggleFlag, 
-  createRule
+  createRule,
 } from '../controllers/controller';
 
 const router = Router();

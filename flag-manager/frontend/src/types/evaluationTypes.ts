@@ -10,12 +10,15 @@ export const ruleFormSchema = z.object({
     .trim(),
   attribute: z.enum(['id', 'role', 'group']),
   operator: z.enum(['=', '!=', '>', '<', '>=', '<=']),
-  value: z
-    .string()
-    .min(1, 'At least one value is required')
-    .max(100, 'Value must be less than 100 characters')
-    .trim(),
+  values: z
+    .array(
+      z.string()
+      .min(1, 'At least one value is required')
+      .max(100, 'Value must be less than 100 characters')
+      .trim()
+    ),
   flagKey: z.string(),
+  flagType: z.string(),
   variant: z.string().min(1, 'Variant is required')
 });
 
@@ -39,8 +42,9 @@ export interface EvaluationRule {
   name: string
   attribute: string 
   operator: Operator
-  value: string
+  values: Array<string>
   flagKey: string
+  flagType: string
   variant: string 
 }
 

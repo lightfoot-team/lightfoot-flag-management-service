@@ -1,10 +1,11 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { useState, useEffect } from 'react';
 import { 
-  type EvaluationRule, 
+  // type EvaluationRule, 
   type Operator, 
-  type EvaluationContext,
+  // type EvaluationContext,
   ruleFormSchema,
 } from '../types/evaluationTypes';
 import { type FlagDetails } from '../types/flagTypes';
@@ -12,7 +13,6 @@ import { addRule } from '../services/rules';
 
 interface NewRuleFormProps {
   flag: FlagDetails
-  // contextKinds: Array<EvaluationContext>
   onClose: () => void;
 }
 
@@ -20,35 +20,59 @@ type RuleFormDetails = z.infer<typeof ruleFormSchema>;
 
 const OPERATORS: Array<Operator> = ['=', '!=', '>', '<', '>=', '<='];
 
-const NewRuleForm:React.FC<NewRuleFormProps> = ({ flag, contextKinds, onClose }) => {
-  const { flagKey } = flag;
+const NewRuleForm: React.FC<NewRuleFormProps> = ({ flag, onClose }) => {
+  const { flagKey, flagType } = flag;
+  const [values, setValues] = useState<string[]>(['']);
   
   const { 
     register,
     handleSubmit,
     formState: { errors },
-    watch,
-    setValue
+    setValue,
   } = useForm<RuleFormDetails>({
     resolver: zodResolver(ruleFormSchema),
     defaultValues: {
       name: '',
       attribute: 'id',
       operator: '=',
-      value: '',
+      values: [''],
       flagKey: flagKey,
+      flagType: flagType,
       variant: ''
     }
   });
 
+  useEffect(() => {
+    setValue('values', values);
+  }, [values, setValue]);
+
   const onSubmit = async (data: RuleFormDetails) => {
     try {
-      console.log('need to work on backend rule stuff...')
-      // await addRule(data);
+      const filteredData = {
+        ...data,
+        values: values.filter(value => value.trim() !== '')
+      };
+      await addRule(filteredData);
       onClose();
     } catch (error) {
       console.error("Error submitting rule, please try again", error);
     }
+  };
+
+  const addValue = () => {
+    setValues([...values, '']);
+  };
+
+  const removeValue = (index: number) => {
+    if (values.length > 1) {
+      setValues(values.filter((_, i) => i !== index));
+    }
+  };
+
+  const updateValue = (index: number, newValue: string) => {
+    const updatedValues = [...values];
+    updatedValues[index] = newValue;
+    setValues(updatedValues);
   };
 
   return (
@@ -63,7 +87,11 @@ const NewRuleForm:React.FC<NewRuleFormProps> = ({ flag, contextKinds, onClose })
             placeholder="Name"
             className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
+          {errors.name && (
+            <p className="text-red-600 text-sm mt-1">{errors.name.message}</p>
+          )}
         </div>
+        
         <div>
           <label htmlFor="attribute" className="block font-medium text-gray-700 mb-1">User Attribute</label>
           <select
@@ -72,11 +100,15 @@ const NewRuleForm:React.FC<NewRuleFormProps> = ({ flag, contextKinds, onClose })
             className="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="">Select an attribute</option>
-            <option key='id' value='attribute'>id</option>
+            <option key='id' value='id'>id</option>
             <option key='role' value='role'>role</option>
             <option key='group' value='group'>group</option>
           </select>
+          {errors.attribute && (
+            <p className="text-red-600 text-sm mt-1">{errors.attribute.message}</p>
+          )}
         </div>
+        
         <div>
           <label htmlFor="operator" className="block font-medium text-gray-700 mb-1">Operator</label>
           <select
@@ -90,17 +122,56 @@ const NewRuleForm:React.FC<NewRuleFormProps> = ({ flag, contextKinds, onClose })
               </option>
             ))}
           </select>
+          {errors.operator && (
+            <p className="text-red-600 text-sm mt-1">{errors.operator.message}</p>
+          )}
         </div>
+        
         <div>
-          <label htmlFor="value" className="block font-medium text-gray-700 mb-1">Value</label>
-          <input
-            {...register("value")}
-            type="text"
-            id="value"
-            placeholder="Value"
-            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+          <div className="flex items-center justify-between mb-2">
+            <label className="block font-medium text-gray-700">Values</label>
+            <button
+              type="button"
+              onClick={addValue}
+              className="text-sm bg-green-100 text-green-800 px-3 py-1 rounded hover:bg-green-200 transition"
+            >
+              + Add Value
+            </button>
+          </div>
+          
+          <div className="space-y-2">
+            {values.map((value, index) => (
+              <div key={index} className="flex items-center space-x-2">
+                <input
+                  type="text"
+                  value={value}
+                  onChange={(e) => updateValue(index, e.target.value)}
+                  placeholder={`Value ${index + 1}`}
+                  className="flex-1 border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                {values.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => removeValue(index)}
+                    className="text-red-600 hover:text-red-800 px-2 py-1 text-sm"
+                  >
+                    Remove
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+          
+          {errors.values && (
+            <p className="text-red-600 text-sm mt-1">
+              {Array.isArray(errors.values) 
+                ? "Please check your values" 
+                : errors.values.message
+              }
+            </p>
+          )}
         </div>
+        
         <div>
           <label htmlFor="variant" className="block font-medium text-gray-700 mb-1">Assign to Variant</label>
           <select
@@ -115,7 +186,14 @@ const NewRuleForm:React.FC<NewRuleFormProps> = ({ flag, contextKinds, onClose })
               </option>
             ))}
           </select>
+          {errors.variant && (
+            <p className="text-red-600 text-sm mt-1">{errors.variant.message}</p>
+          )}
         </div>
+        
+        <input type="hidden" {...register("flagKey")} defaultValue={flagKey} />
+        <input type="hidden" {...register("flagType")} defaultValue={flagType} />
+        
         <div className="flex space-x-4">
           <button
             type="submit"
@@ -131,9 +209,9 @@ const NewRuleForm:React.FC<NewRuleFormProps> = ({ flag, contextKinds, onClose })
             Cancel
           </button>
         </div>
-      </form >
+      </form>
     </>
   )
 };
 
-export default NewRuleForm
+export default NewRuleForm;
