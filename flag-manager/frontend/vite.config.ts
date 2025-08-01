@@ -19,10 +19,10 @@ export default defineConfig({
         target: 'http://localhost:4318',
         changeOrigin: true
       },
-      // '/api/evaluate/config': {
-      //   target: 'http://localhost:3001',
-      //   changeOrigin: true
-      // }
+      '/api/evaluate/config': {
+        target: 'http://localhost:3001',
+        changeOrigin: true
+      }
     },
 
   },

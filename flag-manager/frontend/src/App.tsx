@@ -8,7 +8,6 @@ import { getDashboard, createDashboard } from "./services/grafana"
 import { redDashboardBody, byVariantDashboardBody } from "./models/dashboard"
 import type { FlagDetails } from "./types/flagTypes"
 import './App.css'
-import Rules from "./components/Rules"
 import { getAllFlags, deleteFlag, toggleFlag } from "./services/flags"
 import { LightFootClientSDK, featureFlagsClient } from 'client-sdk'
 
@@ -86,15 +85,23 @@ function App() {
     setFlags(prev => [...prev, newFlag])
   }
 
+  const handleUpdateFlag = (updatedFlag: FlagDetails) => {
+    setFlags(prevFlags =>
+      prevFlags.map(flag =>
+        flag.flagKey === updatedFlag.flagKey ? updatedFlag : flag
+      )
+    );
+  };
+
+
   return (
     <div className="application">
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Flags flags={flags} onToggle={handleToggleFlag} onDelete={handleDeleteFlag} onAddFlag={handleAddFlag}></Flags>} />
-          <Route path="flags" element={<Flags flags={flags} onToggle={handleToggleFlag} onDelete={handleDeleteFlag} onAddFlag={handleAddFlag}></Flags>} />
+          <Route index element={<Flags flags={flags} onToggle={handleToggleFlag} onDelete={handleDeleteFlag} onAddFlag={handleAddFlag} onUpdateFlag={handleUpdateFlag}></Flags>} />
+          <Route path="flags" element={<Flags flags={flags} onToggle={handleToggleFlag} onDelete={handleDeleteFlag} onAddFlag={handleAddFlag} onUpdateFlag={handleUpdateFlag}></Flags>} />
           <Route path="flags/:flagKey" element={<FlagPage flagDashboardLoaded={variantsDashboardLoaded} onToggle={handleToggleFlag} onDelete={handleDeleteFlag}></FlagPage>} />
           <Route path="flags/observability" element={<ObservabilityContainer dashboardLoaded={overviewDashboardLoaded}></ObservabilityContainer>} />
-          <Route path="flags/rules" element={<Rules></Rules>} />
         </Route>
       </Routes>
     </div>
