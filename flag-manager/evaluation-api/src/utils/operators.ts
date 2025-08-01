@@ -9,9 +9,9 @@ import { type Operator } from "../types/evaluationTypes";
  */
 export const getEvaluationFunction = (operator: Operator) => {
   switch (operator) {
-    case 'equals':
+    case '=':
       return (a: unknown, b: unknown) => a === b;
-    case 'notEquals':
+    case '!=':
       return (a: unknown, b: unknown) => a !== b;
 
     default:
