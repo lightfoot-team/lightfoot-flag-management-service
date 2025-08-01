@@ -10,6 +10,10 @@ import type { FlagDetails } from "./types/flagTypes"
 import './App.css'
 import Rules from "./components/Rules"
 import { getAllFlags, deleteFlag, toggleFlag } from "./services/flags"
+import { LightFootClientSDK, featureFlagsClient } from 'client-sdk'
+
+const context = { username: 'admin' };
+await LightFootClientSDK.init(context);
 
 function App() {
   const [flags, setFlags] = useState<Array<FlagDetails>>([]);
@@ -24,6 +28,13 @@ function App() {
     }
     fetchFlags()
   }, []);
+
+  useEffect(() => {
+    
+    const val = featureFlagsClient.getBooleanValue("featured-park", true)
+    console.log('Result', val)
+
+  });
 
   useEffect(() => {
     const loadOverview = async () => {
