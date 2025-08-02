@@ -9,7 +9,7 @@ const metadata = {
   }
 }
 
-const dashboardSpec3 = {
+const byKeyDashboard = {
   "annotations": {
     "list": [
       {
@@ -29,7 +29,7 @@ const dashboardSpec3 = {
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  // "id": 11,
+  "id": 2,
   "links": [],
   "panels": [
     {
@@ -116,7 +116,7 @@ const dashboardSpec3 = {
         {
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{ } | rate() by (event.feature_flag.key) ",
+          "query": "{ name != \"dns.lookup\" } | rate() by (event.feature_flag.key) ",
           "queryType": "traceql",
           "refId": "A",
           "tableType": "traces"
@@ -129,7 +129,7 @@ const dashboardSpec3 = {
           "hide": false,
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{ } | rate()",
+          "query": "{ name != \"dns.lookup\" } | rate()",
           "queryType": "traceql",
           "refId": "B",
           "tableType": "traces"
@@ -222,7 +222,7 @@ const dashboardSpec3 = {
         {
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{ status = error } | rate() by (event.feature_flag.key) ",
+          "query": "{ status = error && name != \"dns.lookup\" } | rate() by (event.feature_flag.key) ",
           "queryType": "traceql",
           "refId": "A",
           "tableType": "traces"
@@ -235,7 +235,7 @@ const dashboardSpec3 = {
           "hide": false,
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{ status = error } | rate()",
+          "query": "{ status = error && name != \"dns.lookup\"} | rate()",
           "queryType": "traceql",
           "refId": "B",
           "tableType": "traces"
@@ -346,7 +346,7 @@ const dashboardSpec3 = {
           "hide": true,
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{ } | avg_over_time(duration) by (event.feature_flag.key) ",
+          "query": "{ name != \"dns.lookup\" } | quantile_over_time(duration, 0.95) by (event.feature_flag.key)",
           "queryType": "traceql",
           "refId": "B",
           "tableType": "spans"
@@ -359,7 +359,7 @@ const dashboardSpec3 = {
           "hide": false,
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{ } | avg_over_time(duration)",
+          "query": "{ name != \"dns.lookup\"} | quantile_over_time(duration, 0.95)",
           "queryType": "traceql",
           "refId": "A",
           "tableType": "traces"
@@ -372,7 +372,7 @@ const dashboardSpec3 = {
           "hide": false,
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{ event.feature_flag.key != nil } | avg_over_time(duration) by (event.feature_flag.key)",
+          "query": "{ event.feature_flag.key != nil && name != \"dns.lookup\" } | quantile_over_time(duration, 0.95) by (event.feature_flag.key)",
           "queryType": "traceql",
           "refId": "C",
           "tableType": "traces"
@@ -395,14 +395,14 @@ const dashboardSpec3 = {
     "list": []
   },
   "time": {
-    "from": "now-5m",
+    "from": "now-15m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
   "title": "My Dashboard",
-  // "uid": "gdlightfoot",
-  "version": 7
+  "uid": "gdlightfoot",
+  "version": 4
 }
 
 const byVariantDashboard = {
@@ -749,7 +749,7 @@ const byVariantDashboard = {
 
 export const redDashboardBody = {
   "metadata": metadata,
-  "spec": dashboardSpec3
+  "spec": byKeyDashboard
 }
 
 export const byVariantDashboardBody = {
