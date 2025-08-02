@@ -29,7 +29,7 @@ export default defineConfig({
 
   resolve: {
     alias: {
-      'client-sdk': path.resolve(__dirname, '../../../../client-sdk/dist/esm/index.js')
+      'client-sdk': path.resolve(__dirname, '../../../client-sdk/dist/esm/index.js')
     }
   }
 })
