@@ -36,12 +36,7 @@ export interface UserEvaluationContext extends EvaluationContext {
   [attributes: string]: unknown
 }
 
-<<<<<<< HEAD
-export type Operator =
-  '<' | '>' | '=' | '!=' | '<=' | '>=';
-=======
 export type Operator = '=' | '!=' | '>' | '<' | '>=' | '<='
->>>>>>> bbdf5b9b24a01f2f85c0cc0dfd54d7b136098d32
 
 export interface EvaluationRule {
   name: string
