@@ -6,21 +6,12 @@ import NewRuleForm from "./NewRuleForm";
 import ToggleButton from "./ToggleButton";
 import Rules from "./Rules";
 import { type FlagDetails } from "../types/flagTypes";
-import { type UserEvaluationContext } from "../types/evaluationTypes";
 import { getFlag } from "../services/flags";
 
 interface FlagPageProps {
   flagDashboardLoaded: boolean;
   onToggle: (flagKey: string) => void;
   onDelete: (flagKey: string) => void;
-}
-
-const testUserEvaluationContext: UserEvaluationContext = {
-  // targetingKey: '',
-  // kind: 'user',
-  id: '',
-  role: '',
-  group: '',
 }
 
 const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDelete}) => {
@@ -118,14 +109,12 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
         )}
 
         <section className="bg-gray-50 rounded-lg p-6 shadow-sm border border-gray-200">
-          {/* this Rules component currently crashes the app when rendered */}
-          {/* <Rules /> */}
+          <Rules flagKey={flagKey as string}/>
           {isAddingRule ? (
             <>
               <h2 className="text-xl font-semibold text-blue-700 mb-4">Add New Rule</h2>
               <NewRuleForm
                 flag={flagDetails}
-                contextKinds={[testUserEvaluationContext]}
                 onClose={() => setIsAddingRule(false)}
               />
             </>

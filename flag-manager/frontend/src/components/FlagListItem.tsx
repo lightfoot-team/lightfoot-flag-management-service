@@ -6,6 +6,8 @@ import Modal from "./Modal";
 import EditVariantsForm from "./EditVariantsForm";
 import NewFlagForm from "./NewFlagForm";
 import ToggleButton from "./ToggleButton";
+import { getFlag } from "../services/flags";
+
 
 interface FlagListItemProps {
   flagDetails: FlagDetails;
@@ -16,10 +18,32 @@ interface FlagListItemProps {
   modalMode: string;
   isModalOpen: boolean;
   onAddFlag: (newFlag: FlagDetails) => void;
+  onUpdateFlag: (updatedFlag: FlagDetails) => void;
 }
 
 const FlagListItem: React.FC<FlagListItemProps> = (props: FlagListItemProps) => {
-  const { flagDetails, onDeleteFlag, onToggleFlag, onClose, onEdit, modalMode, isModalOpen, onAddFlag} = props;
+  const { flagDetails, onDeleteFlag, onToggleFlag, onClose, onEdit, modalMode, isModalOpen, onAddFlag, onUpdateFlag} = props;
+  
+  // const handleSubmitEdit = async (data) => {
+  //   try {
+  //     await updateFlag(data);
+  //     // onSubmitEdit();
+  //   } catch (e) {
+  //     console.error("Error submitting form, please try again", e)
+  //   }
+  // }
+
+  const handleSubmitEdit = async () => {
+    try {
+      const response = await getFlag(flagDetails.flagKey);
+      onUpdateFlag(response.data);
+      onClose();
+    } catch (e) {
+      console.error("Error refreshing updated flag", e);
+    }
+  };
+
+
   return (
     <div className="flex justify-between items-center bg-white border rounded-xl p-4 shadow-sm hover:shadow-md transition mb-4">
       <Link
@@ -52,7 +76,7 @@ const FlagListItem: React.FC<FlagListItemProps> = (props: FlagListItemProps) => 
       </div>
       <Modal isOpen={isModalOpen} onClose={onClose}>
         {modalMode === "add" ? <NewFlagForm onClose={onClose} onAddFlag={onAddFlag} />
-          : <EditVariantsForm onClose={onClose} flagDetails={flagDetails}/>}
+          : <EditVariantsForm onSubmitEdit={handleSubmitEdit} onCancel={onClose} flagDetails={flagDetails}/>}
       </Modal>
     </div>
   );

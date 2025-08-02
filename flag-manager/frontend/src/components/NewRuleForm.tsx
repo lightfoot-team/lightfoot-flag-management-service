@@ -1,152 +1,199 @@
-import { useState } from 'react';
+import { useForm } from "react-hook-form";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { useState, useEffect } from 'react';
 import { 
-  type EvaluationRule, 
+  // type EvaluationRule, 
   type Operator, 
-  type EvaluationContext
+  // type EvaluationContext,
+  ruleFormSchema,
 } from '../types/evaluationTypes';
 import { type FlagDetails } from '../types/flagTypes';
 import { addRule } from '../services/rules';
-import { z } from 'zod';
 
 interface NewRuleFormProps {
   flag: FlagDetails
-  contextKinds: Array<EvaluationContext>
   onClose: () => void;
 }
 
-type NewRuleFormDetails = z.infer<typeof ruleFormSchema>;
+type RuleFormDetails = z.infer<typeof ruleFormSchema>;
 
-const OPERATORS: Array<Operator> = ['equals', 'contains', 'endsWith', 'startsWith', 'lessThan']
+const OPERATORS: Array<Operator> = ['=', '!=', '>', '<', '>=', '<='];
 
-const NewRuleForm = (props: NewRuleFormProps) => {
-  const { flag, contextKinds, onClose } = props;
+const NewRuleForm: React.FC<NewRuleFormProps> = ({ flag, onClose }) => {
   const { flagKey, flagType } = flag;
-  const [formState, setFormState] = useState<EvaluationRule>({
-    name: '',
-    contextKind: 'user',
-    attribute: '',
-    operator: 'equals',
-    values: [],
-    flagKey: flagKey,
-    variant: ''
-  })
-  const [currentContext, setCurrentContext] = useState<EvaluationContext>(contextKinds[0])
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    await addRule(formState)
-  }
+  const [values, setValues] = useState<string[]>(['']);
+  
+  const { 
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm<RuleFormDetails>({
+    resolver: zodResolver(ruleFormSchema),
+    defaultValues: {
+      name: '',
+      attribute: 'id',
+      operator: '=',
+      values: [''],
+      flagKey: flagKey,
+      flagType: flagType,
+      variant: ''
+    }
+  });
+
+  useEffect(() => {
+    setValue('values', values);
+  }, [values, setValue]);
+
+  const onSubmit = async (data: RuleFormDetails) => {
+    try {
+      const filteredData = {
+        ...data,
+        values: values.filter(value => value.trim() !== '')
+      };
+      await addRule(filteredData);
+      onClose();
+    } catch (error) {
+      console.error("Error submitting rule, please try again", error);
+    }
+  };
+
+  const addValue = () => {
+    setValues([...values, '']);
+  };
+
+  const removeValue = (index: number) => {
+    if (values.length > 1) {
+      setValues(values.filter((_, i) => i !== index));
+    }
+  };
+
+  const updateValue = (index: number, newValue: string) => {
+    const updatedValues = [...values];
+    updatedValues[index] = newValue;
+    setValues(updatedValues);
+  };
+
   return (
     <>
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div>
           <label htmlFor="name" className="block font-medium text-gray-700 mb-1">Rule Name</label>
           <input
+            {...register("name")}
             type="text"
+            id="name"
             placeholder="Name"
-            onChange={(e) => {
-              setFormState({ ...formState, name: e.target.value });
-            }}
-            required
             className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
+          {errors.name && (
+            <p className="text-red-600 text-sm mt-1">{errors.name.message}</p>
+          )}
         </div>
-        {/* <div>
-          <label htmlFor="context-kind" className="block font-medium text-gray-700 mb-1">Context Kind</label>
-          <select
-            id="context-select"
-            value={formState.contextKind}
-            onChange={(e) =>
-              setFormState({
-                ...formState,
-                contextKind: e.target.value
-              })
-            }
-            required
-            className="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            {contextKinds.map((context) => {
-              return (
-                <option key={context.kind} value={context.kind}>{context.kind}</option>
-              )
-            })}
-          </select>
-        </div> */}
+        
         <div>
           <label htmlFor="attribute" className="block font-medium text-gray-700 mb-1">User Attribute</label>
           <select
-            id="attribute-select"
-            value={formState.attribute}
-            onChange={(e) =>
-              setFormState({
-                ...formState,
-                attribute: e.target.value
-              })
-            }
-            required
+            {...register("attribute")}
+            id="attribute"
             className="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            {Object.keys(contextKinds[0]).map((attribute) => {
-              return (
-                <option key={attribute} value={attribute}>{attribute}</option>
-              )
-            })}
+            <option value="">Select an attribute</option>
+            <option key='id' value='id'>id</option>
+            <option key='role' value='role'>role</option>
+            <option key='group' value='group'>group</option>
           </select>
+          {errors.attribute && (
+            <p className="text-red-600 text-sm mt-1">{errors.attribute.message}</p>
+          )}
         </div>
+        
         <div>
           <label htmlFor="operator" className="block font-medium text-gray-700 mb-1">Operator</label>
           <select
-            id="operator-select"
-            value={formState.operator}
-            onChange={(e) =>
-              setFormState({
-                ...formState,
-                operator: e.target.value as Operator
-              })
-            }
-            required
+            {...register("operator")}
+            id="operator"
             className="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            {OPERATORS.map((operator) => {
-              return (
-                <option key={operator} value={operator}>{operator}</option>
-              )
-            })}
+            {OPERATORS.map((operator) => (
+              <option key={operator} value={operator}>
+                {operator}
+              </option>
+            ))}
           </select>
+          {errors.operator && (
+            <p className="text-red-600 text-sm mt-1">{errors.operator.message}</p>
+          )}
         </div>
+        
         <div>
-          <label htmlFor="values" className="block font-medium text-gray-700 mb-1">Values</label>
-          <input
-            type="text"
-            placeholder="Value"
-            onChange={(e) => {
-              const newValues = [ e.target.value];
-              setFormState({ ...formState, values: newValues });
-            }}
-            required
-            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+          <div className="flex items-center justify-between mb-2">
+            <label className="block font-medium text-gray-700">Values</label>
+            <button
+              type="button"
+              onClick={addValue}
+              className="text-sm bg-green-100 text-green-800 px-3 py-1 rounded hover:bg-green-200 transition"
+            >
+              + Add Value
+            </button>
+          </div>
+          
+          <div className="space-y-2">
+            {values.map((value, index) => (
+              <div key={index} className="flex items-center space-x-2">
+                <input
+                  type="text"
+                  value={value}
+                  onChange={(e) => updateValue(index, e.target.value)}
+                  placeholder={`Value ${index + 1}`}
+                  className="flex-1 border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                {values.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => removeValue(index)}
+                    className="text-red-600 hover:text-red-800 px-2 py-1 text-sm"
+                  >
+                    Remove
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+          
+          {errors.values && (
+            <p className="text-red-600 text-sm mt-1">
+              {Array.isArray(errors.values) 
+                ? "Please check your values" 
+                : errors.values.message
+              }
+            </p>
+          )}
         </div>
+        
         <div>
           <label htmlFor="variant" className="block font-medium text-gray-700 mb-1">Assign to Variant</label>
           <select
-            id="variant-select-container"
-            value={formState.variant}
-            onChange={(e) =>
-              setFormState({
-                ...formState,
-                variant: e.target.value
-              })
-            }
-            required
+            {...register("variant")}
+            id="variant"
             className="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            {Object.keys(flag.variants).map((variant) => {
-              return (
-                <option key={variant} value={variant}>{variant}</option>
-              )
-            })}
+            <option value="">Select a variant</option>
+            {Object.keys(flag.variants || {}).map((variant) => (
+              <option key={variant} value={variant}>
+                {variant}
+              </option>
+            ))}
           </select>
+          {errors.variant && (
+            <p className="text-red-600 text-sm mt-1">{errors.variant.message}</p>
+          )}
         </div>
+        
+        <input type="hidden" {...register("flagKey")} defaultValue={flagKey} />
+        <input type="hidden" {...register("flagType")} defaultValue={flagType} />
+        
         <div className="flex space-x-4">
           <button
             type="submit"
@@ -162,9 +209,9 @@ const NewRuleForm = (props: NewRuleFormProps) => {
             Cancel
           </button>
         </div>
-      </form >
+      </form>
     </>
   )
 };
 
-export default NewRuleForm
+export default NewRuleForm;

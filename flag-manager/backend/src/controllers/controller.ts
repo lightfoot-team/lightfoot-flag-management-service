@@ -8,7 +8,7 @@ import type {
   FlagFormVariant
 } from '../types/flagTypes';
 import type { AppError } from '../types/errorTypes';
-import { EvaluationRule } from '../types/evaluationTypes';
+import { EvaluationRule, ruleFormSchema, RuleFormDetails } from '../types/evaluationTypes';
 import { z } from 'zod';
 import { flagFormSchema } from '../types/newFlagZodSchema';
 
@@ -155,20 +155,37 @@ export const deleteFlag = async (req: Request, res: Response, next: NextFunction
   }
 }
 
-export const createRule = async (req: Request, res: Response, next: NextFunction) => {
-  // backend validation with Zod schema
-  // if error, send 422 status
+export const createRule = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  const validationResult = ruleFormSchema.safeParse(req.body.rule);
 
-  // try parsing and submitting
-  // catch and next error
+  if (!validationResult.success) {
+    console.error("Validation errors: ", validationResult.error.errors);
+    res.status(422).json({ errors: validationResult.error.errors });
+    return;
+  }
 
   try {
-    const rule: EvaluationRule = req.body.rule;
+    const rule: RuleFormDetails = req.body.rule;
     const {name, values} = rule;
-    const addRuleResult = await db.addRule(rule);
-    const addRuleValuesResult = await db.addRuleValues(name, values);
+    await db.addRule(rule);
+    await db.addRuleValues(name, values);
     res.status(201).send();
   } catch (err) {
     next(err);
   }
 }
+
+export const getRulesByFlagKey = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const flagKey = req.params.flagKey;
+    if (typeof flagKey !== 'string' || flagKey.trim() === '') {
+      res.status(400).json({ error: 'flagKey parameter must be a non-empty string' });
+      return;
+    }
+
+    const rules = await db.getAllRulesByFlagKey(flagKey);
+    res.status(200).json(rules);
+  } catch (err) {
+    next(err);
+  }
+};

@@ -3,12 +3,24 @@ import { z } from 'zod'
 // import { type ErrorCode, type FlagMetadata } from "@openfeature/server-sdk";
 
 export const ruleFormSchema = z.object({
-  // TODO: zod schema for rule form
   name: z
     .string()
-    .min(1, "A name for the rule is required.")
-    .max(100, "Rule name must be less than 100 characters")
-})
+    .min(1, 'Rule name is required')
+    .max(100, 'Rule name must be less than 100 characters')
+    .trim(),
+  attribute: z.enum(['id', 'role', 'group']),
+  operator: z.enum(['=', '!=', '>', '<', '>=', '<=']),
+  values: z
+    .array(
+      z.string()
+      .min(1, 'At least one value is required')
+      .max(100, 'Value must be less than 100 characters')
+      .trim()
+    ),
+  flagKey: z.string(),
+  flagType: z.string(),
+  variant: z.string().min(1, 'Variant is required')
+});
 
 export interface EvaluationContext {
   targetingKey: string, // unique identifier for subject (ie UUID or hash of username)
@@ -24,16 +36,20 @@ export interface UserEvaluationContext extends EvaluationContext {
   [attributes: string]: unknown
 }
 
+<<<<<<< HEAD
 export type Operator =
   '<' | '>' | '=' | '!=' | '<=' | '>=';
+=======
+export type Operator = '=' | '!=' | '>' | '<' | '>=' | '<='
+>>>>>>> bbdf5b9b24a01f2f85c0cc0dfd54d7b136098d32
 
 export interface EvaluationRule {
   name: string
-  contextKind: string
   attribute: string 
   operator: Operator
   values: Array<string>
   flagKey: string
+  flagType: string
   variant: string 
 }
 
