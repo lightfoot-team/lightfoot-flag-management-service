@@ -29,7 +29,7 @@ const byKeyDashboard = {
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 2,
+  // "id": 2,
   "links": [],
   "panels": [
     {
@@ -401,7 +401,7 @@ const byKeyDashboard = {
   "timepicker": {},
   "timezone": "browser",
   "title": "My Dashboard",
-  "uid": "gdlightfoot",
+  // "uid": "gdlightfoot",
   "version": 4
 }
 
