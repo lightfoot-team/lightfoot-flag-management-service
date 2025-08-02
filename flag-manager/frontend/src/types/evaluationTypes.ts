@@ -8,8 +8,10 @@ export const ruleFormSchema = z.object({
     .min(1, 'Rule name is required')
     .max(100, 'Rule name must be less than 100 characters')
     .trim(),
+
   attribute: z.enum(['id', 'role', 'group']),
   operator: z.enum(['=', '!=', '>', '<', '>=', '<=']),
+
   values: z
     .array(
       z.string()
@@ -17,6 +19,7 @@ export const ruleFormSchema = z.object({
       .max(100, 'Value must be less than 100 characters')
       .trim()
     ),
+
   flagKey: z.string(),
   flagType: z.string(),
   variant: z.string().min(1, 'Variant is required')
