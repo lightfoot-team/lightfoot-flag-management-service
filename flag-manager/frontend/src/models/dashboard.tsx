@@ -258,7 +258,7 @@ const byKeyDashboard = {
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "avg span duration (ms)",
+            "axisLabel": "p95 span duration (ms)",
             "axisPlacement": "auto",
             "barAlignment": 0,
             "barWidthFactor": 0.6,
@@ -402,7 +402,7 @@ const byKeyDashboard = {
   "timezone": "browser",
   "title": "My Dashboard",
   // "uid": "gdlightfoot",
-  "version": 4
+  "version": 2
 }
 
 const byVariantDashboard = {
