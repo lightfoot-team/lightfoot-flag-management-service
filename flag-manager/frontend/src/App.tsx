@@ -5,7 +5,7 @@ import ObservabilityContainer from "./components/ObservabilityContainer"
 import { useState, useEffect } from "react"
 import FlagPage from "./components/FlagPage"
 import { getDashboard, createDashboard } from "./services/grafana"
-import { redDashboardBody, byVariantDashboardBody, frontendDashboardBody } from "./models/dashboard"
+import { redDashboardBody, byVariantDashboardBody, frontendDashboardBody, byVariantFrontendDashboardBody } from "./models/dashboard"
 import type { FlagDetails } from "./types/flagTypes"
 import './App.css'
 import { getAllFlags, deleteFlag, toggleFlag } from "./services/flags"
@@ -66,9 +66,20 @@ function App() {
       }
     }
 
+    const loadFrontendByVariant = async () => {
+      try {
+        await getDashboard(byVariantFrontendDashboardBody.metadata.name);
+        setOverviewDashboardLoaded(true);
+      } catch (error) {
+        await createDashboard(byVariantFrontendDashboardBody);
+        setOverviewDashboardLoaded(true);
+      }
+    }
+
     loadOverview();
     loadFrontend();
     loadByVariant();
+    loadFrontendByVariant();
   }, [overviewDashboardLoaded, variantsDashboardLoaded]);
 
   const handleDeleteFlag = (flagKey: string) => {

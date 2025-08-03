@@ -1,5 +1,5 @@
 import Panel from "./Panel";
-import { byVariantDashboardBody } from "../models/dashboard";
+import { byVariantDashboardBody, byVariantFrontendDashboardBody } from "../models/dashboard";
 
 interface FlagDashboardProps {
   flagKey: string;
@@ -26,9 +26,9 @@ const FlagDashboard:React.FC<FlagDashboardProps> = (props: FlagDashboardProps) =
             {/* Need to make and add the actual frontend panels */}
             <div className="space-y-4">
               <h3 className="text-lg font-semibold text-gray-700">Frontend</h3>
-              <Panel dashboardId={byVariantDashboardBody.metadata.name} panelId={1} variables={[flagKey]} />
-              <Panel dashboardId={byVariantDashboardBody.metadata.name} panelId={2} variables={[flagKey]} />
-              <Panel dashboardId={byVariantDashboardBody.metadata.name} panelId={3} variables={[flagKey]} />
+              <Panel dashboardId={byVariantFrontendDashboardBody.metadata.name} panelId={1} variables={[flagKey]} />
+              <Panel dashboardId={byVariantFrontendDashboardBody.metadata.name} panelId={2} variables={[flagKey]} />
+              <Panel dashboardId={byVariantFrontendDashboardBody.metadata.name} panelId={3} variables={[flagKey]} />
             </div>
           </div>
         </div>
