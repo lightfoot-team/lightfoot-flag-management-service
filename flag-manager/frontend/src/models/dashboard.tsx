@@ -425,7 +425,7 @@ const byVariantDashboard = {
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  // "id": 10,
+  // "id": 1,
   "links": [],
   "panels": [
     {
@@ -516,7 +516,7 @@ const byVariantDashboard = {
           },
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{ event.feature_flag.key = \"$feature_flag_key\" } | rate() by (event.feature_flag.variant)",
+          "query": "{ event.feature_flag.key = \"$feature_flag_key\" && name != \"dns.lookup\" } | rate() by (event.feature_flag.variant)",
           "queryType": "traceql",
           "refId": "A",
           "tableType": "traces"
@@ -609,7 +609,7 @@ const byVariantDashboard = {
         {
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{ event.feature_flag.key = \"$feature_flag_key\" && status = error } | rate() by (event.feature_flag.variant)",
+          "query": "{ event.feature_flag.key = \"$feature_flag_key\" && status = error && name != \"dns.lookup\" } | rate() by (event.feature_flag.variant)",
           "queryType": "traceql",
           "refId": "A",
           "tableType": "traces"
@@ -702,7 +702,7 @@ const byVariantDashboard = {
         {
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{ event.feature_flag.key = \"$feature_flag_key\" } | avg_over_time(duration) by (event.feature_flag.variant)",
+          "query": "{ event.feature_flag.key = \"$feature_flag_key\" && name != \"dns.lookup\" } | avg_over_time(duration) by (event.feature_flag.variant)",
           "queryType": "traceql",
           "refId": "A",
           "tableType": "traces"
