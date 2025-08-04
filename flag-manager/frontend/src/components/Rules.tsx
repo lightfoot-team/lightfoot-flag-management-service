@@ -1,36 +1,10 @@
-import { useState, useEffect } from "react";
-import { type EvaluationRule } from "../types/evaluationTypes";
 import RuleListItem from "./RuleListItem";
-import { 
-  getRulesByFlagKey,
-  deleteRule
-} from "../services/rules";
 
 interface RulesProps {
   flagKey: string;
 }
 
-const Rules:React.FC<RulesProps> = ({ flagKey }) => {
-  const [rules, setRules] = useState<Array<EvaluationRule>>([]);
-
-  useEffect(()=> {
-    const fetchRules = async () => {
-      const loadedRules = await getRulesByFlagKey(flagKey) as Array<EvaluationRule>;
-      setRules(loadedRules)
-    }
-    fetchRules()
-  }, [flagKey]);
-
-  const handleDeleteRule = async (ruleId: string, ruleName: string) => {
-    if (confirm('Are you sure you want to delete the rule?')) {
-      try {
-        deleteRule(ruleId, ruleName);
-      } catch (e) {
-        console.error("Error deleting rule:", e)
-      }
-    }
-  }
-
+const Rules:React.FC<RulesProps> = ({ flagKey, onDeleteRule, rules }) => {
   return (
     <>
       <h2 className="text-2xl font-semibold mb-4 text-gray-800">Rules for flag: <span className="font-mono text-indigo-600">{flagKey}</span></h2>
@@ -42,7 +16,7 @@ const Rules:React.FC<RulesProps> = ({ flagKey }) => {
             <li key={rule.name}>
               <RuleListItem 
                 ruleDetails={rule} 
-                onDelete={handleDeleteRule}
+                onDelete={onDeleteRule}
               />
             </li>
           ))}

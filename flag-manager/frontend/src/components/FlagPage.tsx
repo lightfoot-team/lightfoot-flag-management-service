@@ -6,7 +6,12 @@ import NewRuleForm from "./NewRuleForm";
 import ToggleButton from "./ToggleButton";
 import Rules from "./Rules";
 import { type FlagDetails } from "../types/flagTypes";
+import { type EvaluationRule } from "../types/evaluationTypes";
 import { getFlag } from "../services/flags";
+import { 
+  deleteRule,
+  getRulesByFlagKey
+} from "../services/rules";
 
 interface FlagPageProps {
   flagDashboardLoaded: boolean;
@@ -19,6 +24,7 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
   const [flagDetails, setFlagDetails] = useState<FlagDetails | null>(null);
   const [ isEditingVariants, setIsEditingVariants ] = useState(false);
   const [isAddingRule, setIsAddingRule] = useState(false);
+  const [rules, setRules] = useState<Array<EvaluationRule>>([]);
 
 
   useEffect(() => {
@@ -28,6 +34,14 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
     };
 
     fetchFlag();
+  }, [flagKey]);
+
+  useEffect(()=> {
+    const fetchRules = async () => {
+      const loadedRules = await getRulesByFlagKey(flagKey as string) as Array<EvaluationRule>;
+      setRules(loadedRules)
+    }
+    fetchRules()
   }, [flagKey]);
 
   const handleOpenEdit = () => {
@@ -46,6 +60,18 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
 
     await fetchFlag();
     setIsEditingVariants(false);
+  }
+
+  const handleDeleteRule = async (ruleId: string, ruleName: string) => {
+    if (confirm('Are you sure you want to delete the rule?')) {
+      try {
+        deleteRule(ruleId, ruleName);
+        const newRules = rules.filter(rule => rule.id !== ruleId);
+        setRules(newRules); 
+      } catch (e) {
+        console.error("Error deleting rule:", e)
+      }
+    }
   }
 
   // change this to be separate loading page and error page
@@ -109,13 +135,18 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
         )}
 
         <section className="bg-gray-50 rounded-lg p-6 shadow-sm border border-gray-200">
-          <Rules flagKey={flagKey as string}/>
+          <Rules 
+            flagKey={flagKey as string} 
+            onDeleteRule={handleDeleteRule} 
+            rules={rules}
+          />
           {isAddingRule ? (
             <>
               <h2 className="text-xl font-semibold text-blue-700 mb-4">Add New Rule</h2>
               <NewRuleForm
                 flag={flagDetails}
                 onClose={() => setIsAddingRule(false)}
+                setRules={setRules}
               />
             </>
           ) : (
