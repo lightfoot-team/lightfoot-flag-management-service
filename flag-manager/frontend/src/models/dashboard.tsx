@@ -765,7 +765,6 @@ const byKeyFrontendDashboard = {
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  // "id": 3,
   "links": [],
   "panels": [
     {
@@ -897,7 +896,7 @@ const byKeyFrontendDashboard = {
           "hide": false,
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{ resource.service.name = \"client\" } | quantile_over_time(span.cls.value, 0.75) by (event.flagKey)",
+          "query": "{ resource.service.name = \"client\" && event.feature_flag.variant != false} | quantile_over_time(span.cls.value, 0.75) by (event.flagKey)",
           "queryType": "traceql",
           "refId": "B",
           "tableType": "traces"
@@ -1003,7 +1002,7 @@ const byKeyFrontendDashboard = {
           "hide": false,
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{resource.service.name = \"client\"} | quantile_over_time(span.inp.value, 0.75) by (event.flagKey)",
+          "query": "{resource.service.name = \"client\" && event.feature_flag.variant != false} | quantile_over_time(span.inp.value, 0.75) by (event.flagKey)",
           "queryType": "traceql",
           "refId": "B",
           "tableType": "traces"
@@ -1113,7 +1112,7 @@ const byKeyFrontendDashboard = {
           "hide": false,
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{resource.service.name = \"client\"} | quantile_over_time(span.lcp.value, 0.75) by (event.flagKey)",
+          "query": "{resource.service.name = \"client\" && event.feature_flag.variant != false} | quantile_over_time(span.lcp.value, 0.75) by (event.flagKey)",
           "queryType": "traceql",
           "refId": "B",
           "tableType": "traces"
@@ -1130,15 +1129,14 @@ const byKeyFrontendDashboard = {
     "list": []
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-30m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
   "title": "Frontend dashboard",
-  // "uid": "9a8199c6-80bd-48db-91b5-a9861215d642",
-  "version": 10
-};
+  "version": 7
+}
 
 const byVariantFrontendDashboard = {
   "annotations": {
