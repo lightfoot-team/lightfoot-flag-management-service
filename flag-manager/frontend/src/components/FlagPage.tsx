@@ -74,8 +74,7 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
     }
   }
 
-  // change this to be separate loading page and error page
-  if (!flagDetails) return <div>Flag Not Found</div>;
+  if (!flagDetails) return <div>Loading</div>;
 
   return (
     <div className="max-w-full mx-auto">

@@ -3,7 +3,7 @@ import RuleListItem from "./RuleListItem";
 
 interface RulesProps {
   flagKey: string;
-  onDeleteRule: () => void;
+  onDeleteRule: (ruleId: string, ruleName: string) => void;
   rules: EvaluationRule[]
 }
 
