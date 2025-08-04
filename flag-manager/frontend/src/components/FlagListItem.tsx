@@ -23,15 +23,6 @@ interface FlagListItemProps {
 
 const FlagListItem: React.FC<FlagListItemProps> = (props: FlagListItemProps) => {
   const { flagDetails, onDeleteFlag, onToggleFlag, onClose, onEdit, modalMode, isModalOpen, onAddFlag, onUpdateFlag} = props;
-  
-  // const handleSubmitEdit = async (data) => {
-  //   try {
-  //     await updateFlag(data);
-  //     // onSubmitEdit();
-  //   } catch (e) {
-  //     console.error("Error submitting form, please try again", e)
-  //   }
-  // }
 
   const handleSubmitEdit = async () => {
     try {

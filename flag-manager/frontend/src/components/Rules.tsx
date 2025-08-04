@@ -1,7 +1,10 @@
+import type { EvaluationRule } from "../types/evaluationTypes";
 import RuleListItem from "./RuleListItem";
 
 interface RulesProps {
   flagKey: string;
+  onDeleteRule: () => void;
+  rules: EvaluationRule[]
 }
 
 const Rules:React.FC<RulesProps> = ({ flagKey, onDeleteRule, rules }) => {
