@@ -1,15 +1,24 @@
 import { type EvaluationRule } from "../types/evaluationTypes";
 
 interface RuleListItemProps {
-  ruleDetails: EvaluationRule
+  ruleDetails: EvaluationRule,
+  onDelete: (ruleId: string, ruleName: string) => (void)
 }
 
-const RuleListItem = ({ ruleDetails }: RuleListItemProps) => {
-  const { name, attribute, operator, values, variant } = ruleDetails;
+const RuleListItem = ({ ruleDetails, onDelete }: RuleListItemProps) => {
+  const { id, name, attribute, operator, values, variant } = ruleDetails;
 
   return (
     <section className="bg-gray-50 rounded-lg p-6 shadow-sm border border-gray-100 mb-6">
-      <h2 className="text-xl font-semibold text-blue-700 mb-4">{name}</h2>
+      <div>
+        <h2 className="text-xl font-semibold text-blue-700 mb-4">{name}</h2>
+        <button
+              onClick={() => onDelete(id, name)}
+              className="px-5 py-2 rounded-md text-lg font-medium bg-red-100 text-red-800 hover:bg-red-200"
+            >
+              Delete
+        </button>
+      </div>
       <div className="grid grid-cols-2 gap-4">
         <div className="bg-white rounded-md p-3 shadow-sm border border-gray-100 flex justify-between items-center">
           <div className="font-medium text-gray-800">Attribute</div>

@@ -42,6 +42,7 @@ export interface UserEvaluationContext extends EvaluationContext {
 export type Operator = '=' | '!=' | '>' | '<' | '>=' | '<='
 
 export interface EvaluationRule {
+  id: string
   name: string
   attribute: string 
   operator: Operator

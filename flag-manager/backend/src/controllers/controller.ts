@@ -189,3 +189,13 @@ export const getRulesByFlagKey = async (req: Request, res: Response, next: NextF
     next(err);
   }
 };
+
+export const deleteRule = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const ruleId = req.params.id;
+    await db.deleteRule(ruleId);
+    res.status(204).send();
+  } catch (err) {
+    next(err);
+  }
+}

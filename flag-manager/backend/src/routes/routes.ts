@@ -7,7 +7,8 @@ import {
   deleteFlag, 
   toggleFlag, 
   createRule,
-  getRulesByFlagKey
+  getRulesByFlagKey,
+  deleteRule
 } from '../controllers/controller';
 
 const router = Router();
@@ -27,5 +28,7 @@ router.delete('/:flagName', deleteFlag);
 router.patch('/toggle/:flagName', toggleFlag);
 
 router.post('/rule', createRule);
+
+router.delete('/rule/:id', deleteRule);
 
 export default router;

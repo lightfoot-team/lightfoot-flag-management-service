@@ -16,7 +16,7 @@ const baseURL = 'http://localhost:3000/api/flags'
  * @returns API response object containing the newly added flag
  */
 export const addRule = async (rule: EvaluationRule) => {
-    console.log('rule:', rule)
+  console.log('rule:', rule)
   const result = await axios.post(`${baseURL}/rule`, {rule: rule}, axiosConfig);
   console.log('result:', result)
   return result;
@@ -26,3 +26,9 @@ export const getRulesByFlagKey = async (flagKey: string) => {
   const response = await axios.get(`${baseURL}/rules/${flagKey}`);
   return response.data as EvaluationRule[];
 };
+
+export const deleteRule = async (id:string, name: string) => {
+  console.log("Deleting rule: ", id, name);
+  const result = await axios.delete(`${baseURL}/rule/${id}`);
+  return result;
+}

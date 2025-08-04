@@ -94,7 +94,6 @@ const EditVariantsForm:React.FC<EditVariantsFormProps> = ({ onSubmitEdit, onCanc
       </div>
 
     <div>
-      <p>Placeholder edit variants</p>
       {flagType === "boolean" && (
           <BooleanFlagVariantInput 
             register={register} 

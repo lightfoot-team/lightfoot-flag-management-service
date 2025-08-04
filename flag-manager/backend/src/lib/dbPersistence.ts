@@ -1,5 +1,5 @@
 import { type NewFlag, type Flag } from "../types/flagTypes";
-import { type EvaluationRule } from "../types/evaluationTypes";
+import { EvaluationRuleInsertion, type EvaluationRule } from "../types/evaluationTypes";
 require('dotenv').config();
 const { Client } = require('pg');
 
@@ -117,7 +117,7 @@ class DBPersistence {
     return result;
   }
 
-  async addRule(rule: EvaluationRule) {
+  async addRule(rule: EvaluationRuleInsertion) {
     const { name, attribute, operator, flagKey, variant } = rule;
 
     const QUERY = `INSERT INTO rules (rule_name, user_attribute, operator, flag_key, variant)
@@ -147,6 +147,7 @@ class DBPersistence {
       const valuesResult = await executeQuery(VALUES_QUERY, rule.id);
       const values = valuesResult.rows.map((row: { val: string }) => row.val);
       const ruleWithValues: EvaluationRule = {
+        id: rule.id,
         name: rule.rule_name,
         attribute: rule.user_attribute,
         operator: rule.operator,
@@ -159,6 +160,15 @@ class DBPersistence {
     }
 
     return rulesWithValues;
+  }
+
+  async deleteRule(ruleId: string) {
+    const deleteValuesQuery = `DELETE FROM rule_values WHERE rule_id = $1`
+    await executeQuery(deleteValuesQuery, ruleId);
+
+    const QUERY = `DELETE FROM rules WHERE id = $1`
+    const result = await executeQuery(QUERY, ruleId);
+    return result;
   }
 
 }

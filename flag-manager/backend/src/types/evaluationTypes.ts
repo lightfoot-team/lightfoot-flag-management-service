@@ -18,13 +18,17 @@ export interface UserEvaluationContext extends EvaluationContext {
 
 export type Operator = '=' | '!=' | '>' | '<' | '>=' | '<='
 
-export interface EvaluationRule {
+export interface EvaluationRuleInsertion {
   name: string
   attribute: string 
   operator: Operator
   values: Array<string>
   flagKey: string
   variant: string 
+}
+
+export interface EvaluationRule extends EvaluationRuleInsertion {
+  id: string
 }
 
 export interface FlagResolution {
