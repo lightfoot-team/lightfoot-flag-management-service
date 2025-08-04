@@ -3,24 +3,25 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useState, useEffect } from 'react';
 import { 
-  // type EvaluationRule, 
+  type EvaluationRule, 
+  type EvaluationRuleInsertion,
   type Operator, 
-  // type EvaluationContext,
   ruleFormSchema,
 } from '../types/evaluationTypes';
 import { type FlagDetails } from '../types/flagTypes';
 import { addRule } from '../services/rules';
 
 interface NewRuleFormProps {
-  flag: FlagDetails
+  flag: FlagDetails;
   onClose: () => void;
+  onAddRule: (rule: EvaluationRuleInsertion) => void;
 }
 
 type RuleFormDetails = z.infer<typeof ruleFormSchema>;
 
 const OPERATORS: Array<Operator> = ['=', '!=', '>', '<', '>=', '<='];
 
-const NewRuleForm: React.FC<NewRuleFormProps> = ({ flag, onClose }) => {
+const NewRuleForm: React.FC<NewRuleFormProps> = ({ flag, onClose, onAddRule }) => {
   const { flagKey, flagType } = flag;
   const [values, setValues] = useState<string[]>(['']);
   
@@ -53,6 +54,8 @@ const NewRuleForm: React.FC<NewRuleFormProps> = ({ flag, onClose }) => {
         values: values.filter(value => value.trim() !== '')
       };
       await addRule(filteredData);
+      console.log(filteredData);
+      onAddRule(filteredData);
       onClose();
     } catch (error) {
       console.error("Error submitting rule, please try again", error);

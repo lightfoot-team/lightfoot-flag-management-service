@@ -1,5 +1,8 @@
 import axios from 'axios';
-import { type EvaluationRule } from '../types/evaluationTypes';
+import { 
+  type EvaluationRuleInsertion,
+  type EvaluationRule
+} from '../types/evaluationTypes';
 const axiosConfig = {
   headers: {
       'Content-Type': 'application/json',
@@ -15,10 +18,8 @@ const baseURL = 'http://localhost:3000/api/flags'
  * @param flagFormDetails the flag details submitted by the user
  * @returns API response object containing the newly added flag
  */
-export const addRule = async (rule: EvaluationRule) => {
-  console.log('rule:', rule)
+export const addRule = async (rule: EvaluationRuleInsertion) => {
   const result = await axios.post(`${baseURL}/rule`, {rule: rule}, axiosConfig);
-  console.log('result:', result)
   return result;
 }
 
@@ -28,7 +29,6 @@ export const getRulesByFlagKey = async (flagKey: string) => {
 };
 
 export const deleteRule = async (id:string, name: string) => {
-  console.log("Deleting rule: ", id, name);
-  const result = await axios.delete(`${baseURL}/rule/${id}`);
+  const result = await axios.delete(`${baseURL}/rule/${name}`);
   return result;
 }

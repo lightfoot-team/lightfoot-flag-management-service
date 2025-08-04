@@ -192,8 +192,8 @@ export const getRulesByFlagKey = async (req: Request, res: Response, next: NextF
 
 export const deleteRule = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const ruleId = req.params.id;
-    await db.deleteRule(ruleId);
+    const ruleName = req.params.name;
+    await db.deleteRule(ruleName);
     res.status(204).send();
   } catch (err) {
     next(err);
