@@ -29,7 +29,6 @@ const byKeyDashboard = {
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  // "id": 2,
   "links": [],
   "panels": [
     {
@@ -116,7 +115,7 @@ const byKeyDashboard = {
         {
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{ name != \"dns.lookup\" } | rate() by (event.feature_flag.key) ",
+          "query": "{ name != \"dns.lookup\" && event.feature_flag.variant != false } | rate() by (event.feature_flag.key) ",
           "queryType": "traceql",
           "refId": "A",
           "tableType": "traces"
@@ -222,7 +221,7 @@ const byKeyDashboard = {
         {
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{ status = error && name != \"dns.lookup\" } | rate() by (event.feature_flag.key) ",
+          "query": "{ status = error && name != \"dns.lookup\" && event.feature_flag.variant != false } | rate() by (event.feature_flag.key) ",
           "queryType": "traceql",
           "refId": "A",
           "tableType": "traces"
@@ -346,7 +345,7 @@ const byKeyDashboard = {
           "hide": true,
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{ name != \"dns.lookup\" } | quantile_over_time(duration, 0.95) by (event.feature_flag.key)",
+          "query": "{ name != \"dns.lookup\" && event.feature_flag.variant != false} | quantile_over_time(duration, 0.95) by (event.feature_flag.key)",
           "queryType": "traceql",
           "refId": "B",
           "tableType": "spans"
@@ -395,14 +394,13 @@ const byKeyDashboard = {
     "list": []
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-1h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
   "title": "My Dashboard",
-  // "uid": "gdlightfoot",
-  "version": 2
+  "version": 8
 }
 
 const byVariantDashboard = {
@@ -1501,5 +1499,5 @@ export const frontendDashboardBody = {
 
 export const byVariantFrontendDashboardBody = {
   "metadata": {...metadata, name: 'gdFEFlaglightfoot'},
-  "spec": byKeyFrontendDashboard
+  "spec": byVariantFrontendDashboard
 }

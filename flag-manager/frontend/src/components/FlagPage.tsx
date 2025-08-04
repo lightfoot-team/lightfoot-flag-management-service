@@ -74,7 +74,7 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
     }
   }
 
-  if (!flagDetails) return <div>Loading</div>;
+  if (!flagDetails) return <div>Loading...</div>;
 
   return (
     <div className="max-w-full mx-auto">
