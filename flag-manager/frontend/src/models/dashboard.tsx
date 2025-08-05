@@ -700,7 +700,7 @@ const byVariantDashboard = {
         {
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{ event.feature_flag.key = \"$feature_flag_key\" && name != \"dns.lookup\" } | avg_over_time(duration) by (event.feature_flag.variant)",
+          "query": "{ event.feature_flag.key = \"$feature_flag_key\" && name != \"dns.lookup\" } | quantile_over_time(duration, 0.95) by (event.feature_flag.variant)",
           "queryType": "traceql",
           "refId": "A",
           "tableType": "traces"
