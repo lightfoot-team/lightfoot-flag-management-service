@@ -15,7 +15,7 @@
     API_PORT=<The API Port, currently set to 3000>
     ```
 5. Create a .env file in the top level of your "frontend" directory with the following:
-    VITE_GRAFANA_TOKEN=<Your Grafana Token Here, remove brackets>
+    `VITE_GRAFANA_TOKEN=<Your Grafana Token Here, remove brackets>`
 6. We'll discuss setting up the Grafana Token once the SDK is set up and running
 7. To run each of the servers, open a new terminal for each and navigate to their respective directories ("frontend", "backend") and enter `npm run dev`. 
     If you run into Node version issues, switch to Node version 20.19.0 or later. 
