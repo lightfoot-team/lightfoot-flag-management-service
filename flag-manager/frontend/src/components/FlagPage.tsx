@@ -6,7 +6,10 @@ import NewRuleForm from "./NewRuleForm";
 import ToggleButton from "./ToggleButton";
 import Rules from "./Rules";
 import { type FlagDetails } from "../types/flagTypes";
-import { type EvaluationRule } from "../types/evaluationTypes";
+import { 
+  type EvaluationRule,
+  type EvaluationRuleInsertion
+} from "../types/evaluationTypes";
 import { getFlag } from "../services/flags";
 import { 
   deleteRule,
@@ -24,7 +27,7 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
   const [flagDetails, setFlagDetails] = useState<FlagDetails | null>(null);
   const [ isEditingVariants, setIsEditingVariants ] = useState(false);
   const [isAddingRule, setIsAddingRule] = useState(false);
-  const [rules, setRules] = useState<Array<EvaluationRule>>([]);
+  const [rules, setRules] = useState<Array<EvaluationRule | EvaluationRuleInsertion>>([]);
 
 
   useEffect(() => {
@@ -65,8 +68,8 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
   const handleDeleteRule = async (ruleId: string, ruleName: string) => {
     if (confirm('Are you sure you want to delete the rule?')) {
       try {
-        deleteRule(ruleId, ruleName);
-        const newRules = rules.filter(rule => rule.id !== ruleId);
+        await deleteRule(ruleId, ruleName);
+        const newRules = rules.filter(rule => rule.name !== ruleName);
         setRules(newRules); 
       } catch (e) {
         console.error("Error deleting rule:", e)
@@ -74,7 +77,11 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
     }
   }
 
-  if (!flagDetails) return <div>Loading</div>;
+  const handleAddRule = async (newRule: EvaluationRuleInsertion) => {
+    setRules(prev => [...prev, newRule]);
+  }
+
+  if (!flagDetails) return <div>Loading...</div>;
 
   return (
     <div className="max-w-full mx-auto">
@@ -145,7 +152,7 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
               <NewRuleForm
                 flag={flagDetails}
                 onClose={() => setIsAddingRule(false)}
-                setRules={setRules}
+                onAddRule={handleAddRule}
               />
             </>
           ) : (

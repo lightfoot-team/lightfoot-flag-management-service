@@ -29,6 +29,6 @@ router.patch('/toggle/:flagName', toggleFlag);
 
 router.post('/rule', createRule);
 
-router.delete('/rule/:id', deleteRule);
+router.delete('/rule/:name', deleteRule);
 
 export default router;

@@ -41,15 +41,28 @@ export interface UserEvaluationContext extends EvaluationContext {
 
 export type Operator = '=' | '!=' | '>' | '<' | '>=' | '<='
 
-export interface EvaluationRule {
-  id: string
+// export interface EvaluationRule {
+//   id: string
+//   name: string
+//   attribute: string 
+//   operator: Operator
+//   values: Array<string>
+//   flagKey: string
+//   flagType: string
+//   variant: string 
+// }
+
+export interface EvaluationRuleInsertion {
   name: string
   attribute: string 
   operator: Operator
   values: Array<string>
   flagKey: string
-  flagType: string
   variant: string 
+}
+
+export interface EvaluationRule extends EvaluationRuleInsertion {
+  id: string
 }
 
 export interface FlagResolution {

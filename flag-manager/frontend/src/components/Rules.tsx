@@ -4,10 +4,10 @@ import RuleListItem from "./RuleListItem";
 interface RulesProps {
   flagKey: string;
   onDeleteRule: (ruleId: string, ruleName: string) => void;
-  rules: EvaluationRule[]
+  rules: EvaluationRule[];
 }
 
-const Rules:React.FC<RulesProps> = ({ flagKey, onDeleteRule, rules }) => {
+const Rules:React.FC<RulesProps> = ({ flagKey, rules, onDeleteRule }) => {
   return (
     <>
       <h2 className="text-2xl font-semibold mb-4 text-gray-800">Rules for flag: <span className="font-mono text-indigo-600">{flagKey}</span></h2>

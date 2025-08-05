@@ -162,7 +162,11 @@ class DBPersistence {
     return rulesWithValues;
   }
 
-  async deleteRule(ruleId: string) {
+  async deleteRule(ruleName: string) {
+    const idQuery = `SELECT id FROM rules WHERE rule_name = $1`
+    const ruleIdResult = await executeQuery(idQuery, ruleName)
+    const ruleId = ruleIdResult.rows[0].id;
+
     const deleteValuesQuery = `DELETE FROM rule_values WHERE rule_id = $1`
     await executeQuery(deleteValuesQuery, ruleId);
 
