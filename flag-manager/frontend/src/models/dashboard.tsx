@@ -1,13 +1,9 @@
-export const uids: Array<string> = [
-  'gdxccn'
-];
-
 const metadata = {
   "name": "gdlightfoot",
   "annotations": {
     "namespace": "default",
   }
-}
+};
 
 const byKeyDashboard = {
   "annotations": {
@@ -423,7 +419,6 @@ const byVariantDashboard = {
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  // "id": 1,
   "links": [],
   "panels": [
     {
@@ -741,7 +736,6 @@ const byVariantDashboard = {
   "timepicker": {},
   "timezone": "browser",
   "title": "RED by variant",
-  // "uid": "gdflaglightfoot",
   "version": 4
 }
 
@@ -1158,7 +1152,6 @@ const byVariantFrontendDashboard = {
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  // "id": 5,
   "links": [],
   "panels": [
     {
@@ -1476,7 +1469,6 @@ const byVariantFrontendDashboard = {
   "timepicker": {},
   "timezone": "browser",
   "title": "Frontend By Variant",
-  // "uid": "7063ba61-7a5a-4af4-9e48-1efda6290344",
   "version": 9
 };
 

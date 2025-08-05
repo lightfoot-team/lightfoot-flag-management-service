@@ -1,8 +1,4 @@
 import axios from 'axios';
-import { 
-  type FlagDetails,
-  type Variant,
-} from '../types/flagTypes';
 import { z } from 'zod';
 import { flagFormSchema } from '../types/newFlagZodSchema';
 

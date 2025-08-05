@@ -4,6 +4,7 @@ import { redDashboardBody, frontendDashboardBody } from "../models/dashboard";
 interface ObservabilityContainerProps {
   dashboardLoaded: boolean
 }
+
 const ObservabilityContainer:React.FC<ObservabilityContainerProps> = ({ dashboardLoaded }) => {
   return (
     <>
@@ -16,7 +17,6 @@ const ObservabilityContainer:React.FC<ObservabilityContainerProps> = ({ dashboar
               <Panel dashboardId={redDashboardBody.metadata.name} panelId={2} variables={[]} />
               <Panel dashboardId={redDashboardBody.metadata.name} panelId={3} variables={[]} />
             </div>
-            {/* Need to make and add the actual frontend panels */}
             <div className="space-y-4">
               <h3 className="text-lg font-semibold text-gray-700">Frontend</h3>
               <Panel dashboardId={frontendDashboardBody.metadata.name} panelId={1} variables={[]} />
@@ -28,6 +28,6 @@ const ObservabilityContainer:React.FC<ObservabilityContainerProps> = ({ dashboar
       )}
     </>
   );
-}
+};
 
 export default ObservabilityContainer;

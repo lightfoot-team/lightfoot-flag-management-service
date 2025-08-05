@@ -60,6 +60,6 @@ const Flags:React.FC<FlagsProps> = ({ flags, onToggle, onDelete, onAddFlag, onUp
       </div>
     </>
   );
-}
+};
 
 export default Flags;

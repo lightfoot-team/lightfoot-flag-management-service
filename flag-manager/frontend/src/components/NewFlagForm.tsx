@@ -35,7 +35,7 @@ const NewFlagForm:React.FC<NewFlagFormProps> = ({ onClose, onAddFlag }) => {
       ],
       defaultVariant: ''
     }
-  })
+  });
 
   const flagType = watch("flagType");
   const variants = watch("variants") || [];
@@ -69,8 +69,6 @@ const NewFlagForm:React.FC<NewFlagFormProps> = ({ onClose, onAddFlag }) => {
   }, [flagType, setValue]);
 
   const onSubmit = async (data) => {
-    console.log(data);
-    console.log("Validation passed!");
     try {
       await addFlag(data);
       onAddFlag(data)
@@ -115,7 +113,6 @@ const NewFlagForm:React.FC<NewFlagFormProps> = ({ onClose, onAddFlag }) => {
         {flagType === "boolean" && (
           <BooleanFlagVariantInput 
             register={register} 
-            errors={errors}
             setValue={setValue}
           />
         )}
@@ -129,11 +126,6 @@ const NewFlagForm:React.FC<NewFlagFormProps> = ({ onClose, onAddFlag }) => {
             flagType={flagType}
           />
         )}
-        {/*}
-        {flagType === "number" && <NumberFlagVariantInput />}
-        {flagType === "string" && <StringFlagVariantInput />}
-        {flagType === "object" && <ObjectFlagVariantInput />}
-        */}
       </div>
 
       <div>

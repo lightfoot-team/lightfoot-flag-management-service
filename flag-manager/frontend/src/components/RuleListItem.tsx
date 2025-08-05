@@ -5,7 +5,7 @@ interface RuleListItemProps {
   onDelete: (ruleId: string, ruleName: string) => (void)
 }
 
-const RuleListItem = ({ ruleDetails, onDelete }: RuleListItemProps) => {
+const RuleListItem:React.FC<RuleListItemProps> = ({ ruleDetails, onDelete }) => {
   const { id, name, attribute, operator, values, variant } = ruleDetails;
 
   return (
@@ -39,6 +39,6 @@ const RuleListItem = ({ ruleDetails, onDelete }: RuleListItemProps) => {
       </div>
     </section>
   );
-}
+};
 
 export default RuleListItem;

@@ -1,6 +1,4 @@
 import { type FlagDetails } from "../types/flagTypes";
-//import { type UserEvaluationContext } from "../types/evaluationTypes";
-//import NewRuleForm from "./NewRuleForm";
 import { Link } from "react-router-dom";
 import Modal from "./Modal";
 import EditVariantsForm from "./EditVariantsForm";
@@ -21,9 +19,17 @@ interface FlagListItemProps {
   onUpdateFlag: (updatedFlag: FlagDetails) => void;
 }
 
-const FlagListItem: React.FC<FlagListItemProps> = (props: FlagListItemProps) => {
-  const { flagDetails, onDeleteFlag, onToggleFlag, onClose, onEdit, modalMode, isModalOpen, onAddFlag, onUpdateFlag} = props;
-
+const FlagListItem: React.FC<FlagListItemProps> = ({
+  flagDetails,
+  onDeleteFlag,
+  onToggleFlag,
+  onClose,
+  onEdit,
+  modalMode,
+  isModalOpen,
+  onAddFlag,
+  onUpdateFlag
+}) => {
   const handleSubmitEdit = async () => {
     try {
       const response = await getFlag(flagDetails.flagKey);
@@ -71,6 +77,6 @@ const FlagListItem: React.FC<FlagListItemProps> = (props: FlagListItemProps) => 
       </Modal>
     </div>
   );
-}
+};
 
 export default FlagListItem;

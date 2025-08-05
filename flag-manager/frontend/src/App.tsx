@@ -29,10 +29,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    
-    const val = featureFlagsClient.getBooleanValue("featured-park", true)
-    console.log('Result', val)
-
+    featureFlagsClient.getBooleanValue("featured-park", true)
   });
 
   useEffect(() => {

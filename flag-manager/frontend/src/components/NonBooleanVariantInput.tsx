@@ -1,6 +1,19 @@
-const NonBooleanVariantInput = ({ 
+import type { UseFormRegister, FieldArrayWithId, UseFieldArrayAppend, UseFieldArrayRemove } from "react-hook-form";
+import { z } from 'zod';
+import { flagFormSchema } from "../types/newFlagZodSchema";
+
+type FlagFormDetails = z.infer<typeof flagFormSchema>;
+
+interface NonBooleanVariantInputProps {
+  register: UseFormRegister<FlagFormDetails>;
+  flagType: string;
+  fields: FieldArrayWithId<FlagFormDetails, "variants", "id">[];
+  append: UseFieldArrayAppend<FlagFormDetails, "variants">;
+  remove: UseFieldArrayRemove;
+}
+
+const NonBooleanVariantInput:React.FC<NonBooleanVariantInputProps> = ({ 
   register,
-  errors,
   flagType,
   fields,
   append,
@@ -13,7 +26,7 @@ const NonBooleanVariantInput = ({
     }
   };
 
-  const removeVariant = (index) => {
+  const removeVariant = (index: number) => {
     if (fields.length > 1) {
       remove(index);
     }
@@ -96,7 +109,7 @@ const NonBooleanVariantInput = ({
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default NonBooleanVariantInput;

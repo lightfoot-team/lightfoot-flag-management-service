@@ -4,10 +4,10 @@ export const FlagSchema = z.object({
   _id: z.string(),
   flagKey: z.string(), 
   enabled: z.boolean(),
-  type: z.string(), // TODO: enforce that type is a valid flag type
-  variants: z.object({}), //TODO: Add actual variants shape instead of {}
+  type: z.string(),
+  variants: z.object({}),
   createdAt: z.string(),
-  updatedAt: z.string(), //TODO: allow null 
+  updatedAt: z.string(),
   defaultVariant: z.string()
 });
 

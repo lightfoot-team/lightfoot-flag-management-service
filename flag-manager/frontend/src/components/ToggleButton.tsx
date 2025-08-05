@@ -29,11 +29,7 @@ const sizeClasses = {
   }
 };
 
-const ToggleButton: React.FC<ToggleButtonProps> = ({
-  isEnabled,
-  onToggle,
-  size = "sm",
-}) => {
+const ToggleButton: React.FC<ToggleButtonProps> = ({isEnabled, onToggle, size = "sm"}) => {
   const sizeClass: SizeClass = sizeClasses[size];
 
   return (

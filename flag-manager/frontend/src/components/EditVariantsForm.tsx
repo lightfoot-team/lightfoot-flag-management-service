@@ -1,8 +1,5 @@
 import { z } from 'zod';
-import { 
-  useForm,
-  useFieldArray
-} from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { flagFormSchema } from '../types/newFlagZodSchema';
 import BooleanFlagVariantInput from "./BooleanVariantInput";
@@ -38,11 +35,9 @@ const EditVariantsForm:React.FC<EditVariantsFormProps> = ({ onSubmitEdit, onCanc
         variants: formVariants,
         defaultVariant: flagDetails.defaultVariant
       }
-    })
+    });
 
   const onSubmit = async (data) => {
-    console.log("Validation passed!")
-    console.log(data);
     try {
       await updateFlag(data);
       onSubmitEdit();
@@ -52,6 +47,7 @@ const EditVariantsForm:React.FC<EditVariantsFormProps> = ({ onSubmitEdit, onCanc
   }
 
   const variants = watch("variants") || [];
+  
   const validOptions = variants.filter(variant => 
     variant?.key && variant.key.trim() !== ''
   );
@@ -97,7 +93,6 @@ const EditVariantsForm:React.FC<EditVariantsFormProps> = ({ onSubmitEdit, onCanc
       {flagType === "boolean" && (
           <BooleanFlagVariantInput 
             register={register} 
-            errors={errors}
             setValue={setValue}
           />
         )}
@@ -149,7 +144,7 @@ const EditVariantsForm:React.FC<EditVariantsFormProps> = ({ onSubmitEdit, onCanc
 
     </div>
     </form>
-  )
-}
+  );
+};
 
-export default EditVariantsForm
+export default EditVariantsForm;

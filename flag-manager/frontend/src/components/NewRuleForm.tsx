@@ -54,7 +54,6 @@ const NewRuleForm: React.FC<NewRuleFormProps> = ({ flag, onClose, onAddRule }) =
         values: values.filter(value => value.trim() !== '')
       };
       await addRule(filteredData);
-      console.log(filteredData);
       onAddRule(filteredData);
       onClose();
     } catch (error) {
@@ -214,7 +213,7 @@ const NewRuleForm: React.FC<NewRuleFormProps> = ({ flag, onClose, onAddRule }) =
         </div>
       </form>
     </>
-  )
+  );
 };
 
 export default NewRuleForm;

@@ -1,5 +1,6 @@
 import NavigationBar from "./NavigationBar";
 import { Outlet } from "react-router-dom";
+
 const Layout = () => {
   return (
     <div className="min-h-screen bg-gray-100 text-gray-900">
@@ -18,4 +19,4 @@ const Layout = () => {
   );
 };
 
-export default Layout
+export default Layout;

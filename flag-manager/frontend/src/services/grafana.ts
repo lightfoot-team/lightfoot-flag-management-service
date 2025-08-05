@@ -9,7 +9,7 @@ const axiosConfig = {
 
 const baseURL = '/apis/dashboard.grafana.app/v1beta1/namespaces/default/dashboards'
 
-export const createDashboard = async(body) => {
+export const createDashboard = async(body: any) => {
   try {
     const response = await axios.post(baseURL, body, axiosConfig);
     return response;

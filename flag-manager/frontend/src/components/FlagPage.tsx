@@ -6,15 +6,9 @@ import NewRuleForm from "./NewRuleForm";
 import ToggleButton from "./ToggleButton";
 import Rules from "./Rules";
 import { type FlagDetails } from "../types/flagTypes";
-import { 
-  type EvaluationRule,
-  type EvaluationRuleInsertion
-} from "../types/evaluationTypes";
+import type { EvaluationRule, EvaluationRuleInsertion } from "../types/evaluationTypes";
 import { getFlag } from "../services/flags";
-import { 
-  deleteRule,
-  getRulesByFlagKey
-} from "../services/rules";
+import { deleteRule, getRulesByFlagKey } from "../services/rules";
 
 interface FlagPageProps {
   flagDashboardLoaded: boolean;
@@ -49,7 +43,7 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
 
   const handleOpenEdit = () => {
     setIsEditingVariants(true);
-  }
+  };
 
   const handleCancelEdit = () => {
     setIsEditingVariants(false);
@@ -63,7 +57,7 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
 
     await fetchFlag();
     setIsEditingVariants(false);
-  }
+  };
 
   const handleDeleteRule = async (ruleId: string, ruleName: string) => {
     if (confirm('Are you sure you want to delete the rule?')) {
@@ -75,11 +69,11 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
         console.error("Error deleting rule:", e)
       }
     }
-  }
+  };
 
   const handleAddRule = async (newRule: EvaluationRuleInsertion) => {
     setRules(prev => [...prev, newRule]);
-  }
+  };
 
   if (!flagDetails) return <div>Loading...</div>;
 
@@ -171,7 +165,6 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
       </div>
     </div>
   );
-
 };
 
 export default FlagPage;

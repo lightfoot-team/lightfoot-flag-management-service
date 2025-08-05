@@ -18,6 +18,6 @@ const EmptyFlagsList:React.FC<EmptyFlagsListProps> = ({onClose, isModalOpen, onA
       </Modal>
     </div>
   );
-}
+};
 
 export default EmptyFlagsList;

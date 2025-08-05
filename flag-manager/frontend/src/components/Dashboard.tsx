@@ -3,8 +3,7 @@ interface DashboardProps {
   variables: Array<unknown>;
 }
 
-export default function Dashboard(dashboardProps: DashboardProps) {
-  const {dashboardId, variables} = dashboardProps
+const Dashboard:React.FC<DashboardProps> = ({ dashboardId, variables }) => {
   const baseUrl = 'http://localhost:3002';
   const queryParams = new URLSearchParams({
     orgId: '1',
@@ -23,4 +22,6 @@ export default function Dashboard(dashboardProps: DashboardProps) {
       height="510em"
     ></iframe>
   );
-}
+};
+
+export default Dashboard;

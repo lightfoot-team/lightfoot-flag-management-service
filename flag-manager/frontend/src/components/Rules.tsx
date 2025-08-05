@@ -27,6 +27,6 @@ const Rules:React.FC<RulesProps> = ({ flagKey, rules, onDeleteRule }) => {
       )}
     </>
   );
-}
+};
 
 export default Rules;

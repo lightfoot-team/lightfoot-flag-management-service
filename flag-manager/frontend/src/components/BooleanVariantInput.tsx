@@ -1,6 +1,16 @@
 import { useEffect } from "react";
+import type { UseFormRegister, UseFormSetValue } from "react-hook-form";
+import { z } from 'zod';
+import { flagFormSchema } from "../types/newFlagZodSchema";
 
-const BooleanFlagVariantInput = ({ register, errors, setValue }) => {
+type FlagFormDetails = z.infer<typeof flagFormSchema>;
+
+interface BooleanFlagVariantInputProps {
+  register: UseFormRegister<FlagFormDetails>;
+  setValue: UseFormSetValue<FlagFormDetails>;
+}
+
+const BooleanFlagVariantInput:React.FC<BooleanFlagVariantInputProps> = ({ register, setValue }) => {
 
   useEffect(() => {
     setValue("variants.0.value", "true");
@@ -72,6 +82,6 @@ const BooleanFlagVariantInput = ({ register, errors, setValue }) => {
       </div>
     </div>
   );
-}
+};
 
 export default BooleanFlagVariantInput;
