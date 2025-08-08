@@ -1,9 +1,8 @@
-import { useForm } from "react-hook-form";
+import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useState, useEffect } from 'react';
 import { 
-  type EvaluationRule, 
   type EvaluationRuleInsertion,
   type Operator, 
   ruleFormSchema,
@@ -30,6 +29,7 @@ const NewRuleForm: React.FC<NewRuleFormProps> = ({ flag, onClose, onAddRule }) =
     handleSubmit,
     formState: { errors },
     setValue,
+    watch,
   } = useForm<RuleFormDetails>({
     resolver: zodResolver(ruleFormSchema),
     defaultValues: {
@@ -37,21 +37,36 @@ const NewRuleForm: React.FC<NewRuleFormProps> = ({ flag, onClose, onAddRule }) =
       attribute: 'id',
       operator: '=',
       values: [''],
-      flagKey: flagKey,
-      flagType: flagType,
-      variant: ''
-    }
+      flagKey,
+      flagType,
+      variant: '',
+      percentage: 100,
+    },
   });
 
-  useEffect(() => {
-    setValue('values', values);
-  }, [values, setValue]);
+  const watchedAttribute = watch('attribute');
+  const percentage = watch('percentage') ?? 100;
 
-  const onSubmit = async (data: RuleFormDetails) => {
+  useEffect(() => {
+    if (watchedAttribute !== 'Everyone') {
+      setValue('values', values, { shouldValidate: true });
+    }
+  }, [values, setValue, watchedAttribute]);
+
+  useEffect(() => {
+    if (watchedAttribute === 'Everyone') {
+      setValues([]); // clear local state
+      setValue('values', [], { shouldValidate: true });
+      setValue('operator', '=', { shouldValidate: true });
+    }
+  }, [watchedAttribute, setValue]);
+
+const onSubmit: SubmitHandler<RuleFormDetails> = async (data) => {
+    console.log('onSubmit triggered!', data);
     try {
       const filteredData = {
         ...data,
-        values: values.filter(value => value.trim() !== '')
+        values: data.attribute === 'Everyone' ? [] : (data.values ?? []),
       };
       await addRule(filteredData);
       onAddRule(filteredData);
@@ -77,6 +92,8 @@ const NewRuleForm: React.FC<NewRuleFormProps> = ({ flag, onClose, onAddRule }) =
     setValues(updatedValues);
   };
 
+  const isEveryoneRule = watchedAttribute === 'Everyone';
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -95,13 +112,14 @@ const NewRuleForm: React.FC<NewRuleFormProps> = ({ flag, onClose, onAddRule }) =
         </div>
         
         <div>
-          <label htmlFor="attribute" className="block font-medium text-gray-700 mb-1">User Attribute</label>
+          <label htmlFor="attribute" className="block font-medium text-gray-700 mb-1">Criteria</label>
           <select
             {...register("attribute")}
             id="attribute"
             className="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            <option value="">Select an attribute</option>
+            <option value="">Select criteria</option>
+            <option key='Everyone' value='Everyone'>Everyone</option>
             <option key='id' value='id'>id</option>
             <option key='role' value='role'>role</option>
             <option key='group' value='group'>group</option>
@@ -111,68 +129,72 @@ const NewRuleForm: React.FC<NewRuleFormProps> = ({ flag, onClose, onAddRule }) =
           )}
         </div>
         
-        <div>
-          <label htmlFor="operator" className="block font-medium text-gray-700 mb-1">Operator</label>
-          <select
-            {...register("operator")}
-            id="operator"
-            className="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            {OPERATORS.map((operator) => (
-              <option key={operator} value={operator}>
-                {operator}
-              </option>
-            ))}
-          </select>
-          {errors.operator && (
-            <p className="text-red-600 text-sm mt-1">{errors.operator.message}</p>
-          )}
-        </div>
-        
-        <div>
-          <div className="flex items-center justify-between mb-2">
-            <label className="block font-medium text-gray-700">Values</label>
-            <button
-              type="button"
-              onClick={addValue}
-              className="text-sm bg-green-100 text-green-800 px-3 py-1 rounded hover:bg-green-200 transition"
-            >
-              + Add Value
-            </button>
-          </div>
-          
-          <div className="space-y-2">
-            {values.map((value, index) => (
-              <div key={index} className="flex items-center space-x-2">
-                <input
-                  type="text"
-                  value={value}
-                  onChange={(e) => updateValue(index, e.target.value)}
-                  placeholder={`Value ${index + 1}`}
-                  className="flex-1 border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-                {values.length > 1 && (
-                  <button
-                    type="button"
-                    onClick={() => removeValue(index)}
-                    className="text-red-600 hover:text-red-800 px-2 py-1 text-sm"
-                  >
-                    Remove
-                  </button>
-                )}
+        {!isEveryoneRule && (
+          <>
+            <div>
+              <label htmlFor="operator" className="block font-medium text-gray-700 mb-1">Operator</label>
+              <select
+                {...register("operator")}
+                id="operator"
+                className="w-full border border-gray-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                {OPERATORS.map((operator) => (
+                  <option key={operator} value={operator}>
+                    {operator}
+                  </option>
+                ))}
+              </select>
+              {errors.operator && (
+                <p className="text-red-600 text-sm mt-1">{errors.operator.message}</p>
+              )}
+            </div>
+            
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <label className="block font-medium text-gray-700">Values</label>
+                <button
+                  type="button"
+                  onClick={addValue}
+                  className="text-sm bg-green-100 text-green-800 px-3 py-1 rounded hover:bg-green-200 transition"
+                >
+                  + Add Value
+                </button>
               </div>
-            ))}
-          </div>
-          
-          {errors.values && (
-            <p className="text-red-600 text-sm mt-1">
-              {Array.isArray(errors.values) 
-                ? "Please check your values" 
-                : errors.values.message
-              }
-            </p>
-          )}
-        </div>
+              
+              <div className="space-y-2">
+                {values.map((value, index) => (
+                  <div key={index} className="flex items-center space-x-2">
+                    <input
+                      type="text"
+                      value={value}
+                      onChange={(e) => updateValue(index, e.target.value)}
+                      placeholder={`Value ${index + 1}`}
+                      className="flex-1 border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                    {values.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => removeValue(index)}
+                        className="text-red-600 hover:text-red-800 px-2 py-1 text-sm"
+                      >
+                        Remove
+                      </button>
+                    )}
+                  </div>
+                ))}
+              </div>
+              
+              {errors.values && (
+                <p className="text-red-600 text-sm mt-1">
+                  {Array.isArray(errors.values) 
+                    ? "Please check your values" 
+                    : errors.values.message
+                  }
+                </p>
+              )}
+            </div>
+          </>
+        )}
         
         <div>
           <label htmlFor="variant" className="block font-medium text-gray-700 mb-1">Assign to Variant</label>
@@ -190,6 +212,33 @@ const NewRuleForm: React.FC<NewRuleFormProps> = ({ flag, onClose, onAddRule }) =
           </select>
           {errors.variant && (
             <p className="text-red-600 text-sm mt-1">{errors.variant.message}</p>
+          )}
+        </div>
+        
+        <div>
+          <label htmlFor="percentage" className="block font-medium text-gray-700 mb-2">
+            Percentage: {percentage}%
+          </label>
+          <div className="flex items-center space-x-4">
+            <span className="text-sm text-gray-600">0%</span>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                {...register("percentage", { valueAsNumber: true })}
+                className=""
+              />
+            <span className="text-sm text-gray-600">100%</span>
+          </div>
+          {isEveryoneRule && (
+            <p className="text-sm text-gray-600 mt-2">
+              This will roll out the selected variant to {percentage}% of all users.
+            </p>
+          )}
+          {!isEveryoneRule && (
+            <p className="text-sm text-gray-600 mt-2">
+              This will roll out the selected variant to {percentage}% of users matching the above criteria.
+            </p>
           )}
         </div>
         
