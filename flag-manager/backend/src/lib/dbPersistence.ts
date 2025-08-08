@@ -175,28 +175,6 @@ class DBPersistence {
     const result = await executeQuery(QUERY, ruleId);
     return result;
   }
-
-  async getMatchingRules(flagKey: string) {
-    const QUERY = `
-      SELECT id, rule_name, user_attribute as attribute, operator, flag_key, variant, percentage 
-      FROM rules 
-      WHERE flag_key = $1 
-      ORDER BY id ASC
-    `;
-    const result = await executeQuery(QUERY, flagKey);
-    return result.rows;
-  }
-
-  async getRuleValues(ruleName: string) {
-    const QUERY = `
-      SELECT rule_values.val 
-      FROM rule_values
-      JOIN rules ON rule_values.rule_id = rules.id
-      WHERE rules.rule_name = $1
-    `;
-    const result = await executeQuery(QUERY, ruleName);
-    return result.rows;
-  }
 }
 
 export default DBPersistence;
