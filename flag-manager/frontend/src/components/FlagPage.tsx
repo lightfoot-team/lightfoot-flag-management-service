@@ -80,8 +80,8 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
   return (
     <div className="max-w-full mx-auto">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold">
-          Flag: <span className="font-mono text-blue-600">{flagDetails.flagKey}</span>
+        <h1 className="text-3xl text-blue-600 font-bold">
+          Flag: <span className="font-mono text-gray-800">{flagDetails.flagKey}</span>
         </h1>
         <div className="flex gap-6 items-center">
           <div className="text-md">
@@ -135,13 +135,7 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
         )}
 
         <section className="bg-gray-50 rounded-lg p-6 shadow-sm border border-gray-200">
-          <h2 className="text-xl font-semibold text-blue-700 mb-4">Default Variant:</h2>
-              <div
-                key={flagDetails.defaultVariant}
-                className="bg-white rounded-md p-3 shadow border border-gray-200 flex justify-between items-center"
-              >
-                <div className="font-medium text-gray-800">{flagDetails.defaultVariant}</div>
-              </div>
+          <h2 className="text-xl font-semibold text-blue-700 mb-4">Default Variant: <span className="font-mono text-gray-800">{flagDetails.defaultVariant}</span></h2>
         </section>
 
         <section className="bg-gray-50 rounded-lg p-6 shadow-sm border border-gray-200">
