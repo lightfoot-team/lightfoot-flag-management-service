@@ -118,11 +118,11 @@ class DBPersistence {
   }
 
   async addRule(rule: EvaluationRuleInsertion) {
-    const { name, attribute, operator, flagKey, variant } = rule;
+    const { name, attribute, operator, flagKey, variant, percentage } = rule;
 
-    const QUERY = `INSERT INTO rules (rule_name, user_attribute, operator, flag_key, variant)
-                  VALUES ($1, $2, $3, $4, $5)`;
-    const result = await executeQuery(QUERY, name, attribute, operator, flagKey, variant);
+    const QUERY = `INSERT INTO rules (rule_name, user_attribute, operator, flag_key, variant, percentage)
+                  VALUES ($1, $2, $3, $4, $5, $6)`;
+    const result = await executeQuery(QUERY, name, attribute, operator, flagKey, variant, percentage);
     return result.rowCount;
   }
 
@@ -137,7 +137,7 @@ class DBPersistence {
   }
 
   async getAllRulesByFlagKey(flagKey: string): Promise<EvaluationRule[]> {
-    const RULES_QUERY = `SELECT id, rule_name, user_attribute, operator, flag_key, variant FROM rules WHERE flag_key = $1`;
+    const RULES_QUERY = `SELECT id, rule_name, user_attribute, operator, flag_key, variant, percentage FROM rules WHERE flag_key = $1`;
     const rulesResult = await executeQuery(RULES_QUERY, flagKey);
     const rules = rulesResult.rows;
     const rulesWithValues: EvaluationRule[] = [];
@@ -154,6 +154,7 @@ class DBPersistence {
         values,
         flagKey: rule.flag_key,
         variant: rule.variant,
+        percentage: rule.percentage,
       };
 
       rulesWithValues.push(ruleWithValues);
@@ -174,7 +175,6 @@ class DBPersistence {
     const result = await executeQuery(QUERY, ruleId);
     return result;
   }
-
 }
 
 export default DBPersistence;

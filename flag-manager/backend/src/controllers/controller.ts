@@ -168,7 +168,10 @@ export const createRule = async (req: Request, res: Response, next: NextFunction
     const rule: RuleFormDetails = req.body.rule;
     const {name, values} = rule;
     await db.addRule(rule);
-    await db.addRuleValues(name, values);
+
+    if (values && values.length > 0) {
+      await db.addRuleValues(name, values);
+    }
     res.status(201).send();
   } catch (err) {
     next(err);

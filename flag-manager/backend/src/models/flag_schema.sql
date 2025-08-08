@@ -14,7 +14,7 @@ CREATE TABLE rules (
   rule_name text UNIQUE NOT NULL,
   user_attribute text
     NOT NULL
-    CHECK (user_attribute IN ('id', 'role', 'group')), 
+    CHECK (user_attribute IN ('Everyone', 'id', 'role', 'group')), 
   operator text
     NOT NULL
     CHECK (operator IN ('=', '!=', '>', '<', '>=', '<=')),
@@ -22,7 +22,8 @@ CREATE TABLE rules (
     NOT NULL
     REFERENCES flags(flag_key)
     ON DELETE CASCADE,
-  variant text NOT NULL
+  variant text NOT NULL,
+  percentage integer NOT NULL DEFAULT 100 CHECK (percentage >= 0 AND percentage <= 100)
 );
 
 CREATE TABLE rule_values (
