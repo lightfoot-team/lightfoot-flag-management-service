@@ -11,8 +11,8 @@ const FlagDashboard:React.FC<FlagDashboardProps> = ({flagKey, flagDashboardLoade
     <>
       {flagDashboardLoaded && (
         <div className="p-4 bg-white rounded-lg shadow">
-          <h2 className="text-xl font-semibold text-blue-600 mb-4">
-            Flag Dashboard: <span className="font-mono text-gray-800">{flagKey}</span>
+          <h2 className="text-xl font-semibold text-gray-800 mb-4">
+            Flag Dashboard: <span className="font-mono text-blue-600">{flagKey}</span>
           </h2>
           <div className="grid grid-cols-2 gap-6">
             <div className="space-y-4">
