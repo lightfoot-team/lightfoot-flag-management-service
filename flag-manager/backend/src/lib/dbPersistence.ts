@@ -118,11 +118,11 @@ class DBPersistence {
   }
 
   async addRule(rule: EvaluationRuleInsertion) {
-    const { name, attribute, operator, flagKey, variant } = rule;
+    const { name, attribute, operator, flagKey, variant, percentage } = rule;
 
-    const QUERY = `INSERT INTO rules (rule_name, user_attribute, operator, flag_key, variant)
-                  VALUES ($1, $2, $3, $4, $5)`;
-    const result = await executeQuery(QUERY, name, attribute, operator, flagKey, variant);
+    const QUERY = `INSERT INTO rules (rule_name, user_attribute, operator, flag_key, variant, percentage)
+                  VALUES ($1, $2, $3, $4, $5, $6)`;
+    const result = await executeQuery(QUERY, name, attribute, operator, flagKey, variant, percentage);
     return result.rowCount;
   }
 
@@ -137,7 +137,7 @@ class DBPersistence {
   }
 
   async getAllRulesByFlagKey(flagKey: string): Promise<EvaluationRule[]> {
-    const RULES_QUERY = `SELECT id, rule_name, user_attribute, operator, flag_key, variant FROM rules WHERE flag_key = $1`;
+    const RULES_QUERY = `SELECT id, rule_name, user_attribute, operator, flag_key, variant, percentage FROM rules WHERE flag_key = $1`;
     const rulesResult = await executeQuery(RULES_QUERY, flagKey);
     const rules = rulesResult.rows;
     const rulesWithValues: EvaluationRule[] = [];
@@ -154,6 +154,7 @@ class DBPersistence {
         values,
         flagKey: rule.flag_key,
         variant: rule.variant,
+        percentage: rule.percentage,
       };
 
       rulesWithValues.push(ruleWithValues);
@@ -175,6 +176,27 @@ class DBPersistence {
     return result;
   }
 
+  async getMatchingRules(flagKey: string) {
+    const QUERY = `
+      SELECT id, rule_name, user_attribute as attribute, operator, flag_key, variant, percentage 
+      FROM rules 
+      WHERE flag_key = $1 
+      ORDER BY id ASC
+    `;
+    const result = await executeQuery(QUERY, flagKey);
+    return result.rows;
+  }
+
+  async getRuleValues(ruleName: string) {
+    const QUERY = `
+      SELECT rule_values.val 
+      FROM rule_values
+      JOIN rules ON rule_values.rule_id = rules.id
+      WHERE rules.rule_name = $1
+    `;
+    const result = await executeQuery(QUERY, ruleName);
+    return result.rows;
+  }
 }
 
 export default DBPersistence;
