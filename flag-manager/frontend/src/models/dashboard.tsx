@@ -843,41 +843,14 @@ const byKeyFrontendDashboard = {
       "pluginVersion": "12.0.0",
       "targets": [
         {
-          "filters": [
-            {
-              "id": "d468d667",
-              "operator": "=",
-              "scope": "span"
-            },
-            {
-              "id": "span-name",
-              "operator": "=",
-              "scope": "span",
-              "tag": "name",
-              "value": [
-                "INP"
-              ],
-              "valueType": "string"
-            },
-            {
-              "id": "status",
-              "operator": "=",
-              "scope": "intrinsic",
-              "tag": "status",
-              "valueType": "keyword"
-            },
-            {
-              "id": "service-name",
-              "operator": "=",
-              "scope": "resource",
-              "tag": "service.name",
-              "value": [],
-              "valueType": "string"
-            }
-          ],
+          "datasource": {
+            "type": "tempo",
+            "uid": "tempo"
+          },
+          "hide": false,
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{ resource.service.name = \"client\" } | quantile_over_time(span.cls.value, 0.75)",
+          "query": "{} | avg_over_time(span.cls.value) by (event.flagKey)",
           "queryType": "traceql",
           "refId": "A",
           "tableType": "traces"
@@ -890,7 +863,7 @@ const byKeyFrontendDashboard = {
           "hide": false,
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{ resource.service.name = \"client\" && event.feature_flag.variant != false} | quantile_over_time(span.cls.value, 0.75) by (event.flagKey)",
+          "query": "{} | avg_over_time(span.cls.value)",
           "queryType": "traceql",
           "refId": "B",
           "tableType": "traces"
@@ -981,9 +954,10 @@ const byKeyFrontendDashboard = {
       "pluginVersion": "12.0.0",
       "targets": [
         {
+          "hide": false,
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{resource.service.name = \"client\"} | quantile_over_time(span.inp.value, 0.75)",
+          "query": "{} | quantile_over_time(span.inp.value, 0.75)",
           "queryType": "traceql",
           "refId": "A",
           "tableType": "traces"
@@ -996,7 +970,7 @@ const byKeyFrontendDashboard = {
           "hide": false,
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{resource.service.name = \"client\" && event.feature_flag.variant != false} | quantile_over_time(span.inp.value, 0.75) by (event.flagKey)",
+          "query": "{} | quantile_over_time(span.inp.value, 0.75) by (event.flagKey)",
           "queryType": "traceql",
           "refId": "B",
           "tableType": "traces"
@@ -1093,7 +1067,7 @@ const byKeyFrontendDashboard = {
           },
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{resource.service.name = \"client\"} | quantile_over_time(span.lcp.value, 0.75)",
+          "query": "{} | quantile_over_time(span.lcp.value, 0.75) by (event.flagKey)",
           "queryType": "traceql",
           "refId": "A",
           "tableType": "traces"
@@ -1106,7 +1080,7 @@ const byKeyFrontendDashboard = {
           "hide": false,
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{resource.service.name = \"client\" && event.feature_flag.variant != false} | quantile_over_time(span.lcp.value, 0.75) by (event.flagKey)",
+          "query": "{} | quantile_over_time(span.lcp.value, 0.75) ",
           "queryType": "traceql",
           "refId": "B",
           "tableType": "traces"
@@ -1123,13 +1097,13 @@ const byKeyFrontendDashboard = {
     "list": []
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-15m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
   "title": "Frontend dashboard",
-  "version": 7
+  "version": 4
 }
 
 const byVariantFrontendDashboard = {
@@ -1238,7 +1212,7 @@ const byVariantFrontendDashboard = {
         {
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{ event.feature_flag.key = \"$feature_flag_key\" &&  resource.service.name = \"client\"} | quantile_over_time(span.lcp.value, 0.75) by (event.feature_flag.variant)",
+          "query": "{ event.flagKey = \"$feature_flag_key\"} | quantile_over_time(span.lcp.value, 0.75) by (event.value)",
           "queryType": "traceql",
           "refId": "A",
           "tableType": "traces"
@@ -1331,7 +1305,7 @@ const byVariantFrontendDashboard = {
         {
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{ event.feature_flag.key = \"$feature_flag_key\" &&  resource.service.name = \"client\"} | quantile_over_time(span.cls.value, 0.75) by (event.feature_flag.variant)",
+          "query": "{ event.flagKey = \"$feature_flag_key\"} | avg_over_time(span.cls.value) by (event.value)",
           "queryType": "traceql",
           "refId": "A",
           "tableType": "traces"
@@ -1428,7 +1402,7 @@ const byVariantFrontendDashboard = {
           },
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{ event.feature_flag.key = \"$feature_flag_key\" &&  resource.service.name = \"client\"} | quantile_over_time(span.inp.value, 0.75) by (event.feature_flag.variant)",
+          "query": "{ event.flagKey = \"$feature_flag_key\"} | quantile_over_time(span.inp.value, 0.75) by (event.value)",
           "queryType": "traceql",
           "refId": "A",
           "tableType": "traces"
@@ -1445,31 +1419,31 @@ const byVariantFrontendDashboard = {
     "list": [
       {
         "current": {
-          "text": "featured-park",
-          "value": "featured-park"
+          "text": "render-large-new-component",
+          "value": "render-large-new-component"
         },
         "label": "Feature Flag Key",
         "name": "feature_flag_key",
         "options": [
           {
             "selected": true,
-            "text": "featured-park",
-            "value": "featured-park"
+            "text": "render-large-new-component",
+            "value": "render-large-new-component"
           }
         ],
-        "query": "featured-park",
+        "query": "render-large-new-component",
         "type": "textbox"
       }
     ]
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-15m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
   "title": "Frontend By Variant",
-  "version": 9
+  "version": 5
 };
 
 export const redDashboardBody = {
