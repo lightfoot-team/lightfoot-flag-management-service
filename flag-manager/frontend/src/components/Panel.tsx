@@ -4,9 +4,10 @@ interface PanelProps {
   dashboardId: string
   panelId: number
   variables: Array<unknown>
+  title: string
 }
 
-const Panel:React.FC<PanelProps> = ({dashboardId, panelId, variables}) => {
+const Panel:React.FC<PanelProps> = ({dashboardId, panelId, variables, title}) => {
   const [refreshKey, setRefreshKey] = useState(0);
 
   const baseUrl = 'http://localhost:3002';
@@ -24,6 +25,8 @@ const Panel:React.FC<PanelProps> = ({dashboardId, panelId, variables}) => {
   };
 
   return (
+    <>
+    <h1 className="text-xl font-semibold text-gray-700">{title}</h1>
     <div className="w-full max-w-5xl bg-gray-900 p-4 rounded shadow">
       <button
         onClick={handleRefresh}
@@ -37,6 +40,7 @@ const Panel:React.FC<PanelProps> = ({dashboardId, panelId, variables}) => {
         className="w-full h-[600px] border rounded"
       ></iframe>
     </div>
+    </>
   );
 };
 

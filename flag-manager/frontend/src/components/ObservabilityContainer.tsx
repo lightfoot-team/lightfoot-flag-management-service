@@ -12,16 +12,16 @@ const ObservabilityContainer:React.FC<ObservabilityContainerProps> = ({ dashboar
         <div className="p-4 bg-white rounded-lg shadow">
           <div className="grid grid-cols-2 gap-6">
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-gray-700">Backend</h3>
-              <Panel dashboardId={redDashboardBody.metadata.name} panelId={1} variables={[]} />
-              <Panel dashboardId={redDashboardBody.metadata.name} panelId={2} variables={[]} />
-              <Panel dashboardId={redDashboardBody.metadata.name} panelId={3} variables={[]} />
+              <h1 className="text-3xl font-semibold text-gray-700">Backend</h1>
+              <Panel dashboardId={redDashboardBody.metadata.name} panelId={1} variables={[]} title="Duration" />
+              <Panel dashboardId={redDashboardBody.metadata.name} panelId={2} variables={[]} title="Rate" />
+              <Panel dashboardId={redDashboardBody.metadata.name} panelId={3} variables={[]} title="Error" />
             </div>
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-gray-700">Frontend</h3>
-              <Panel dashboardId={frontendDashboardBody.metadata.name} panelId={1} variables={[]} />
-              <Panel dashboardId={frontendDashboardBody.metadata.name} panelId={2} variables={[]} />
-              <Panel dashboardId={frontendDashboardBody.metadata.name} panelId={3} variables={[]} />
+              <h1 className="text-3xl font-semibold text-gray-700">Frontend</h1>
+              <Panel dashboardId={frontendDashboardBody.metadata.name} panelId={1} variables={[]} title ="Loading (LCP)"/>
+              <Panel dashboardId={frontendDashboardBody.metadata.name} panelId={2} variables={[]} title ="Interactivity (INP)"/>
+              <Panel dashboardId={frontendDashboardBody.metadata.name} panelId={3} variables={[]} title ="Visual Stability (CLS)"/>
             </div>
           </div>
         </div>

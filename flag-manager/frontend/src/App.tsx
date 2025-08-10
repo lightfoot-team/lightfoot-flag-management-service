@@ -9,10 +9,13 @@ import { redDashboardBody, byVariantDashboardBody, frontendDashboardBody, byVari
 import type { FlagDetails } from "./types/flagTypes"
 import './App.css'
 import { getAllFlags, deleteFlag, toggleFlag } from "./services/flags"
-import { LightFootClientSDK, featureFlagsClient } from 'client-sdk'
+// import { LightFootClientSDK, defaultConfig } from 'client-sdk'
 
-const context = { username: 'admin' };
-await LightFootClientSDK.init(context);
+// const context = { username: 'admin' };
+// const sdk = new LightFootClientSDK(defaultConfig);
+// await sdk.init(context);
+// const featureFlagsClient = sdk.getClient();
+
 
 function App() {
   const [flags, setFlags] = useState<Array<FlagDetails>>([]);
@@ -28,9 +31,9 @@ function App() {
     fetchFlags()
   }, []);
 
-  useEffect(() => {
-    featureFlagsClient.getBooleanValue("featured-park", true)
-  });
+  // useEffect(() => {
+  //   featureFlagsClient.getBooleanValue("featured-park", true)
+  // });
 
   useEffect(() => {
     const loadOverview = async () => {

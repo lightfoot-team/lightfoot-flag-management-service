@@ -80,7 +80,7 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
   return (
     <div className="max-w-full mx-auto">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold">
+        <h1 className="text-3xl text-gray-800 font-bold">
           Flag: <span className="font-mono text-blue-600">{flagDetails.flagKey}</span>
         </h1>
         <div className="flex gap-6 items-center">
@@ -111,7 +111,7 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
           />
         ) : (
         <section className="bg-gray-50 rounded-lg p-6 shadow-sm border border-gray-200">
-          <h2 className="text-xl font-semibold text-blue-700 mb-4">Variants:</h2>
+          <h2 className="text-xl font-semibold text-gray-800 mb-4">Variants:</h2>
           <div className="grid grid-cols-2 gap-4">
             {Object.entries(flagDetails.variants).map(([variantKey, variantValue]) => (
               <div
@@ -123,6 +123,7 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
               </div>
             ))}
           </div>
+          <div><h2 className="text-xl font-semibold text-gray-800 mb-4">Default Variant: <span className="font-mono text-blue-600">{flagDetails.defaultVariant}</span></h2></div>
           <div className="mt-4">
             <button
               className="px-4 py-2 rounded-md text-base bg-blue-200 text-blue-1000 hover:bg-blue-300 transition"
@@ -133,6 +134,7 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
           </div>
         </section>
         )}
+
 
         <section className="bg-gray-50 rounded-lg p-6 shadow-sm border border-gray-200">
           <Rules 
