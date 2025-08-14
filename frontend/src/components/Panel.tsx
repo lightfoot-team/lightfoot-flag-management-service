@@ -25,22 +25,22 @@ const Panel:React.FC<PanelProps> = ({dashboardId, panelId, variables, title}) =>
   };
 
   return (
-    <>
-    <h1 className="text-xl font-semibold text-gray-700">{title}</h1>
-    <div className="w-full max-w-5xl bg-gray-900 p-4 rounded shadow">
-      <button
-        onClick={handleRefresh}
-        className="mb-2 px-4 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded"
-      >
-        Refresh panel
-      </button>
+    <div className="w-full bg-gray-900 p-4 rounded shadow">
+      <div className="flex justify-between items-center mb-2">
+        <h1 className="text-xl font-semibold text-white">{title}</h1>
+        <button
+          onClick={handleRefresh}
+          className="px-4 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded"
+        >
+          Refresh panel
+        </button>
+      </div>
       <iframe
         key={refreshKey}
         src={iframeSrc}
-        className="w-full h-[600px] border rounded"
+        className="w-full h-[400px] border rounded"
       ></iframe>
     </div>
-    </>
   );
 };
 

@@ -26,17 +26,26 @@ const FrontendFlagDashboard: React.FC<FlagDashboardProps> = ({
                 dashboardId={byVariantFrontendDashboardBody.metadata.name}
                 panelId={1}
                 variables={[flagKey]}
+                title="LCP"
               />
-              <Panel
-                dashboardId={byVariantFrontendDashboardBody.metadata.name}
-                panelId={2}
-                variables={[flagKey]}
-              />
-              <Panel
-                dashboardId={byVariantFrontendDashboardBody.metadata.name}
-                panelId={3}
-                variables={[flagKey]}
-              />
+              <div className="flex gap-4">
+                <div className="w-1/2">
+                  <Panel
+                    dashboardId={byVariantFrontendDashboardBody.metadata.name}
+                    panelId={2}
+                    variables={[flagKey]}
+                    title="CLS"
+                  />
+                </div>
+                <div className="w-1/2">
+                  <Panel
+                    dashboardId={byVariantFrontendDashboardBody.metadata.name}
+                    panelId={3}
+                    variables={[flagKey]}
+                    title="INP"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>

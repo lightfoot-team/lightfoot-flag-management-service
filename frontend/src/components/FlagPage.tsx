@@ -1,6 +1,5 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import FlagDashboard from "./FlagDashboard";
 import EditVariantsForm from "./EditVariantsForm";
 import NewRuleForm from "./NewRuleForm";
 import ToggleButton from "./ToggleButton";
@@ -106,15 +105,17 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
           </button>
         </div>
       </div>
-      <div className="space-y-8">
+      <div className="flex gap-8">
         {isEditingVariants ? (
-          <EditVariantsForm
-            flagDetails={flagDetails}
-            onSubmitEdit={handleSubmitEdit}
-            onCancel={handleCancelEdit}
-          />
+          <div className="flex-1 bg-gray-50 rounded-lg p-6 shadow-sm border border-gray-200">
+            <EditVariantsForm
+              flagDetails={flagDetails}
+              onSubmitEdit={handleSubmitEdit}
+              onCancel={handleCancelEdit}
+            />
+          </div>
         ) : (
-        <section className="bg-gray-50 rounded-lg p-6 shadow-sm border border-gray-200">
+        <section className="flex-1 bg-gray-50 rounded-lg p-6 shadow-sm border border-gray-200">
           <h2 className="text-xl font-semibold text-gray-800 mb-4">Variants:</h2>
           <div className="grid grid-cols-2 gap-4">
             {Object.entries(flagDetails.variants).map(([variantKey, variantValue]) => (
@@ -139,14 +140,14 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
         </section>
         )}
 
-
-        <section className="bg-gray-50 rounded-lg p-6 shadow-sm border border-gray-200">
+        <section className="flex-1 bg-gray-50 rounded-lg p-6 shadow-sm border border-gray-200 flex flex-col">
           <Rules 
             flagKey={flagKey as string} 
             onDeleteRule={handleDeleteRule} 
             rules={rules}
           />
-          {isAddingRule ? (
+
+          {isAddingRule && (
             <>
               <h2 className="text-xl font-semibold text-blue-700 mb-4">Add New Rule</h2>
               <NewRuleForm
@@ -155,35 +156,39 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
                 onAddRule={handleAddRule}
               />
             </>
-          ) : (
-            <button
-              onClick={() => setIsAddingRule(true)}
-              className="px-4 py-2 rounded-md text-base bg-blue-200 text-blue-1000 hover:bg-blue-300 transition"
-            >
-              Add Rule
-            </button>
+          )}
+
+          {!isAddingRule && (
+            <div className="mt-auto pt-4">
+              <button
+                onClick={() => setIsAddingRule(true)}
+                className="px-4 py-2 rounded-md text-base bg-blue-200 text-blue-1000 hover:bg-blue-300 transition"
+              >
+                Add Rule
+              </button>
+            </div>
           )}
         </section>
-
-        <section className="bg-white rounded-lg p-6 shadow-sm border border-gray-200 space-y-4">
-          <div className="flex flex-col items-start space-y-3">
-            <button
-              onClick={() => setIsShowingBackend(prev => !prev)}
-              className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg shadow-sm transition"
-            >
-              Backend Dashboard
-            </button>
-            {isShowingBackend && <BackendFlagDashboard flagKey={flagDetails.flagKey} flagDashboardLoaded={flagDashboardLoaded}/>}
-            <button
-              onClick={() => setIsShowingFrontend(prev => !prev)}
-              className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg shadow-sm transition"
-            >
-              Frontend Dashboard
-            </button>
-            {isShowingFrontend && <FrontendFlagDashboard flagKey={flagDetails.flagKey} flagDashboardLoaded={flagDashboardLoaded}/>}
-          </div>
-        </section>
       </div>
+
+      <section className="mt-8 bg-gray-50 rounded-lg p-6 shadow-sm border border-gray-200 space-y-4">
+        <div className="flex flex-col items-start space-y-3">
+          <button
+            onClick={() => setIsShowingBackend(prev => !prev)}
+            className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg shadow-sm transition"
+          >
+            Backend Dashboard
+          </button>
+          {isShowingBackend && <BackendFlagDashboard flagKey={flagDetails.flagKey} flagDashboardLoaded={flagDashboardLoaded}/>}
+          <button
+            onClick={() => setIsShowingFrontend(prev => !prev)}
+            className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg shadow-sm transition"
+          >
+            Frontend Dashboard
+          </button>
+          {isShowingFrontend && <FrontendFlagDashboard flagKey={flagDetails.flagKey} flagDashboardLoaded={flagDashboardLoaded}/>}
+        </div>
+      </section>
     </div>
   );
 };
