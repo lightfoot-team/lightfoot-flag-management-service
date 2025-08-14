@@ -1,5 +1,5 @@
 const metadata = {
-  "name": "gdlightfoot",
+  "name": "red-lightfoot",
   "annotations": {
     "namespace": "default",
   }
@@ -111,7 +111,7 @@ const byKeyDashboard = {
         {
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{ name != \"dns.lookup\" && event.feature_flag.variant != false } | rate() by (event.feature_flag.key) ",
+          "query": "{ name != \"dns.lookup\" && event.feature_flag.value != \"false\"} | rate() by (event.feature_flag.key) ",
           "queryType": "traceql",
           "refId": "A",
           "tableType": "traces"
@@ -217,7 +217,7 @@ const byKeyDashboard = {
         {
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{ status = error && name != \"dns.lookup\" && event.feature_flag.variant != false } | rate() by (event.feature_flag.key) ",
+          "query": "{ status = error }| rate() by (event.feature_flag.key) ",
           "queryType": "traceql",
           "refId": "A",
           "tableType": "traces"
@@ -390,13 +390,13 @@ const byKeyDashboard = {
     "list": []
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-15m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
-  "title": "My Dashboard",
-  "version": 8
+  "title": "RED Overview",
+  "version": 2
 }
 
 const byVariantDashboard = {
@@ -712,19 +712,19 @@ const byVariantDashboard = {
     "list": [
       {
         "current": {
-          "text": "featured-park",
-          "value": "featured-park"
+          "text": "duration-feature-flag",
+          "value": "duration-feature-flag"
         },
         "label": "Feature Flag Key",
         "name": "feature_flag_key",
         "options": [
           {
             "selected": true,
-            "text": "featured-park",
-            "value": "featured-park"
+            "text": "duration-feature-flag",
+            "value": "duration-feature-flag"
           }
         ],
-        "query": "featured-park",
+        "query": "duration-feature-flag",
         "type": "textbox"
       }
     ]
@@ -735,8 +735,8 @@ const byVariantDashboard = {
   },
   "timepicker": {},
   "timezone": "browser",
-  "title": "RED by variant",
-  "version": 4
+  "title": "RED by Variant",
+  "version": 2
 }
 
 const byKeyFrontendDashboard = {
@@ -850,7 +850,7 @@ const byKeyFrontendDashboard = {
           "hide": false,
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{} | avg_over_time(span.cls.value) by (event.flagKey)",
+          "query": "{} | avg_over_time(span.cls.value) by (event.feature_flag.key)",
           "queryType": "traceql",
           "refId": "A",
           "tableType": "traces"
@@ -970,7 +970,7 @@ const byKeyFrontendDashboard = {
           "hide": false,
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{} | quantile_over_time(span.inp.value, 0.75) by (event.flagKey)",
+          "query": "{} | quantile_over_time(span.inp.value, 0.75) by (event.feature_flag.key)",
           "queryType": "traceql",
           "refId": "B",
           "tableType": "traces"
@@ -1036,7 +1036,32 @@ const byKeyFrontendDashboard = {
             ]
           }
         },
-        "overrides": []
+        "overrides": [
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "{event.feature_flag.key=\"render-large-new-component\", p=0.75}"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": true
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 8,
@@ -1067,7 +1092,7 @@ const byKeyFrontendDashboard = {
           },
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{} | quantile_over_time(span.lcp.value, 0.75) by (event.flagKey)",
+          "query": "{} | quantile_over_time(span.lcp.value, 0.75) by (event.feature_flag.key)",
           "queryType": "traceql",
           "refId": "A",
           "tableType": "traces"
@@ -1102,8 +1127,8 @@ const byKeyFrontendDashboard = {
   },
   "timepicker": {},
   "timezone": "browser",
-  "title": "Frontend dashboard",
-  "version": 4
+  "title": "Core Web Vitals Overview",
+  "version": 2
 }
 
 const byVariantFrontendDashboard = {
@@ -1126,6 +1151,7 @@ const byVariantFrontendDashboard = {
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
+
   "links": [],
   "panels": [
     {
@@ -1185,7 +1211,32 @@ const byVariantFrontendDashboard = {
             ]
           }
         },
-        "overrides": []
+        "overrides": [
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "0.75"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": true
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 8,
@@ -1212,7 +1263,7 @@ const byVariantFrontendDashboard = {
         {
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{ event.flagKey = \"$feature_flag_key\"} | quantile_over_time(span.lcp.value, 0.75) by (event.value)",
+          "query": "{ event.feature_flag.key = \"$feature_flag_key\"} | quantile_over_time(span.lcp.value, 0.75) by (event.feature_flag.value)",
           "queryType": "traceql",
           "refId": "A",
           "tableType": "traces"
@@ -1305,7 +1356,7 @@ const byVariantFrontendDashboard = {
         {
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{ event.flagKey = \"$feature_flag_key\"} | avg_over_time(span.cls.value) by (event.value)",
+          "query": "{ event.feature_flag.key = \"$feature_flag_key\"} | avg_over_time(span.cls.value) by (event.feature_flag.value)",
           "queryType": "traceql",
           "refId": "A",
           "tableType": "traces"
@@ -1402,7 +1453,7 @@ const byVariantFrontendDashboard = {
           },
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{ event.flagKey = \"$feature_flag_key\"} | quantile_over_time(span.inp.value, 0.75) by (event.value)",
+          "query": "{ event.feature_flag.key = \"$feature_flag_key\"} | quantile_over_time(span.inp.value, 0.75) by (event.feature_flag.value)",
           "queryType": "traceql",
           "refId": "A",
           "tableType": "traces"
@@ -1419,19 +1470,19 @@ const byVariantFrontendDashboard = {
     "list": [
       {
         "current": {
-          "text": "render-large-new-component",
-          "value": "render-large-new-component"
+          "text": "fetch-large-file",
+          "value": "fetch-large-file"
         },
         "label": "Feature Flag Key",
         "name": "feature_flag_key",
         "options": [
           {
             "selected": true,
-            "text": "render-large-new-component",
-            "value": "render-large-new-component"
+            "text": "fetch-large-file",
+            "value": "fetch-large-file"
           }
         ],
-        "query": "render-large-new-component",
+        "query": "fetch-large-file",
         "type": "textbox"
       }
     ]
@@ -1442,8 +1493,8 @@ const byVariantFrontendDashboard = {
   },
   "timepicker": {},
   "timezone": "browser",
-  "title": "Frontend By Variant",
-  "version": 5
+  "title": "Core Web Vitals by Variant",
+  "version": 4
 };
 
 export const redDashboardBody = {
@@ -1452,16 +1503,16 @@ export const redDashboardBody = {
 }
 
 export const byVariantDashboardBody = {
-  "metadata": {...metadata, name: 'gdflaglightfoot'},
+  "metadata": {...metadata, name: 'red-var-lightfoot'},
   "spec": byVariantDashboard
 }
 
 export const frontendDashboardBody = {
-  "metadata": {...metadata, name: 'gdfrontendlightfoot'},
+  "metadata": {...metadata, name: 'cwv-lightfoot'},
   "spec": byKeyFrontendDashboard
 }
 
 export const byVariantFrontendDashboardBody = {
-  "metadata": {...metadata, name: 'gdFEFlaglightfoot'},
+  "metadata": {...metadata, name: 'cwv-var-lightfoot'},
   "spec": byVariantFrontendDashboard
 }
