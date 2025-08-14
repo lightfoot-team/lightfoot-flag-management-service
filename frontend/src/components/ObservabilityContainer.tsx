@@ -18,18 +18,30 @@ const ObservabilityContainer:React.FC<ObservabilityContainerProps> = ({ dashboar
       </div>
       {dashboardLoaded && (
         <div className="p-4 bg-white rounded-lg shadow">
-          <div className="grid grid-cols-2 gap-6">
+          <div className="flex flex-col gap-8">
             <div className="space-y-4">
               <h1 className="text-3xl font-semibold text-gray-700">Backend</h1>
               <Panel dashboardId={redDashboardBody.metadata.name} panelId={1} variables={[]} title="Duration" />
-              <Panel dashboardId={redDashboardBody.metadata.name} panelId={2} variables={[]} title="Rate" />
-              <Panel dashboardId={redDashboardBody.metadata.name} panelId={3} variables={[]} title="Error" />
+              <div className="flex gap-4">
+                <div className="w-1/2">
+                  <Panel dashboardId={redDashboardBody.metadata.name} panelId={2} variables={[]} title="Rate" />
+                </div>
+                <div className="w-1/2">
+                  <Panel dashboardId={redDashboardBody.metadata.name} panelId={3} variables={[]} title="Error" />
+                </div>
+              </div>
             </div>
             <div className="space-y-4">
               <h1 className="text-3xl font-semibold text-gray-700">Frontend</h1>
-              <Panel dashboardId={frontendDashboardBody.metadata.name} panelId={1} variables={[]} title ="Loading (LCP)"/>
-              <Panel dashboardId={frontendDashboardBody.metadata.name} panelId={2} variables={[]} title ="Interactivity (INP)"/>
-              <Panel dashboardId={frontendDashboardBody.metadata.name} panelId={3} variables={[]} title ="Visual Stability (CLS)"/>
+              <Panel dashboardId={frontendDashboardBody.metadata.name} panelId={1} variables={[]} title="Loading (LCP)"/>
+              <div className="flex gap-4">
+                <div className="w-1/2">
+                  <Panel dashboardId={frontendDashboardBody.metadata.name} panelId={2} variables={[]} title="Interactivity (INP)"/>
+                </div>
+                <div className="w-1/2">
+                  <Panel dashboardId={frontendDashboardBody.metadata.name} panelId={3} variables={[]} title="Visual Stability (CLS)"/>
+                </div>
+              </div>
             </div>
           </div>
         </div>
