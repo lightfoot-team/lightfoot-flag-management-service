@@ -9,6 +9,8 @@ import { type FlagDetails } from "../types/flagTypes";
 import type { EvaluationRule, EvaluationRuleInsertion } from "../types/evaluationTypes";
 import { getFlag } from "../services/flags";
 import { deleteRule, getRulesByFlagKey } from "../services/rules";
+import BackendFlagDashboard from "./BackendFlagDashboard";
+import FrontendFlagDashboard from "./FrontendFlagDashboard";
 
 interface FlagPageProps {
   flagDashboardLoaded: boolean;
@@ -22,6 +24,8 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
   const [ isEditingVariants, setIsEditingVariants ] = useState(false);
   const [isAddingRule, setIsAddingRule] = useState(false);
   const [rules, setRules] = useState<Array<EvaluationRule | EvaluationRuleInsertion>>([]);
+  const [isShowingBackend, setIsShowingBackend] = useState(false);
+  const [isShowingFrontend, setIsShowingFrontend] = useState(false);
 
 
   useEffect(() => {
@@ -161,8 +165,23 @@ const FlagPage:React.FC<FlagPageProps> = ({flagDashboardLoaded, onToggle, onDele
           )}
         </section>
 
-        <section className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
-          <FlagDashboard flagKey={flagDetails.flagKey} flagDashboardLoaded={flagDashboardLoaded} />
+        <section className="bg-white rounded-lg p-6 shadow-sm border border-gray-200 space-y-4">
+          <div className="flex flex-col items-start space-y-3">
+            <button
+              onClick={() => setIsShowingBackend(prev => !prev)}
+              className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg shadow-sm transition"
+            >
+              Backend Dashboard
+            </button>
+            {isShowingBackend && <BackendFlagDashboard flagKey={flagDetails.flagKey} flagDashboardLoaded={flagDashboardLoaded}/>}
+            <button
+              onClick={() => setIsShowingFrontend(prev => !prev)}
+              className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg shadow-sm transition"
+            >
+              Frontend Dashboard
+            </button>
+            {isShowingFrontend && <FrontendFlagDashboard flagKey={flagDetails.flagKey} flagDashboardLoaded={flagDashboardLoaded}/>}
+          </div>
         </section>
       </div>
     </div>
