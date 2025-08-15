@@ -667,7 +667,7 @@ const byVariantDashboard = {
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "avg span duration (ms)",
+            "axisLabel": "P95 Duration (ms)",
             "axisPlacement": "auto",
             "barAlignment": 0,
             "barWidthFactor": 0.6,
@@ -744,6 +744,15 @@ const byVariantDashboard = {
         }
       ],
       "title": "Duration by variant",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": ".*variant=([^,}]+).*",
+            "renamePattern": "$1"
+          }
+        }
+      ],
       "type": "timeseries"
     }
   ],
@@ -778,7 +787,7 @@ const byVariantDashboard = {
   "timepicker": {},
   "timezone": "browser",
   "title": "RED by Variant",
-  "version": 2
+  "version": 3
 }
 
 const byKeyFrontendDashboard = {
@@ -817,7 +826,7 @@ const byKeyFrontendDashboard = {
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "",
+            "axisLabel": "Avg Over Time (ms)",
             "axisPlacement": "auto",
             "barAlignment": 0,
             "barWidthFactor": 0.6,
@@ -912,6 +921,15 @@ const byKeyFrontendDashboard = {
         }
       ],
       "title": "Visual Stability (CLS)",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "avg_over_time",
+            "renamePattern": "All"
+          }
+        }
+      ],
       "type": "timeseries"
     },
     {
@@ -928,7 +946,7 @@ const byKeyFrontendDashboard = {
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "",
+            "axisLabel": "P75 Time (ms)",
             "axisPlacement": "auto",
             "barAlignment": 0,
             "barWidthFactor": 0.6,
@@ -1019,6 +1037,22 @@ const byKeyFrontendDashboard = {
         }
       ],
       "title": "Interactivity (INP)",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": ".*key=\"([^\"]+)\".*",
+            "renamePattern": "$1"
+          }
+        },
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "^0\\.75$",
+            "renamePattern": "All"
+          }
+        }
+      ],
       "type": "timeseries"
     },
     {
@@ -1035,7 +1069,7 @@ const byKeyFrontendDashboard = {
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "",
+            "axisLabel": "P75 Time (ms)",
             "axisPlacement": "auto",
             "barAlignment": 0,
             "barWidthFactor": 0.6,
@@ -1154,6 +1188,22 @@ const byKeyFrontendDashboard = {
         }
       ],
       "title": "Loading (LCP)",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": ".*key=\"([^\"]+)\".*",
+            "renamePattern": "$1"
+          }
+        },
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "^0\\.75$",
+            "renamePattern": "All"
+          }
+        }
+      ],
       "type": "timeseries"
     }
   ],
@@ -1170,7 +1220,7 @@ const byKeyFrontendDashboard = {
   "timepicker": {},
   "timezone": "browser",
   "title": "Core Web Vitals Overview",
-  "version": 2
+  "version": 8
 }
 
 const byVariantFrontendDashboard = {
@@ -1193,7 +1243,6 @@ const byVariantFrontendDashboard = {
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-
   "links": [],
   "panels": [
     {
@@ -1210,7 +1259,7 @@ const byVariantFrontendDashboard = {
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "",
+            "axisLabel": "P75 Time (ms)",
             "axisPlacement": "auto",
             "barAlignment": 0,
             "barWidthFactor": 0.6,
@@ -1312,6 +1361,15 @@ const byVariantFrontendDashboard = {
         }
       ],
       "title": "Loading (LCP) by Variant",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": ".*value=([^,]+).*",
+            "renamePattern": "$1"
+          }
+        }
+      ],
       "type": "timeseries"
     },
     {
@@ -1328,7 +1386,7 @@ const byVariantFrontendDashboard = {
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "",
+            "axisLabel": "Avg Over Time (ms)",
             "axisPlacement": "auto",
             "barAlignment": 0,
             "barWidthFactor": 0.6,
@@ -1421,7 +1479,7 @@ const byVariantFrontendDashboard = {
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "",
+            "axisLabel": "P75 Time (ms)",
             "axisPlacement": "auto",
             "barAlignment": 0,
             "barWidthFactor": 0.6,
@@ -1502,6 +1560,15 @@ const byVariantFrontendDashboard = {
         }
       ],
       "title": "Interactivity (INP) by Variant",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": ".*value=([^,]+).*",
+            "renamePattern": "$1"
+          }
+        }
+      ],
       "type": "timeseries"
     }
   ],
@@ -1536,8 +1603,8 @@ const byVariantFrontendDashboard = {
   "timepicker": {},
   "timezone": "browser",
   "title": "Core Web Vitals by Variant",
-  "version": 4
-};
+  "version": 5
+}
 
 export const redDashboardBody = {
   "metadata": metadata,
