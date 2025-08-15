@@ -84,7 +84,20 @@ const byKeyDashboard = {
             ]
           }
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "rate"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "All"
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 8,
@@ -111,7 +124,7 @@ const byKeyDashboard = {
         {
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{ name != \"dns.lookup\" && event.feature_flag.value != \"false\"} | rate() by (event.feature_flag.key) ",
+          "query": "{ name != \"dns.lookup\" && event.feature_flag.value != false} | rate() by (event.feature_flag.key) ",
           "queryType": "traceql",
           "refId": "A",
           "tableType": "traces"
@@ -190,7 +203,20 @@ const byKeyDashboard = {
             ]
           }
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "nil"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "None"
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 8,
@@ -297,7 +323,20 @@ const byKeyDashboard = {
             ]
           }
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "0.95"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "All"
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 8,
@@ -341,7 +380,7 @@ const byKeyDashboard = {
           "hide": true,
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{ name != \"dns.lookup\" && event.feature_flag.variant != false} | quantile_over_time(duration, 0.95) by (event.feature_flag.key)",
+          "query": "{ name != \"dns.lookup\" && event.feature_flag.variant != \"false\"} | quantile_over_time(duration, 0.95) by (event.feature_flag.key)",
           "queryType": "traceql",
           "refId": "B",
           "tableType": "spans"
@@ -376,8 +415,11 @@ const byKeyDashboard = {
       "title": "Duration",
       "transformations": [
         {
-          "id": "organize",
-          "options": {}
+          "id": "renameByRegex",
+          "options": {
+            "regex": "^\\{.*event\\.feature_flag\\.key=\"([^\"]+)\".*\\}$",
+            "renamePattern": "$1"
+          }
         }
       ],
       "type": "timeseries"
@@ -396,7 +438,7 @@ const byKeyDashboard = {
   "timepicker": {},
   "timezone": "browser",
   "title": "RED Overview",
-  "version": 2
+  "version": 5
 }
 
 const byVariantDashboard = {
