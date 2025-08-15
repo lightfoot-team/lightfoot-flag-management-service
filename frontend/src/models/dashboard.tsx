@@ -584,13 +584,22 @@ const byVariantDashboard = {
           },
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{ event.feature_flag.key = \"$feature_flag_key\" && name != \"dns.lookup\" } | rate() by (event.feature_flag.variant)",
+          "query": "{ event.feature_flag.key = \"$feature_flag_key\" && name != \"dns.lookup\" } | rate() by (event.feature_flag.value)",
           "queryType": "traceql",
           "refId": "A",
           "tableType": "traces"
         }
       ],
       "title": "Rate by variant",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": ".*value=([^,}]+).*",
+            "renamePattern": "$1"
+          }
+        }
+      ],
       "type": "timeseries"
     },
     {
@@ -677,13 +686,22 @@ const byVariantDashboard = {
         {
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{ event.feature_flag.key = \"$feature_flag_key\" && status = error && name != \"dns.lookup\" } | rate() by (event.feature_flag.variant)",
+          "query": "{ event.feature_flag.key = \"$feature_flag_key\" && status = error && name != \"dns.lookup\" } | rate() by (event.feature_flag.value)",
           "queryType": "traceql",
           "refId": "A",
           "tableType": "traces"
         }
       ],
       "title": "Error by variant",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": ".*value=([^,}]+).*",
+            "renamePattern": "$1"
+          }
+        }
+      ],
       "type": "timeseries"
     },
     {
@@ -770,7 +788,7 @@ const byVariantDashboard = {
         {
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{ event.feature_flag.key = \"$feature_flag_key\" && name != \"dns.lookup\" } | quantile_over_time(duration, 0.95) by (event.feature_flag.variant)",
+          "query": "{ event.feature_flag.key = \"$feature_flag_key\" && name != \"dns.lookup\" } | quantile_over_time(duration, 0.95) by (event.feature_flag.value)",
           "queryType": "traceql",
           "refId": "A",
           "tableType": "traces"
@@ -781,7 +799,7 @@ const byVariantDashboard = {
         {
           "id": "renameByRegex",
           "options": {
-            "regex": ".*variant=([^,}]+).*",
+            "regex": ".*value=([^,}]+).*",
             "renamePattern": "$1"
           }
         }
@@ -820,7 +838,7 @@ const byVariantDashboard = {
   "timepicker": {},
   "timezone": "browser",
   "title": "RED by Variant",
-  "version": 3
+  "version": 5
 }
 
 const byKeyFrontendDashboard = {
@@ -934,7 +952,7 @@ const byKeyFrontendDashboard = {
           "hide": false,
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{} | avg_over_time(span.cls.value) by (event.feature_flag.key)",
+          "query": "{event.feature_flag.key != nil} | avg_over_time(span.cls.value) by (event.feature_flag.key)",
           "queryType": "traceql",
           "refId": "A",
           "tableType": "traces"
@@ -1063,7 +1081,7 @@ const byKeyFrontendDashboard = {
           "hide": false,
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{} | quantile_over_time(span.inp.value, 0.75) by (event.feature_flag.key)",
+          "query": "{ event.feature_flag.key != nil} | quantile_over_time(span.inp.value, 0.75) by (event.feature_flag.key)",
           "queryType": "traceql",
           "refId": "B",
           "tableType": "traces"
@@ -1201,7 +1219,7 @@ const byKeyFrontendDashboard = {
           },
           "limit": 20,
           "metricsQueryType": "range",
-          "query": "{} | quantile_over_time(span.lcp.value, 0.75) by (event.feature_flag.key)",
+          "query": "{event.feature_flag.key != nil} | quantile_over_time(span.lcp.value, 0.75) by (event.feature_flag.key)",
           "queryType": "traceql",
           "refId": "A",
           "tableType": "traces"
@@ -1247,13 +1265,13 @@ const byKeyFrontendDashboard = {
     "list": []
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-30m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
   "title": "Core Web Vitals Overview",
-  "version": 8
+  "version": 4
 }
 
 const byVariantFrontendDashboard = {
