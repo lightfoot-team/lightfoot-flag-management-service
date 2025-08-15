@@ -215,6 +215,30 @@ const byKeyDashboard = {
                 "value": "None"
               }
             ]
+          },
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "errors-feature-flag"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": true
+                }
+              }
+            ]
           }
         ]
       },
@@ -263,6 +287,15 @@ const byKeyDashboard = {
         }
       ],
       "title": "Error",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "rate",
+            "renamePattern": "All"
+          }
+        }
+      ],
       "type": "timeseries"
     },
     {
@@ -438,7 +471,7 @@ const byKeyDashboard = {
   "timepicker": {},
   "timezone": "browser",
   "title": "RED Overview",
-  "version": 5
+  "version": 2
 }
 
 const byVariantDashboard = {
