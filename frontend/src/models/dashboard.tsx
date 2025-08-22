@@ -465,7 +465,7 @@ const byKeyDashboard = {
     "list": []
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {},
@@ -832,7 +832,7 @@ const byVariantDashboard = {
     ]
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {},
@@ -1265,7 +1265,7 @@ const byKeyFrontendDashboard = {
     "list": []
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {},
@@ -1648,7 +1648,7 @@ const byVariantFrontendDashboard = {
     ]
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {},
