@@ -19,27 +19,27 @@ const BackendFlagDashboard: React.FC<FlagDashboardProps> = ({ flagKey, flagDashb
           <div className="flex flex-col gap-6">
             <div className="space-y-4 w-full">
               <h3 className="text-lg font-semibold text-gray-700">Backend</h3>
-              <Panel
-                dashboardId={byVariantDashboardBody.metadata.name}
-                panelId={1}
-                variables={[flagKey]}
-                title="Rate"
-              />
+                <Panel
+                  dashboardId={byVariantDashboardBody.metadata.name}
+                  panelId={3}
+                  variables={[flagKey]}
+                  title="Duration"
+                />
               <div className="flex gap-4">
+                <div className="w-1/2">
+                  <Panel
+                    dashboardId={byVariantDashboardBody.metadata.name}
+                    panelId={1}
+                    variables={[flagKey]}
+                    title="Rate"
+                  />
+                </div>
                 <div className="w-1/2">
                   <Panel
                     dashboardId={byVariantDashboardBody.metadata.name}
                     panelId={2}
                     variables={[flagKey]}
                     title="Error"
-                  />
-                </div>
-                <div className="w-1/2">
-                  <Panel
-                    dashboardId={byVariantDashboardBody.metadata.name}
-                    panelId={3}
-                    variables={[flagKey]}
-                    title="Duration"
                   />
                 </div>
               </div>
